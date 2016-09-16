@@ -18,6 +18,27 @@ def test_select_where():
     )
 
 
+def test_select_comment():
+    assert (
+        sql_fingerprint("SELECT /* comment */ `f1`, `f2` FROM `b`") ==
+        "SELECT /* comment */ ... FROM `b`"
+    )
+
+
+def test_select_join():
+    assert (
+        sql_fingerprint('SELECT f1, f2 FROM a INNER JOIN b ON (a.b_id = b.id) WHERE a.f2 = 1') ==
+        'SELECT ... FROM a INNER JOIN b ON (a.b_id = b.id) WHERE a.f2 = #'
+    )
+
+
+def test_select_order_by():
+    assert (
+        sql_fingerprint('SELECT f1, f2 FROM a ORDER BY f3, f4') ==
+        'SELECT ... FROM a ORDER BY ...'
+    )
+
+
 def test_insert():
     assert (
         sql_fingerprint("INSERT INTO `table` (`f1`, `f2`) VALUES ('v1', 2)") ==
