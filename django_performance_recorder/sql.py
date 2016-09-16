@@ -1,3 +1,7 @@
+# -*- coding:utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
+import six
 from django.utils.lru_cache import lru_cache
 from sqlparse import parse, tokens
 from sqlparse.sql import IdentifierList, Token
@@ -12,7 +16,7 @@ def sql_fingerprint(query):
     """
     parsed_query = parse(query)[0]
     sql_recursively_simplify(parsed_query)
-    return str(parsed_query)
+    return six.text_type(parsed_query)
 
 
 sql_deleteable_tokens = (
@@ -45,7 +49,8 @@ def sql_recursively_simplify(node):
             node.tokens[4].tokens[0].value = "`#`"
             return
         # ROLLBACK TO SAVEPOINT X
-        elif len(node.tokens) == 7 and [getattr(t, 'value', '') for t in node.tokens[:6]] == ['ROLLBACK', ' ', 'TO', ' ', 'SAVEPOINT', ' ']:
+        token_values = [getattr(t, 'value', '') for t in node.tokens]
+        if len(node.tokens) == 7 and token_values[:6] == ['ROLLBACK', ' ', 'TO', ' ', 'SAVEPOINT', ' ']:
             node.tokens[6].tokens[0].value = '`#`'
             return
 

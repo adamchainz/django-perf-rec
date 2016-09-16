@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
+# -*- coding:utf-8 -*-
+from __future__ import absolute_import, division, print_function, unicode_literals
+
 import os
 import re
 import sys
@@ -58,6 +60,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django',
+        'six',
         'sqlparse',
     ],
     license='MIT',
