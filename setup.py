@@ -56,7 +56,10 @@ setup(
     url='https://github.com/YPlan/django-performance-recorder',
     packages=find_packages(exclude=['test', 'test.*']),
     include_package_data=True,
-    install_requires=[],
+    install_requires=[
+        'Django',
+        'sqlparse',
+    ],
     license='MIT',
     zip_safe=False,
     keywords='Django',

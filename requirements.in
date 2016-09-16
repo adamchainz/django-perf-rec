@@ -4,3 +4,4 @@ isort
 multilint
 pytest
 Pygments
+sqlparse
