@@ -92,9 +92,11 @@ class AllCacheRecorderTests(TestCase):
         callback = mock.Mock()
         with AllCacheRecorder(callback):
             caches['default'].get('foo')
-            caches['second'].get('bar')
+            caches['second'].set('bar', 'baz')
+            caches['default'].delete_many(['foo'])
 
         assert callback.mock_calls == [
             mock.call(CacheOp('default', 'get', 'foo')),
-            mock.call(CacheOp('second', 'get', 'bar')),
+            mock.call(CacheOp('second', 'set', 'bar')),
+            mock.call(CacheOp('default', 'delete_many', ['foo'])),
         ]

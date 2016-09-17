@@ -88,7 +88,7 @@ class CacheRecorder(object):
                         key_or_keys=args[0],
                     ))
 
-                return func(self, *args, **kwargs)
+                return func(*args, **kwargs)
             return inner
 
         self.orig_methods = {name: getattr(cache, name) for name in self.cache_methods}

@@ -1,0 +1,14 @@
+RecordTests.test_multiple_cache_ops:
+- cache|set: foo
+- cache|second|get_many:
+  - bar
+  - foo
+- cache|delete: foo
+RecordTests.test_multiple_calls_in_same_function_are_different_records:
+- cache|get: foo
+RecordTests.test_multiple_calls_in_same_function_are_different_records.2:
+- cache|get: bar
+RecordTests.test_single_cache_op:
+- cache|get: foo
+custom:
+- cache|get: foo
