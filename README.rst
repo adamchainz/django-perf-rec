@@ -9,3 +9,72 @@ django-perf-rec
         :target: https://travis-ci.org/YPlan/django-perf-rec
 
 Keep detailed records of the performance of your Django code.
+
+`django-perf-rec` is like Django's `assertNumQueries` on steroids. It lets you
+track the individual queries along with cache operations. You use it in your
+test like:
+
+.. code-block:: python
+
+    def test_home(self):
+        with django_perf_rec.record():
+            self.client.get('/')
+
+It then stores a YAML file alongside the test file that tracks the queries and
+operations, looking something like:
+
+.. code-block:: yaml
+
+    MyTests.test_home:
+    - cache|get: home_data
+    - db: 'SELECT ... FROM myapp_table WHERE (myapp_table.id = #)'
+    - db: 'SELECT ... FROM myapp_table WHERE (myapp_table.id = #)'
+
+Then if you re-run the test and the performance record doesn't match, the test
+will fail. Magic! Just check the YAML file in alongside your test and you have
+unbreakable performance with much better clues about any regressions compared
+to `assertNumQueries`.
+
+Installation
+============
+
+Use **pip**:
+
+.. code-block:: bash
+
+    pip install django-perf-rec
+
+Requirements
+============
+
+Tested with all combinations of:
+
+* Python: 2.7, 3.5
+* Django: 1.9
+
+API
+===
+
+``record(file_name=None, record_name=None)``
+--------------------------------------------
+
+Return a context manager that will be used for a single performance test.
+`file_name` is the name of the performance file to be used, and `record_name`
+is the name of the record inside that file to use. If either of these names is
+`None`, the code assumes you are inside a Django `TestCase` and uses magic
+stack inspection to find that test case, and set `file_name` to the name of the
+file containing that class with `.py` replaced by `.perf.yml`, and
+`record_name` will be named after the test case + name, plus an optional
+counter if you invoke `record` multiple times inside the same test method.
+
+Whilst open, the context manager tracks all DB queries on all connections, and
+all cache operations on all defined caches. It names the connection/cache in
+the tracked operation it uses, except from for the `default` one.
+
+When the context manager exits, it will use the list of operations it has
+gathered. If the file `file_name` doesn't exist, or doesn't contain data for
+the specific `record_name`, it will be created and saved and the test will pass
+with no assertions. However if the record **does** exist inside the file, the
+collected record will be compared with the original one, and if different, an
+``AssertionError`` will be raised. This currently has an ugly message but if
+you're using `pytest <http://pytest.org/>`_.
