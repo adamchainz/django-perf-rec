@@ -8,6 +8,7 @@ from django.conf import settings
 from django.db import connections
 
 from .orm import patch_ORM_to_be_deterministic
+from .sql import sql_fingerprint
 from .utils import sorted_names
 
 
@@ -56,7 +57,7 @@ class DBRecorder(object):
                 sql = func(*args, **kwargs)
                 callback(DBOp(
                     alias=alias,
-                    sql=sql,
+                    sql=sql_fingerprint(sql),
                 ))
                 return sql
 
