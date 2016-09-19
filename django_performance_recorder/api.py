@@ -4,8 +4,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 from threading import local
 
 from django.core.cache import DEFAULT_CACHE_ALIAS
+from django.db import DEFAULT_DB_ALIAS
 
 from .cache import AllCacheRecorder
+from .db import AllDBRecorder
 from .utils import current_test
 from .yaml import KVFile
 
@@ -50,17 +52,28 @@ class PerformanceRecorder(object):
         self.record_name = record_name
 
         self.record = []
+        self.db_recorder = AllDBRecorder(self.on_db_op)
         self.cache_recorder = AllCacheRecorder(self.on_cache_op)
 
     def __enter__(self):
+        self.db_recorder.__enter__()
         self.cache_recorder.__enter__()
         self.load_recordings()
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.cache_recorder.__exit__(exc_type, exc_value, exc_traceback)
+        self.db_recorder.__exit__(exc_type, exc_value, exc_traceback)
 
         if exc_type is None:
             self.save_or_assert()
+
+    def on_db_op(self, db_op):
+        name_parts = ['db']
+        if db_op.alias != DEFAULT_DB_ALIAS:
+            name_parts.append(db_op.alias)
+        name = '|'.join(name_parts)
+
+        self.record.append({name: db_op.sql})
 
     def on_cache_op(self, cache_op):
         name_parts = ['cache']

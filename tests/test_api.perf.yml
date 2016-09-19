@@ -8,7 +8,12 @@ RecordTests.test_multiple_calls_in_same_function_are_different_records:
 - cache|get: foo
 RecordTests.test_multiple_calls_in_same_function_are_different_records.2:
 - cache|get: bar
+RecordTests.test_multiple_db_queries:
+- db: SELECT 1337
+- db: SELECT 4949
 RecordTests.test_single_cache_op:
 - cache|get: foo
+RecordTests.test_single_db_query:
+- db: SELECT 1337
 custom:
 - cache|get: foo

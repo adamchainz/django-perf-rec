@@ -11,8 +11,19 @@ from django.test import TestCase
 
 from django_performance_recorder import record
 
+from .utils import run_query
+
 
 class RecordTests(TestCase):
+
+    def test_single_db_query(self):
+        with record():
+            run_query('default', 'SELECT 1337')
+
+    def test_multiple_db_queries(self):
+        with record():
+            run_query('default', 'SELECT 1337')
+            run_query('default', 'SELECT 4949')
 
     def test_single_cache_op(self):
         with record():
