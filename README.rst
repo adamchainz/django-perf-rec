@@ -77,7 +77,8 @@ the specific `record_name`, it will be created and saved and the test will pass
 with no assertions. However if the record **does** exist inside the file, the
 collected record will be compared with the original one, and if different, an
 ``AssertionError`` will be raised. This currently has an ugly message but if
-you're using `pytest <http://pytest.org/>`_.
+you're using `pytest <http://pytest.org/>`_ its assertion rewriting will be
+used.
 
 Example:
 
