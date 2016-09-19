@@ -3,6 +3,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import os
 
+import django
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 DEBUG = True
@@ -10,20 +12,28 @@ TEMPLATE_DEBUG = DEBUG
 
 SECRET_KEY = 'NOTASECRET'
 
+
+if django.VERSION[:2] == (1, 8):
+    # Use a wrapper that includes Django commit 4f6a7663bcddffb114f2647f9928cbf1fdd8e4b5
+    # so that full SQL queries from sqlite come through
+    engine = 'django18_sqlite3_backend'
+else:
+    engine = 'django.db.backends.sqlite3'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': engine,
         'NAME': ':memory:',
     },
     'replica': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': engine,
         'NAME': ':memory:',
         'TEST': {
             'MIRROR': 'default',
         }
     },
     'second': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': engine,
         'NAME': ':memory:',
     },
 }

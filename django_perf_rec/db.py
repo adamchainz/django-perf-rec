@@ -4,6 +4,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 from functools import wraps
 from types import MethodType
 
+# import six
 from django.conf import settings
 from django.db import connections
 
@@ -12,11 +13,15 @@ from .sql import sql_fingerprint
 from .utils import sorted_names
 
 
+# @six.python_2_unicode_compatible
 class DBOp(object):
 
     def __init__(self, alias, sql):
         self.alias = alias
         self.sql = sql
+
+    def __repr__(self):
+        return "DBOp({!r}, {!r})".format(repr(self.alias), repr(self.sql))
 
     def __eq__(self, other):
         return (
