@@ -94,3 +94,12 @@ class PerformanceRecorder(object):
             assert self.record == orig_record, "Performance record did not match for {}".format(self.record_name)
 
         self.records_file.set_and_save(self.record_name, self.record)
+
+
+class TestCaseMixin(object):
+    """
+    Adds record_performance() method to TestCase class it's mixed into
+    for easy import-free use.
+    """
+    def record_performance(self, file_name=None, record_name=None):
+        return record(file_name=file_name, record_name=record_name)

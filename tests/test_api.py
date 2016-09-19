@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.db.models.functions import Upper
 from django.test import TestCase
 
-from django_perf_rec import record
+from django_perf_rec import TestCaseMixin, record
 from testapp.models import Author
 
 from .utils import run_query
@@ -108,4 +108,20 @@ class RecordBlankFileTests(TestCase):
         with record(file_name=self.perf_name):
             caches['default'].get('foo')
         with record(file_name=self.perf_name):
+            caches['default'].get('foo')
+
+
+class TestCaseMixinTests(TestCaseMixin, TestCase):
+
+    def test_record_performance(self):
+        with self.record_performance():
+            caches['default'].get('foo')
+
+    def test_record_performance_record_name(self):
+        with self.record_performance(record_name='other'):
+            caches['default'].get('foo')
+
+    def test_record_performance_file_name(self):
+        perf_name = __file__.replace('.py', '.file_name.perf.yml')
+        with self.record_performance(file_name=perf_name):
             caches['default'].get('foo')

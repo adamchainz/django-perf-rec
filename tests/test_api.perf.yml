@@ -21,5 +21,9 @@ RecordTests.test_single_cache_op:
 - cache|get: foo
 RecordTests.test_single_db_query:
 - db: 'SELECT #'
+TestCaseMixinTests.test_record_performance:
+- cache|get: foo
 custom:
+- cache|get: foo
+other:
 - cache|get: foo

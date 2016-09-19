@@ -11,8 +11,8 @@ django-perf-rec
 Keep detailed records of the performance of your Django code.
 
 `django-perf-rec` is like Django's `assertNumQueries` on steroids. It lets you
-track the individual queries along with cache operations. You use it in your
-test like:
+track the individual queries along with cache operations. Use it in your tests
+like:
 
 .. code-block:: python
 
@@ -78,3 +78,47 @@ with no assertions. However if the record **does** exist inside the file, the
 collected record will be compared with the original one, and if different, an
 ``AssertionError`` will be raised. This currently has an ugly message but if
 you're using `pytest <http://pytest.org/>`_.
+
+Example:
+
+.. code-block:: python
+
+    import django_perf_rec
+
+    from app.models import Author
+
+    class AuthorPerformanceTests(TestCase):
+
+        def test_special_method(self):
+            with django_perf_rec.record():
+                list(Author.objects.special_method())
+
+
+``TestCaseMixin``
+-----------------
+
+A mixin class to be added to your custom ``TestCase`` subclass so you can use
+**django-perf-rec** across your codebase without needing to import it in each
+individual test file. It adds one method, ``record_performance()``, whose
+signature is the same as ``record()`` above.
+
+Example:
+
+.. code-block:: python
+
+    # yplan/test.py
+    from django.test import TestCase as OrigTestCase
+    from django_perf_rec import TestCaseMixin
+
+    class TestCase(TestCaseMixin, OrigTestCase):
+        pass
+
+    # app/tests/models/test_author.py
+    from app.models import Author
+    from yplan.test import TestCase
+
+    class AuthorPerformanceTests(TestCase):
+
+        def test_special_method(self):
+            with self.record_performance():
+                list(Author.objects.special_method())
