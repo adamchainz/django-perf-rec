@@ -7,9 +7,12 @@ import os
 import pytest
 import six
 from django.core.cache import caches
+from django.db.models import Q
+from django.db.models.functions import Upper
 from django.test import TestCase
 
 from django_performance_recorder import record
+from testapp.models import Author
 
 from .utils import run_query
 
@@ -24,6 +27,24 @@ class RecordTests(TestCase):
         with record():
             run_query('default', 'SELECT 1337')
             run_query('default', 'SELECT 4949')
+
+    def test_non_deterministic_QuerySet_annotate(self):
+        with record():
+            list(Author.objects.annotate(
+                x=Upper('name'),
+                y=Upper('name'),
+            ))
+
+    def test_non_deterministic_QuerySet_extra(self):
+        with record():
+            list(Author.objects.extra(select={
+                'x': '1',
+                'y': '1',
+            }))
+
+    def test_non_deterministic_Q_query(self):
+        with record():
+            list(Author.objects.filter(Q(name='foo', age=1)))
 
     def test_single_cache_op(self):
         with record():

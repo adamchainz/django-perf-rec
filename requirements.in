@@ -3,7 +3,9 @@ flake8
 isort
 mock
 multilint
+patchy
 pytest
+pytest-django
 Pygments
 PyYAML
 six

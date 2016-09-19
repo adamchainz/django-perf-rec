@@ -11,6 +11,12 @@ RecordTests.test_multiple_calls_in_same_function_are_different_records.2:
 RecordTests.test_multiple_db_queries:
 - db: SELECT 1337
 - db: SELECT 4949
+RecordTests.test_non_deterministic_Q_query:
+- db: SELECT "testapp_author"."id", "testapp_author"."name", "testapp_author"."age" FROM "testapp_author" WHERE ("testapp_author"."age" = 1 AND "testapp_author"."name" = 'foo')
+RecordTests.test_non_deterministic_QuerySet_annotate:
+- db: SELECT "testapp_author"."id", "testapp_author"."name", "testapp_author"."age", UPPER("testapp_author"."name") AS "x", UPPER("testapp_author"."name") AS "y" FROM "testapp_author"
+RecordTests.test_non_deterministic_QuerySet_extra:
+- db: SELECT (1) AS "x", (1) AS "y", "testapp_author"."id", "testapp_author"."name", "testapp_author"."age" FROM "testapp_author"
 RecordTests.test_single_cache_op:
 - cache|get: foo
 RecordTests.test_single_db_query:

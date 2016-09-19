@@ -7,6 +7,7 @@ from types import MethodType
 from django.conf import settings
 from django.db import connections
 
+from .orm import patch_ORM_to_be_deterministic
 from .utils import sorted_names
 
 
@@ -40,6 +41,8 @@ class DBRecorder(object):
         library. Here we wrap this function on the connection to grab the SQL
         as it comes out.
         """
+        patch_ORM_to_be_deterministic()
+
         connection = connections[self.alias]
         self.orig_force_debug_cursor = connection.force_debug_cursor
         connection.force_debug_cursor = True
