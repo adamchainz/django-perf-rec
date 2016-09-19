@@ -16,8 +16,8 @@ from .utils import sorted_names
 
 class CacheOp(object):
 
-    def __init__(self, cache_name, operation, key_or_keys):
-        self.cache_name = cache_name
+    def __init__(self, alias, operation, key_or_keys):
+        self.alias = alias
         self.operation = operation
         if isinstance(key_or_keys, six.string_types):
             self.key_or_keys = self.clean_key(key_or_keys)
@@ -47,7 +47,7 @@ class CacheOp(object):
     def __eq__(self, other):
         return (
             isinstance(other, CacheOp) and
-            self.cache_name == other.cache_name and
+            self.alias == other.alias and
             self.operation == other.operation and
             self.key_or_keys == other.key_or_keys
         )
@@ -57,15 +57,15 @@ class CacheRecorder(object):
     """
     Monkey patches a cache class to call 'callback' on every operation it calls
     """
-    def __init__(self, cache_name, callback):
-        self.cache_name = cache_name
+    def __init__(self, alias, callback):
+        self.alias = alias
         self.callback = callback
 
     def __enter__(self):
-        cache = caches[self.cache_name]
+        cache = caches[self.alias]
 
         def call_callback(func):
-            cache_name = self.cache_name
+            alias = self.alias
             callback = self.callback
 
             @wraps(func)
@@ -83,7 +83,7 @@ class CacheRecorder(object):
 
                 if not is_internal_call:
                     callback(CacheOp(
-                        cache_name=cache_name,
+                        alias=alias,
                         operation=six.text_type(func.__name__),
                         key_or_keys=args[0],
                     ))
@@ -101,7 +101,7 @@ class CacheRecorder(object):
             )
 
     def __exit__(self, _, __, ___):
-        cache = caches[self.cache_name]
+        cache = caches[self.alias]
         for name in self.cache_methods:
             setattr(cache, name, self.orig_methods[name])
         del self.orig_methods

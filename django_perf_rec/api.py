@@ -77,8 +77,8 @@ class PerformanceRecorder(object):
 
     def on_cache_op(self, cache_op):
         name_parts = ['cache']
-        if cache_op.cache_name != DEFAULT_CACHE_ALIAS:
-            name_parts.append(cache_op.cache_name)
+        if cache_op.alias != DEFAULT_CACHE_ALIAS:
+            name_parts.append(cache_op.alias)
         name_parts.append(cache_op.operation)
         name = '|'.join(name_parts)
 

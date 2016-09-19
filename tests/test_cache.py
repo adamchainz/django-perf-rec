@@ -22,13 +22,13 @@ class CacheOpTests(SimpleTestCase):
 
     def test_key(self):
         op = CacheOp('default', 'foo', 'bar')
-        assert op.cache_name == 'default'
+        assert op.alias == 'default'
         assert op.operation == 'foo'
         assert op.key_or_keys == 'bar'
 
     def test_keys(self):
         op = CacheOp('default', 'foo', ['bar', 'baz'])
-        assert op.cache_name == 'default'
+        assert op.alias == 'default'
         assert op.operation == 'foo'
         assert op.key_or_keys == ['bar', 'baz']
 
@@ -42,7 +42,7 @@ class CacheOpTests(SimpleTestCase):
             CacheOp('x', 'foo', 'bar')
         )
 
-    def test_not_equal_cache_name(self):
+    def test_not_equal_alias(self):
         assert (
             CacheOp('x', 'foo', 'bar') !=
             CacheOp('y', 'foo', 'bar')
