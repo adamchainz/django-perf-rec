@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.db.models.functions import Upper
 from django.test import TestCase
 
-from django_performance_recorder import record
+from django_perf_rec import record
 from testapp.models import Author
 
 from .utils import run_query

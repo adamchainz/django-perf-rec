@@ -13,9 +13,9 @@ except ImportError:
 
 if pytest is not None:
     if six.PY2:
-        pytest.register_assert_rewrite(b'django_performance_recorder.api')
+        pytest.register_assert_rewrite(b'django_perf_rec.api')
     else:
-        pytest.register_assert_rewrite('django_performance_recorder.api')
+        pytest.register_assert_rewrite('django_perf_rec.api')
 
 from .api import record  # noqa: F401
 

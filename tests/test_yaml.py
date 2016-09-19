@@ -9,7 +9,7 @@ import six
 import yaml
 from django.test import SimpleTestCase
 
-from django_performance_recorder.yaml import KVFile
+from django_perf_rec.yaml import KVFile
 
 
 class KVFileTests(SimpleTestCase):

@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from django.test import SimpleTestCase
 
-from django_performance_recorder.orm import patch_ORM_to_be_deterministic
+from django_perf_rec.orm import patch_ORM_to_be_deterministic
 
 
 class PatchORMToBeDeterministicTests(SimpleTestCase):

@@ -6,7 +6,7 @@ import pytest
 from django.core.cache import caches
 from django.test import SimpleTestCase, TestCase
 
-from django_performance_recorder.cache import AllCacheRecorder, CacheOp, CacheRecorder
+from django_perf_rec.cache import AllCacheRecorder, CacheOp, CacheRecorder
 
 
 class CacheOpTests(SimpleTestCase):

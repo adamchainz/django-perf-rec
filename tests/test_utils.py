@@ -4,7 +4,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from django.test import SimpleTestCase
 
-from django_performance_recorder.utils import current_test, sorted_names
+from django_perf_rec.utils import current_test, sorted_names
 
 
 class CurrentTestTests(SimpleTestCase):

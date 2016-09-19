@@ -4,7 +4,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import mock
 from django.test import SimpleTestCase, TestCase
 
-from django_performance_recorder.db import AllDBRecorder, DBOp, DBRecorder
+from django_perf_rec.db import AllDBRecorder, DBOp, DBRecorder
 
 from .utils import run_query
 

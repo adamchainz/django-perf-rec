@@ -26,7 +26,7 @@ def get_packages(package):
             if os.path.exists(os.path.join(dirpath, '__init__.py'))]
 
 
-version = get_version('django_performance_recorder')
+version = get_version('django_perf_rec')
 
 
 if sys.argv[-1] == 'publish':
@@ -48,14 +48,14 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 setup(
-    name='django-performance-recorder',
+    name='django-perf-rec',
     version=version,
     description="Keep detailed records of the performance of your Django "
                 "code.",
     long_description=readme + '\n\n' + history,
     author='YPlan',
     author_email='adam@yplanapp.com',
-    url='https://github.com/YPlan/django-performance-recorder',
+    url='https://github.com/YPlan/django-perf-rec',
     packages=find_packages(exclude=['test', 'test.*']),
     include_package_data=True,
     install_requires=[
