@@ -8,11 +8,11 @@ django-perf-rec
 .. image:: https://img.shields.io/travis/YPlan/django-perf-rec/master.svg
         :target: https://travis-ci.org/YPlan/django-perf-rec
 
-Keep detailed records of the performance of your Django code.
+"Keep detailed records of the performance of your Django code."
 
-`django-perf-rec` is like Django's `assertNumQueries` on steroids. It lets you
-track the individual queries along with cache operations. Use it in your tests
-like:
+**django-perf-rec** is like Django's ``assertNumQueries`` on steroids. It lets
+you track the individual queries and cache operations that occur in your code.
+Use it in your tests like so:
 
 .. code-block:: python
 
