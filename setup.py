@@ -60,7 +60,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django',
-        'patchy'
+        'patchy',
         'PyYAML',
         'six',
         'sqlparse',

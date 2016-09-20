@@ -7,6 +7,7 @@ Pending release
 ---------------
 
 * New release notes go here
+* Fix ``install_requires`` in ``setup.py``.
 
 
 1.0.0 (2016-09-19)
