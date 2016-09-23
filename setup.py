@@ -63,7 +63,7 @@ setup(
         'patchy',
         'PyYAML',
         'six',
-        'sqlparse',
+        'sqlparse>=0.2.0',
     ],
     license='MIT',
     zip_safe=False,
