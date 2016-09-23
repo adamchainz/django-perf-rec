@@ -7,6 +7,7 @@ Pending release
 ---------------
 
 * New release notes go here
+* Confirmed Django 1.8 and 1.10 support.
 
 1.0.1 (2016-09-20)
 ------------------

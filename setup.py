@@ -70,7 +70,9 @@ setup(
     keywords='Django',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
+        'Framework :: Django :: 1.8',
         'Framework :: Django :: 1.9',
+        'Framework :: Django :: 1.10',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
