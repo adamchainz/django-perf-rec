@@ -35,6 +35,10 @@ will fail. Magic! Just check the YAML file in alongside your test and you have
 unbreakable performance with much better clues about any regressions compared
 to `assertNumQueries`.
 
+We also have an `introductory blog
+post <https://tech.yplanapp.com/2016/09/26/introducing-django-perf-rec/>`_ that
+says a little more about why we made it.
+
 Installation
 ============
 
