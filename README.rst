@@ -30,10 +30,14 @@ operations, looking something like:
     - db: 'SELECT ... FROM myapp_table WHERE (myapp_table.id = #)'
     - db: 'SELECT ... FROM myapp_table WHERE (myapp_table.id = #)'
 
-Then if you re-run the test and the performance record doesn't match, the test
-will fail. Magic! Just check the YAML file in alongside your test and you have
-unbreakable performance with much better clues about any regressions compared
-to `assertNumQueries`.
+When the test is run again, the new record will be compared with the one in the
+YAML file. If they are different, an assertion failure will be raised, failing
+the test. Magic!
+
+Just check the YAML file in alongside your test and you have unbreakable
+performance with much better information about any regressions compared to
+`assertNumQueries`. If you are fine with the changes from a failing test, just
+remove the file and rerun the test to regenerate it.
 
 We also have an `introductory blog
 post <https://tech.yplanapp.com/2016/09/26/introducing-django-perf-rec/>`_ that
@@ -80,9 +84,9 @@ gathered. If the file `file_name` doesn't exist, or doesn't contain data for
 the specific `record_name`, it will be created and saved and the test will pass
 with no assertions. However if the record **does** exist inside the file, the
 collected record will be compared with the original one, and if different, an
-``AssertionError`` will be raised. This currently has an ugly message but if
+``AssertionError`` will be raised. This currently uses a plain message, but if
 you're using `pytest <http://pytest.org/>`_ its assertion rewriting will be
-used.
+used and make it look pretty.
 
 Example:
 
