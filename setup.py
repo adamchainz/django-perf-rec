@@ -56,7 +56,7 @@ setup(
     author='YPlan',
     author_email='adam@yplanapp.com',
     url='https://github.com/YPlan/django-perf-rec',
-    packages=find_packages(exclude=['test', 'test.*']),
+    packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True,
     install_requires=[
         'Django',
