@@ -17,15 +17,6 @@ def get_version(package):
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
-def get_packages(package):
-    """
-    Return root package and all sub-packages.
-    """
-    return [dirpath
-            for dirpath, dirnames, filenames in os.walk(package)
-            if os.path.exists(os.path.join(dirpath, '__init__.py'))]
-
-
 version = get_version('django_perf_rec')
 
 
