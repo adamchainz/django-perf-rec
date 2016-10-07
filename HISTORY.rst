@@ -7,7 +7,11 @@ Pending release
 ---------------
 
 * New release notes go here
-* Stop ``setup.py`` installing ``tests`` module.
+
+1.0.3 (2016-10-07)
+------------------
+
+* Stopped ``setup.py`` installing ``tests`` module.
 
 1.0.2 (2016-09-23)
 ------------------
