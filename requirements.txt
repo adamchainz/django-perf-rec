@@ -23,4 +23,4 @@ pytest-django==3.0.0
 pytest==3.0.3
 PyYAML==3.12
 six==1.10.0
-sqlparse==0.2.1
+sqlparse==0.2.2

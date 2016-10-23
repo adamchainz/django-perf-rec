@@ -34,7 +34,7 @@ def sql_recursively_simplify(node):
     if node.tokens[0].value == 'UPDATE':
         i_set = [i for (i, t) in enumerate(node.tokens) if t.value == 'SET'][0]
         i_where = [i for (i, t) in enumerate(node.tokens)
-                   if t.is_group() and t.tokens[0].value == 'WHERE'][0]
+                   if _is_group(t) and t.tokens[0].value == 'WHERE'][0]
         middle = [Token(tokens.Punctuation, ' ... ')]
         node.tokens = node.tokens[:i_set + 1] + middle + node.tokens[i_where:]
 
@@ -69,3 +69,14 @@ def sql_recursively_simplify(node):
             token.value = ' '
         elif getattr(token, 'value', None) == 'NULL':
             token.value = '#'
+
+
+def _is_group(token):
+    """
+    sqlparse 0.2.2 changed it from a callable to a bool property
+    """
+    is_group = token.is_group
+    if isinstance(is_group, bool):
+        return is_group
+    else:
+        return is_group()
