@@ -7,6 +7,10 @@ Pending release
 ---------------
 
 * New release notes go here
+
+1.0.4 (2016-10-23)
+------------------
+
 * Work with ``sqlparse`` 0.2.2
 
 1.0.3 (2016-10-07)

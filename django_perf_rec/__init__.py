@@ -19,4 +19,4 @@ if pytest is not None:
 
 from .api import TestCaseMixin, record  # noqa: F401
 
-__version__ = '1.0.3'
+__version__ = '1.0.4'
