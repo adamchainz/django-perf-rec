@@ -137,19 +137,16 @@ class FileNameTests(TestCase):
         os.path.basename(__file__).replace('.py', '.perf.yml')
     )
 
-    @classmethod
-    def setUpClass(cls):
-        super(FileNameTests, cls).setUpClass()
-        cls.ensure_no_file()
+    def setUp(self):
+        super(FileNameTests, self).setUp()
+        self.ensure_no_file()
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.ensure_no_file()
-        super(FileNameTests, cls).tearDownClass()
+    def tearDown(self):
+        self.ensure_no_file()
+        super(FileNameTests, self).tearDown()
 
-    @classmethod
-    def ensure_no_file(cls):
-        for name in (cls.custom_perf_name, cls.custom_path_perf_name):
+    def ensure_no_file(self):
+        for name in (self.custom_perf_name, self.custom_path_perf_name):
             try:
                 os.unlink(name)
             except OSError as exc:
@@ -157,7 +154,7 @@ class FileNameTests(TestCase):
                     raise
 
         try:
-            os.rmdir(os.path.dirname(cls.custom_path_perf_name))
+            os.rmdir(os.path.dirname(self.custom_path_perf_name))
         except OSError as exc:
             if exc.errno != errno.ENOENT:
                 raise
@@ -169,13 +166,13 @@ class FileNameTests(TestCase):
         assert(os.path.exists(self.default_perf_name))
 
     def test_custom_filename(self):
-        with record(file_name='custom.perf.yml'):
+        with record(path='custom.perf.yml'):
             caches['default'].get('foo')
 
         assert(os.path.exists(self.custom_perf_name))
 
-    def test_custom_abs_path(self):
-        with record(path='performance_tests'):
+    def test_custom_path(self):
+        with record(path='performance_tests/'):
             caches['default'].get('foo')
 
         assert(os.path.exists(self.custom_path_perf_name))
