@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import errno
 import os
 
 import pytest
@@ -14,7 +13,9 @@ from django.test import TestCase
 from django_perf_rec import TestCaseMixin, record
 from testapp.models import Author
 
-from .utils import run_query
+from .utils import temporary_path, run_query
+
+FILE_DIR = os.path.dirname(__file__)
 
 
 class RecordTests(TestCase):
@@ -77,38 +78,64 @@ class RecordTests(TestCase):
 
         assert 'Performance record did not match' in six.text_type(excinfo.value)
 
+    def test_path_pointing_to_filename(self):
+        with temporary_path('custom.perf.yml'):
 
-class RecordBlankFileTests(TestCase):
+            with record(path='custom.perf.yml'):
+                caches['default'].get('foo')
 
-    perf_name = __file__.replace('.py', '.empty.perf.yml')
+            assert os.path.exists('custom.perf.yml')
 
-    @classmethod
-    def setUpClass(cls):
-        super(RecordBlankFileTests, cls).setUpClass()
-        cls.ensure_no_file()
+    def test_path_pointing_to_filename_record_twice(self):
+        with temporary_path('custom.perf.yml'):
 
-    @classmethod
-    def tearDownClass(cls):
-        cls.ensure_no_file()
-        super(RecordBlankFileTests, cls).tearDownClass()
+            with record(path='custom.perf.yml'):
+                caches['default'].get('foo')
 
-    @classmethod
-    def ensure_no_file(cls):
-        try:
-            os.unlink(cls.perf_name)
-        except OSError as exc:
-            if exc.errno != errno.ENOENT:
-                raise
+            with record(path='custom.perf.yml'):
+                caches['default'].get('foo')
 
-    def test_one(self):
-        with record(file_name=self.perf_name):
-            caches['default'].get('foo')
+    def test_path_pointing_to_dir(self):
+        temp_dir = os.path.join(FILE_DIR, 'perf_files/')
+        with temporary_path(temp_dir):
 
-    def test_two(self):
-        with record(file_name=self.perf_name):
-            caches['default'].get('foo')
-        with record(file_name=self.perf_name):
-            caches['default'].get('foo')
+            with record(path='perf_files/'):
+                caches['default'].get('foo')
+
+            full_path = os.path.join(
+                FILE_DIR,
+                'perf_files',
+                'test_api.perf.yml',
+            )
+            assert os.path.exists(full_path)
+
+    def test_custom_nested_path(self):
+        temp_dir = os.path.join(FILE_DIR, 'perf_files/')
+        with temporary_path(temp_dir):
+
+            with record(path='perf_files/api/'):
+                caches['default'].get('foo')
+
+            full_path = os.path.join(
+                FILE_DIR,
+                'perf_files',
+                'api',
+                'test_api.perf.yml',
+            )
+            assert os.path.exists(full_path)
+
+    def test_file_name_is_deprecated(self):
+        full_path = os.path.join(FILE_DIR, 'test_api.perf.yml')
+
+        with pytest.warns(DeprecationWarning) as warnings:
+            with record(file_name=full_path):
+                caches['default'].get('foo')
+
+        assert len(warnings) == 1
+        assert (
+            "The 'file_name' argument of record is deprecated" in
+            warnings[0].message.args[0]
+        )
 
 
 class TestCaseMixinTests(TestCaseMixin, TestCase):
@@ -123,5 +150,5 @@ class TestCaseMixinTests(TestCaseMixin, TestCase):
 
     def test_record_performance_file_name(self):
         perf_name = __file__.replace('.py', '.file_name.perf.yml')
-        with self.record_performance(file_name=perf_name):
+        with self.record_performance(path=perf_name):
             caches['default'].get('foo')

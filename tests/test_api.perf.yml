@@ -1,3 +1,9 @@
+FileNameTests.test_default_filename:
+- cache|get: foo
+RecordPathTests.test_default_filename:
+- cache|get: foo
+RecordTests.test_file_name_is_deprecated:
+- cache|get: foo
 RecordTests.test_multiple_cache_ops:
 - cache|set: foo
 - cache|second|get_many:
