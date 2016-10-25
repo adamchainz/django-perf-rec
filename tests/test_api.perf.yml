@@ -1,3 +1,5 @@
+FileNameTests.test_default_filename:
+- cache|get: foo
 RecordTests.test_multiple_cache_ops:
 - cache|set: foo
 - cache|second|get_many:

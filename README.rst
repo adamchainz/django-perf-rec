@@ -63,8 +63,8 @@ Tested with all combinations of:
 API
 ===
 
-``record(file_name=None, record_name=None)``
---------------------------------------------
+``record(file_name=None, record_name=None, path=None)``
+-------------------------------------------------------
 
 Return a context manager that will be used for a single performance test.
 `file_name` is the name of the performance file to be used, and `record_name`
@@ -74,6 +74,8 @@ stack inspection to find that test case, and set `file_name` to the name of the
 file containing that class with `.py` replaced by `.perf.yml`, and
 `record_name` will be named after the test case + name, plus an optional
 counter if you invoke `record` multiple times inside the same test method.
+Additionnaly, `path` may be used to store performance files in a specific
+directory, relative to the test file.
 
 Whilst open, the context manager tracks all DB queries on all connections, and
 all cache operations on all defined caches. It names the connection/cache in

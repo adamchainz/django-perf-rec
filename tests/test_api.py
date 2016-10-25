@@ -125,3 +125,57 @@ class TestCaseMixinTests(TestCaseMixin, TestCase):
         perf_name = __file__.replace('.py', '.file_name.perf.yml')
         with self.record_performance(file_name=perf_name):
             caches['default'].get('foo')
+
+
+class FileNameTests(TestCase):
+
+    default_perf_name = __file__.replace('.py', '.perf.yml')
+    custom_perf_name = 'custom.perf.yml'
+    custom_path_perf_name = os.path.join(
+        os.path.dirname(__file__),
+        'performance_tests',
+        os.path.basename(__file__).replace('.py', '.perf.yml')
+    )
+
+    @classmethod
+    def setUpClass(cls):
+        super(FileNameTests, cls).setUpClass()
+        cls.ensure_no_file()
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.ensure_no_file()
+        super(FileNameTests, cls).tearDownClass()
+
+    @classmethod
+    def ensure_no_file(cls):
+        for name in (cls.custom_perf_name, cls.custom_path_perf_name):
+            try:
+                os.unlink(name)
+            except OSError as exc:
+                if exc.errno != errno.ENOENT:
+                    raise
+
+        try:
+            os.rmdir(os.path.dirname(cls.custom_path_perf_name))
+        except OSError as exc:
+            if exc.errno != errno.ENOENT:
+                raise
+
+    def test_default_filename(self):
+        with record():
+            caches['default'].get('foo')
+
+        assert(os.path.exists(self.default_perf_name))
+
+    def test_custom_filename(self):
+        with record(file_name='custom.perf.yml'):
+            caches['default'].get('foo')
+
+        assert(os.path.exists(self.custom_perf_name))
+
+    def test_custom_abs_path(self):
+        with record(path='performance_tests'):
+            caches['default'].get('foo')
+
+        assert(os.path.exists(self.custom_path_perf_name))
