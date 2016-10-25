@@ -63,17 +63,22 @@ Tested with all combinations of:
 API
 ===
 
-``record(file_name=None, record_name=None)``
---------------------------------------------
+``record(file_name=None, record_name=None, path=None)``
+-------------------------------------------------------
 
 Return a context manager that will be used for a single performance test.
-`file_name` is the name of the performance file to be used, and `record_name`
+`path` is the name of the performance file to be used, and `record_name`
 is the name of the record inside that file to use. If either of these names is
-`None`, the code assumes you are inside a Django `TestCase` and uses magic
-stack inspection to find that test case, and set `file_name` to the name of the
-file containing that class with `.py` replaced by `.perf.yml`, and
-`record_name` will be named after the test case + name, plus an optional
-counter if you invoke `record` multiple times inside the same test method.
+`None`, or if `path` ends with a forward slash, the code assumes you are inside
+a Django `TestCase` and uses magic stack inspection to find that test case, and
+use the name of the file containing that class with `.py` replaced by
+`.perf.yml` as a file name, and `record_name` will be named after the test case
++ name, plus an optional counter if you invoke `record` multiple times inside
+the same test method. When `path` ends with a forward slash, it will be used as
+a directory name to store performance files into.
+
+The `file_name` argument is deprecated in favour of `path` and will be removed
+in a future release.
 
 Whilst open, the context manager tracks all DB queries on all connections, and
 all cache operations on all defined caches. It names the connection/cache in

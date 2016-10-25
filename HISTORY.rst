@@ -6,6 +6,8 @@ History
 Pending release
 ---------------
 
+* The ``file_name`` argument to ``record()`` is now deprecated in favour of the
+  new ``path`` argument.  It will be removed in a future release.
 * New release notes go here
 
 1.0.4 (2016-10-23)

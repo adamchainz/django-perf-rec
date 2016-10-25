@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import os
+import warnings
 from threading import local
 
 from django.core.cache import DEFAULT_CACHE_ALIAS
@@ -15,15 +17,30 @@ from .yaml import KVFile
 record_current = local()
 
 
-def record(file_name=None, record_name=None):
+def record(file_name=None, record_name=None, path=None):
     test_details = current_test()
 
-    if file_name is None:
-        file_name = test_details.file_path
-        if file_name.endswith('.py'):
-            file_name = file_name[:-len('.py')] + '.perf.yml'
+    if file_name is not None:
+        warnings.warn(
+            '"file_name" is deprecated, use the "path" argument instead',
+            DeprecationWarning
+        )
+    else:
+        if path is None or path.endswith('/'):
+            file_name = test_details.file_path
+            if file_name.endswith('.py'):
+                file_name = file_name[:-len('.py')] + '.perf.yml'
+            else:
+                file_name += '.perf.yml'
         else:
-            file_name += '.perf.yml'
+            file_name = path
+
+        if path is not None and path.endswith('/'):
+            directory = os.path.join(os.path.dirname(test_details.file_path), path)
+            if not os.path.exists(directory):
+                os.mkdir(directory)
+
+            file_name = os.path.join(directory, os.path.basename(file_name))
 
     if record_name is None:
         if test_details.class_name:
@@ -101,5 +118,5 @@ class TestCaseMixin(object):
     Adds record_performance() method to TestCase class it's mixed into
     for easy import-free use.
     """
-    def record_performance(self, file_name=None, record_name=None):
-        return record(file_name=file_name, record_name=record_name)
+    def record_performance(self, file_name=None, record_name=None, path=None):
+        return record(file_name=file_name, record_name=record_name, path=path)
