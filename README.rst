@@ -36,8 +36,8 @@ the test. Magic!
 
 Just check the YAML file in alongside your test and you have unbreakable
 performance with much better information about any regressions compared to
-`assertNumQueries`. If you are fine with the changes from a failing test, just
-remove the file and rerun the test to regenerate it.
+``assertNumQueries``. If you are fine with the changes from a failing test,
+just remove the file and rerun the test to regenerate it.
 
 We also have an `introductory blog
 post <https://tech.yplanapp.com/2016/09/26/introducing-django-perf-rec/>`_ that
@@ -86,15 +86,15 @@ record should be stored, which ``path`` supports too.
 
 Whilst open, the context manager tracks all DB queries on all connections, and
 all cache operations on all defined caches. It names the connection/cache in
-the tracked operation it uses, except from for the `default` one.
+the tracked operation it uses, except from for the ``default`` one.
 
 When the context manager exits, it will use the list of operations it has
-gathered. If the file `file_name` doesn't exist, or doesn't contain data for
-the specific `record_name`, it will be created and saved and the test will pass
-with no assertions. However if the record **does** exist inside the file, the
-collected record will be compared with the original one, and if different, an
-``AssertionError`` will be raised. This currently uses a plain message, but if
-you're using `pytest <http://pytest.org/>`_ its assertion rewriting will be
+gathered. If the file ``file_name`` doesn't exist, or doesn't contain data for
+the specific ``record_name``, it will be created and saved and the test will
+pass with no assertions. However if the record **does** exist inside the file,
+the collected record will be compared with the original one, and if different,
+an ``AssertionError`` will be raised. This currently uses a plain message, but
+if you're using `pytest <http://pytest.org/>`_ its assertion rewriting will be
 used and make it look pretty.
 
 Example:
