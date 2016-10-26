@@ -22,6 +22,8 @@ def record(file_name=None, record_name=None):
         file_name = test_details.file_path
         if file_name.endswith('.py'):
             file_name = file_name[:-len('.py')] + '.perf.yml'
+        elif file_name.endswith('.pyc'):
+            file_name = file_name[:-len('.pyc')] + '.perf.yml'
         else:
             file_name += '.perf.yml'
 

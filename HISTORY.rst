@@ -7,6 +7,7 @@ Pending release
 ---------------
 
 * New release notes go here
+* Fix automatic filenames for tests in `.pyc` files.
 
 1.0.4 (2016-10-23)
 ------------------
