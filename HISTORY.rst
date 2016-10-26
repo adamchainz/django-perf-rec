@@ -7,6 +7,10 @@ Pending release
 ---------------
 
 * New release notes go here
+
+1.1.0 (2016-10-26)
+------------------
+
 * Fix automatic filenames for tests in ``.pyc`` files.
 * Add the ``path`` argument to ``record`` which allows specifying a relative
   directory or filename to use. This deprecates the ``file_name`` argument,
