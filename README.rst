@@ -26,7 +26,7 @@ operations, looking something like:
 .. code-block:: yaml
 
     MyTests.test_home:
-    - cache|get: home_data
+    - cache|get: home_data.user_id.#
     - db: 'SELECT ... FROM myapp_table WHERE (myapp_table.id = #)'
     - db: 'SELECT ... FROM myapp_table WHERE (myapp_table.id = #)'
 
@@ -34,12 +34,17 @@ When the test is run again, the new record will be compared with the one in the
 YAML file. If they are different, an assertion failure will be raised, failing
 the test. Magic!
 
-Just check the YAML file in alongside your test and you have unbreakable
+The queries and keys are 'fingerprinted', replacing information that seems
+variable with `#` and `...`. This is done to avoid spurious failures when e.g.
+primary keys are different, random data is used, new columns are added to
+tables, etc.
+
+If you check the YAML file in along with your tests, you'll have unbreakable
 performance with much better information about any regressions compared to
 ``assertNumQueries``. If you are fine with the changes from a failing test,
 just remove the file and rerun the test to regenerate it.
 
-We also have an `introductory blog
+For more information, see our `introductory blog
 post <https://tech.yplanapp.com/2016/09/26/introducing-django-perf-rec/>`_ that
 says a little more about why we made it.
 
