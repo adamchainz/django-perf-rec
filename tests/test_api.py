@@ -13,7 +13,7 @@ from django.test import TestCase
 from django_perf_rec import TestCaseMixin, record
 from testapp.models import Author
 
-from .utils import temporary_path, run_query
+from .utils import run_query, temporary_path
 
 FILE_DIR = os.path.dirname(__file__)
 
