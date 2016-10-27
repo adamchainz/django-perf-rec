@@ -36,8 +36,10 @@ class CacheOp(object):
         return key
 
     VARIABLE_RES = (
-        # Django session keys
-        re.compile(r'\bdjango\.contrib\.sessions\.cache(d_db)?[0-9a-z]{32}\b'),
+        # Django session keys for 'cache' backend
+        re.compile(r'(?<=django\.contrib\.sessions\.cache)[0-9a-z]{32}\b'),
+        # Django session keys for 'cached_db' backend
+        re.compile(r'(?<=django\.contrib\.sessions\.cached_db)[0-9a-z]{32}\b'),
         # Long random hashes
         re.compile(r'\b[0-9a-f]{32}\b'),
         # UUIDs

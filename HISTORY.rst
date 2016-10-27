@@ -7,7 +7,7 @@ Pending release
 ---------------
 
 * New release notes go here
-* Fix django session keys not being cleaned up.
+* Fix django session keys not being fingerprinted.
 
 1.1.0 (2016-10-26)
 ------------------

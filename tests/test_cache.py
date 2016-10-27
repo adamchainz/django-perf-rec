@@ -20,14 +20,16 @@ class CacheOpTests(SimpleTestCase):
     def test_clean_key_random_hash(self):
         assert CacheOp.clean_key('abc123abc123abc123abc123abc12345') == '#'
 
-    def test_clean_key_session_key(self):
-        keys = [
-            'django.contrib.sessions.cacheabcdefghijklmnopqrstuvwxyz012345',
-            'django.contrib.sessions.cached_dbabcdefghijklmnopqrstuvwxyz012345'
-        ]
+    def test_clean_key_session_key_cache_backend(self):
+        key = 'django.contrib.sessions.cacheabcdefghijklmnopqrstuvwxyz012345'
+        assert CacheOp.clean_key(key) == 'django.contrib.sessions.cache#'
 
-        for key in keys:
-            assert CacheOp.clean_key(key) == '#'
+    def test_clean_key_session_key_cached_db_backend(self):
+        key = (
+            'django.contrib.sessions.cached_db' +
+            'abcdefghijklmnopqrstuvwxyz012345'
+        )
+        assert CacheOp.clean_key(key) == 'django.contrib.sessions.cached_db#'
 
     def test_key(self):
         op = CacheOp('default', 'foo', 'bar')
