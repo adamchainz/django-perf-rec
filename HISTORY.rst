@@ -9,6 +9,8 @@ Pending release
 * New release notes go here
 * Fix django session keys not being fingerprinted.
 * Show diff when records don't match (when not on pytest).
+* Add assertion mode setting; allows having tests with missing performance
+  records fail.
 
 1.1.0 (2016-10-26)
 ------------------
