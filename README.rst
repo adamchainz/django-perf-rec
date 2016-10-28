@@ -98,9 +98,8 @@ gathered. If the file ``file_name`` doesn't exist, or doesn't contain data for
 the specific ``record_name``, it will be created and saved and the test will
 pass with no assertions. However if the record **does** exist inside the file,
 the collected record will be compared with the original one, and if different,
-an ``AssertionError`` will be raised. This currently uses a plain message, but
-if you're using `pytest <http://pytest.org/>`_ its assertion rewriting will be
-used and make it look pretty.
+an ``AssertionError`` will be raised and show what changed since the original
+record.
 
 Example:
 
