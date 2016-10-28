@@ -2,7 +2,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import os
-import warnings
 from threading import local
 
 from django.core.cache import DEFAULT_CACHE_ALIAS
@@ -22,34 +21,26 @@ record_current = local()
 
 
 @kwargs_only
-def record(file_name=None, record_name=None, path=None):
+def record(record_name=None, path=None):
     test_details = current_test()
 
-    if file_name is not None:
-        warnings.warn(
-            "The 'file_name' argument of record is deprecated, use the 'path' "
-            "argument instead",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-    else:
-        if path is None or path.endswith('/'):
-            file_name = test_details.file_path
-            if file_name.endswith('.py'):
-                file_name = file_name[:-len('.py')] + '.perf.yml'
-            elif file_name.endswith('.pyc'):
-                file_name = file_name[:-len('.pyc')] + '.perf.yml'
-            else:
-                file_name += '.perf.yml'
+    if path is None or path.endswith('/'):
+        file_name = test_details.file_path
+        if file_name.endswith('.py'):
+            file_name = file_name[:-len('.py')] + '.perf.yml'
+        elif file_name.endswith('.pyc'):
+            file_name = file_name[:-len('.pyc')] + '.perf.yml'
         else:
-            file_name = path
+            file_name += '.perf.yml'
+    else:
+        file_name = path
 
-        if path is not None and path.endswith('/'):
-            directory = os.path.join(os.path.dirname(test_details.file_path), path)
-            if not os.path.exists(directory):
-                os.makedirs(directory)
+    if path is not None and path.endswith('/'):
+        directory = os.path.join(os.path.dirname(test_details.file_path), path)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
-            file_name = os.path.join(directory, os.path.basename(file_name))
+        file_name = os.path.join(directory, os.path.basename(file_name))
 
     if record_name is None:
         if test_details.class_name:
@@ -141,5 +132,5 @@ class TestCaseMixin(object):
     for easy import-free use.
     """
     @kwargs_only
-    def record_performance(self, file_name=None, record_name=None, path=None):
-        return record(file_name=file_name, record_name=record_name, path=path)
+    def record_performance(self, record_name=None, path=None):
+        return record(record_name=record_name, path=path)
