@@ -11,14 +11,17 @@ from django.db import DEFAULT_DB_ALIAS
 from . import pytest_plugin
 from .cache import AllCacheRecorder
 from .db import AllDBRecorder
+from .functional import kwargs_only
 from .settings import perf_rec_settings
 from .utils import current_test, record_diff
+
 from .yaml import KVFile
 
 
 record_current = local()
 
 
+@kwargs_only
 def record(file_name=None, record_name=None, path=None):
     test_details = current_test()
 
@@ -137,5 +140,6 @@ class TestCaseMixin(object):
     Adds record_performance() method to TestCase class it's mixed into
     for easy import-free use.
     """
+    @kwargs_only
     def record_performance(self, file_name=None, record_name=None, path=None):
         return record(file_name=file_name, record_name=record_name, path=path)

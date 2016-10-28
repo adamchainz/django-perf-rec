@@ -73,6 +73,8 @@ API
 
 Return a context manager that will be used for a single performance test.
 
+The arguments must be passed as keyword arguments.
+
 ``path`` is the path to a directory or file in which to store the record. If it
 ends with ``'/'``, or is left as ``None``, the filename will be automatically
 determined by looking at the filename the calling code is in and replacing the
