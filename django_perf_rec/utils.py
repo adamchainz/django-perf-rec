@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import difflib
 import inspect
 from collections import namedtuple
 
@@ -64,3 +65,13 @@ def sorted_names(names):
         sorted_names = ['default'] + sorted_names
 
     return sorted_names
+
+
+def record_diff(old, new):
+    """
+    Generate a human-readable diff of two performance records.
+    """
+    return '\n'.join(difflib.ndiff(
+        ['%s: %s' % (k, v) for op in old for k, v in op.items()],
+        ['%s: %s' % (k, v) for op in new for k, v in op.items()]
+    ))

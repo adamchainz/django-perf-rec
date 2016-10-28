@@ -33,3 +33,5 @@ custom:
 - cache|get: foo
 other:
 - cache|get: foo
+test_diff:
+- cache|get: foo
