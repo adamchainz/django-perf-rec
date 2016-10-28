@@ -78,6 +78,17 @@ class RecordTests(TestCase):
 
         assert 'Performance record did not match' in six.text_type(excinfo.value)
 
+    def test_diff(self):
+        with record(record_name='test_diff'):
+            caches['default'].get('foo')
+
+        with pytest.raises(AssertionError) as excinfo:
+            with record(record_name='test_diff'):
+                caches['default'].get('bar')
+
+        assert '- cache|get: foo' in six.text_type(excinfo.value)
+        assert '+ cache|get: bar' in six.text_type(excinfo.value)
+
     def test_path_pointing_to_filename(self):
         with temporary_path('custom.perf.yml'):
 

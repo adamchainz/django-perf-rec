@@ -8,6 +8,7 @@ Pending release
 
 * New release notes go here
 * Fix django session keys not being fingerprinted.
+* Display record diff when changed.
 
 1.1.0 (2016-10-26)
 ------------------
