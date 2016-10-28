@@ -8,7 +8,7 @@ import six
 from django.core.cache import caches
 from django.db.models import Q
 from django.db.models.functions import Upper
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from django_perf_rec import TestCaseMixin, record
 from testapp.models import Author
@@ -149,6 +149,62 @@ class RecordTests(TestCase):
             "The 'file_name' argument of record is deprecated" in
             warnings[0].message.args[0]
         )
+
+    @override_settings(PERF_REC={'MODE': 'once'})
+    def test_mode_once(self):
+        temp_dir = os.path.join(FILE_DIR, 'perf_files/')
+        with temporary_path(temp_dir):
+
+            with record(path='perf_files/api/'):
+                caches['default'].get('foo')
+
+            full_path = os.path.join(
+                FILE_DIR,
+                'perf_files',
+                'api',
+                'test_api.perf.yml',
+            )
+            assert os.path.exists(full_path)
+
+    @override_settings(PERF_REC={'MODE': 'none'})
+    def test_mode_none(self):
+        temp_dir = os.path.join(FILE_DIR, 'perf_files/')
+        with temporary_path(temp_dir):
+
+            with pytest.raises(AssertionError) as excinfo:
+
+                with record(path='perf_files/api/'):
+                    caches['default'].get('foo')
+
+            assert 'Original performance record does not exist' in six.text_type(excinfo.value)
+
+            full_path = os.path.join(
+                FILE_DIR,
+                'perf_files',
+                'api',
+                'test_api.perf.yml',
+            )
+            assert not os.path.exists(full_path)
+
+    @override_settings(PERF_REC={'MODE': 'all'})
+    def test_mode_all(self):
+        temp_dir = os.path.join(FILE_DIR, 'perf_files/')
+        with temporary_path(temp_dir):
+
+            with pytest.raises(AssertionError) as excinfo:
+
+                with record(path='perf_files/api/'):
+                    caches['default'].get('foo')
+
+            assert 'Original performance record did not exist' in six.text_type(excinfo.value)
+
+            full_path = os.path.join(
+                FILE_DIR,
+                'perf_files',
+                'api',
+                'test_api.perf.yml',
+            )
+            assert os.path.exists(full_path)
 
 
 class TestCaseMixinTests(TestCaseMixin, TestCase):

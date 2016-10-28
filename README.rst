@@ -145,3 +145,29 @@ Example:
         def test_special_method(self):
             with self.record_performance():
                 list(Author.objects.special_method())
+
+Settings
+========
+
+Behaviour can be customized with a dictionary called ``PERF_REC`` in your
+Django settings, for example:
+
+.. code-block:: python
+
+    PERF_REC = {
+        'MODE': 'once'
+    }
+
+The possible keys to this dictionary are explained below.
+
+``MODE``
+--------
+
+The ``MODE`` setting may be used to change the way **django-perf-rec** behaves
+when a performance record does not exist during a test run.
+
+* ``'once'`` (default) creates missing records silently.
+* ``'none'`` raises ``AssertionError`` when a record does not exist. You
+  probably want to use this mode in CI, to ensure new tests fail if their
+  corresponding performance records were not committed.
+* ``'all'`` creates missing records and then raises ``AssertionError``.

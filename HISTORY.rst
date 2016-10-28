@@ -9,6 +9,10 @@ Pending release
 * New release notes go here
 * Fix django session keys not being fingerprinted.
 * Show diff when records don't match (when not on pytest).
+* Add new 'MODE' setting with three modes. This allows customization of the
+  behaviour for missing performance records. The new ``'none'`` mode is
+  particularly useful for CI servers as it makes tests fail if their
+  corresponding performance records have not been committed.
 
 1.1.0 (2016-10-26)
 ------------------
