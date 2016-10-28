@@ -124,19 +124,6 @@ class RecordTests(TestCase):
             )
             assert os.path.exists(full_path)
 
-    def test_file_name_is_deprecated(self):
-        full_path = os.path.join(FILE_DIR, 'test_api.perf.yml')
-
-        with pytest.warns(DeprecationWarning) as warnings:
-            with record(file_name=full_path):
-                caches['default'].get('foo')
-
-        assert len(warnings) == 1
-        assert (
-            "The 'file_name' argument of record is deprecated" in
-            warnings[0].message.args[0]
-        )
-
 
 class TestCaseMixinTests(TestCaseMixin, TestCase):
 

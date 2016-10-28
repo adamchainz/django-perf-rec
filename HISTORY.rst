@@ -8,6 +8,8 @@ Pending release
 
 * New release notes go here
 * Fix django session keys not being fingerprinted.
+* ``file_name`` is removed as an argument to ``record`` following its
+  deprecation in release 1.1.0.
 
 1.1.0 (2016-10-26)
 ------------------
