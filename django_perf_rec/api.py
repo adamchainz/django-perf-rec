@@ -8,6 +8,7 @@ from threading import local
 from django.core.cache import DEFAULT_CACHE_ALIAS
 from django.db import DEFAULT_DB_ALIAS
 
+from . import pytest_plugin
 from .cache import AllCacheRecorder
 from .db import AllDBRecorder
 from .utils import current_test, record_diff
@@ -112,10 +113,14 @@ class PerformanceRecorder(object):
         orig_record = self.records_file.get(self.record_name, None)
 
         if orig_record is not None:
-            assert self.record == orig_record, "Performance record did not match for {}\n{}".format(
-                self.record_name,
-                record_diff(orig_record, self.record)
+            msg = "Performance record did not match for {}".format(
+                self.record_name
             )
+            if not pytest_plugin.in_pytest:
+                msg += '\n{}'.format(
+                    record_diff(orig_record, self.record)
+                )
+            assert self.record == orig_record, msg
 
         self.records_file.set_and_save(self.record_name, self.record)
 

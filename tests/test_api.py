@@ -13,7 +13,7 @@ from django.test import TestCase
 from django_perf_rec import TestCaseMixin, record
 from testapp.models import Author
 
-from .utils import run_query, temporary_path
+from .utils import pretend_not_under_pytest, run_query, temporary_path
 
 FILE_DIR = os.path.dirname(__file__)
 
@@ -79,15 +79,17 @@ class RecordTests(TestCase):
         assert 'Performance record did not match' in six.text_type(excinfo.value)
 
     def test_diff(self):
-        with record(record_name='test_diff'):
-            caches['default'].get('foo')
-
-        with pytest.raises(AssertionError) as excinfo:
+        with pretend_not_under_pytest():
             with record(record_name='test_diff'):
-                caches['default'].get('bar')
+                caches['default'].get('foo')
 
-        assert '- cache|get: foo' in six.text_type(excinfo.value)
-        assert '+ cache|get: bar' in six.text_type(excinfo.value)
+            with pytest.raises(AssertionError) as excinfo:
+                with record(record_name='test_diff'):
+                    caches['default'].get('bar')
+
+            msg = six.text_type(excinfo.value)
+            assert '- cache|get: foo\n' in msg
+            assert '+ cache|get: bar\n' in msg
 
     def test_path_pointing_to_filename(self):
         with temporary_path('custom.perf.yml'):

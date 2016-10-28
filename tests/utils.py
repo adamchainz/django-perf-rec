@@ -7,6 +7,7 @@ import shutil
 from contextlib import contextmanager
 
 from django.db import connections
+from django_perf_rec import pytest_plugin
 
 
 def run_query(alias, sql, params=None):
@@ -30,3 +31,13 @@ def ensure_path_does_not_exist(path):
         except OSError as exc:
             if exc.errno != errno.ENOENT:
                 raise
+
+
+@contextmanager
+def pretend_not_under_pytest():
+    orig = pytest_plugin.in_pytest
+    pytest_plugin.in_pytest = False
+    try:
+        yield
+    finally:
+        pytest_plugin.in_pytest = orig

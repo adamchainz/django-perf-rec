@@ -59,6 +59,9 @@ setup(
     license='MIT',
     zip_safe=False,
     keywords='Django',
+    entry_points={
+        'pytest11': ['django_perf_rec = django_perf_rec.pytest_plugin'],
+    },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Framework :: Django :: 1.8',

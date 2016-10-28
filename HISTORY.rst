@@ -8,7 +8,7 @@ Pending release
 
 * New release notes go here
 * Fix django session keys not being fingerprinted.
-* Show diff when records don't match.
+* Show diff when records don't match (when not on pytest).
 
 1.1.0 (2016-10-26)
 ------------------
