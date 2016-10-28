@@ -68,7 +68,7 @@ Tested with all combinations of:
 API
 ===
 
-``record(file_name=None, record_name=None, path=None)``
+``record(record_name=None, path=None)``
 -------------------------------------------------------
 
 Return a context manager that will be used for a single performance test.
@@ -85,22 +85,18 @@ uses magic stack inspection to find that test case, and uses a name based upon
 the test case name + the test method name + an optional counter if you invoke
 ``record()`` multiple times inside the same test method.
 
-``file_name`` is deprecated in favour of ``path`` and will be removed in a
-future major release. It can be used to point to the filename in which the
-record should be stored, which ``path`` supports too.
-
 Whilst open, the context manager tracks all DB queries on all connections, and
 all cache operations on all defined caches. It names the connection/cache in
 the tracked operation it uses, except from for the ``default`` one.
 
 When the context manager exits, it will use the list of operations it has
-gathered. If the file ``file_name`` doesn't exist, or doesn't contain data for
-the specific ``record_name``, it will be created and saved and the test will
-pass with no assertions. However if the record **does** exist inside the file,
-the collected record will be compared with the original one, and if different,
-an ``AssertionError`` will be raised. This currently uses a plain message, but
-if you're using `pytest <http://pytest.org/>`_ its assertion rewriting will be
-used and make it look pretty.
+gathered. If the relevant file specified using ``path`` doesn't exist, or
+doesn't contain data for the specific ``record_name``, it will be created and
+saved and the test will pass with no assertions. However if the record **does**
+exist inside the file, the collected record will be compared with the original
+one, and if different, an ``AssertionError`` will be raised. This currently
+uses a plain message, but if you're using `pytest <http://pytest.org/>`_ its
+assertion rewriting will be used and make it look pretty.
 
 Example:
 
