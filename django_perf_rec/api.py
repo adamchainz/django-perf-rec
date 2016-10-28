@@ -11,6 +11,7 @@ from django.db import DEFAULT_DB_ALIAS
 from . import pytest_plugin
 from .cache import AllCacheRecorder
 from .db import AllDBRecorder
+from .settings import perf_rec_settings
 from .utils import current_test, record_diff
 from .yaml import KVFile
 
@@ -112,6 +113,9 @@ class PerformanceRecorder(object):
     def save_or_assert(self):
         orig_record = self.records_file.get(self.record_name, None)
 
+        if perf_rec_settings.MODE == 'none':
+            assert orig_record is not None, "Original performance record does not exist for {}".format(self.record_name)
+
         if orig_record is not None:
             msg = "Performance record did not match for {}".format(
                 self.record_name
@@ -123,6 +127,9 @@ class PerformanceRecorder(object):
             assert self.record == orig_record, msg
 
         self.records_file.set_and_save(self.record_name, self.record)
+
+        if perf_rec_settings.MODE == 'all':
+            assert orig_record is not None, "Original performance record did not exist for {}".format(self.record_name)
 
 
 class TestCaseMixin(object):

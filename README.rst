@@ -145,3 +145,28 @@ Example:
         def test_special_method(self):
             with self.record_performance():
                 list(Author.objects.special_method())
+
+Settings
+========
+
+Behaviour for **django-perf-rec** may be customized with a settings dictionary
+in Django settings:
+
+.. code-block:: python
+
+    PERF_REC = {
+        # Assertion mode
+        'MODE': 'once'
+    }
+
+Assertion mode
+--------------
+
+The ``MODE`` setting may be used to change the way **django-perf-rec** behaves
+when a performance record does not exist.
+
+* ``once`` (default) creates missing records silently.
+* ``none`` raises ``AssertionError`` on missing records.  You may want to use
+  this mode in CI, to ensure tests fail when a developer forgot to commit a
+  performance record file.
+* ``all`` creates missing records and then raises ``AssertionError``.
