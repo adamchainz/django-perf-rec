@@ -7,6 +7,10 @@ Pending release
 ---------------
 
 * New release notes go here
+
+1.1.1 (2016-10-30)
+------------------
+
 * Fix django session keys not being fingerprinted.
 * Show diff when records don't match (when not on pytest).
 * Add new 'MODE' setting with three modes. This allows customization of the
