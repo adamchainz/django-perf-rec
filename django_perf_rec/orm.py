@@ -26,6 +26,7 @@ def patch_ORM_to_be_deterministic():
     patch_Query()
     patch_Q()
 
+
 patch_ORM_to_be_deterministic.have_patched = False
 
 
