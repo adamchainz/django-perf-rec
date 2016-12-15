@@ -10,7 +10,7 @@ enum34==1.1.6             # via flake8
 flake8==3.2.1
 funcsigs==1.0.2           # via mock
 isort==4.2.5
-mccabe==0.5.2             # via flake8
+mccabe==0.5.3             # via flake8
 mock==2.0.0
 multilint==2.0.2
 patchy==1.3.1
