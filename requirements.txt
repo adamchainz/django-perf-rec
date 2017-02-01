@@ -24,9 +24,11 @@ Pygments==2.2.0
 pyparsing==2.1.10         # via packaging
 pytest-django==3.1.2
 pytest==3.0.6
+pytz==2016.10
 PyYAML==3.12
 six==1.10.0
 sqlparse==0.2.2
 
-# The following packages are considered to be unsafe in a requirements file:
+# The following packages are commented out because they are
+# considered to be unsafe in a requirements file:
 # setuptools                # via pytest

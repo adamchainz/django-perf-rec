@@ -6,6 +6,7 @@ multilint
 patchy
 pytest
 pytest-django
+pytz
 Pygments
 PyYAML
 six
