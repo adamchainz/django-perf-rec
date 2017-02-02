@@ -29,6 +29,5 @@ PyYAML==3.12
 six==1.10.0
 sqlparse==0.2.2
 
-# The following packages are commented out because they are
-# considered to be unsafe in a requirements file:
+# The following packages are considered to be unsafe in a requirements file:
 # setuptools                # via pytest
