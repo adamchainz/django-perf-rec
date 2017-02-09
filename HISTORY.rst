@@ -7,6 +7,10 @@ Pending release
 ---------------
 
 * New release notes go here
+
+2.0.0 (2017-02-09)
+------------------
+
 * Arguments to ``record`` must be passed as keyword arguments.
 * ``file_name`` is removed as an argument to ``record`` following its
   deprecation in release 1.1.0.
