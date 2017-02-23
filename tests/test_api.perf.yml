@@ -2,6 +2,11 @@ FileNameTests.test_default_filename:
 - cache|get: foo
 RecordPathTests.test_default_filename:
 - cache|get: foo
+RecordTests.test_delete_on_cascade_called_twice:
+- db: DELETE FROM "testapp_book" WHERE "testapp_book"."author_id" IN (#)
+- db: DELETE FROM "testapp_award" WHERE "testapp_award"."author_id" IN (#)
+- db: DELETE FROM "testapp_contract_author" WHERE "testapp_contract_author"."author_id" IN (#)
+- db: DELETE FROM "testapp_author" WHERE "testapp_author"."id" IN (#)
 RecordTests.test_file_name_is_deprecated:
 - cache|get: foo
 RecordTests.test_multiple_cache_ops:

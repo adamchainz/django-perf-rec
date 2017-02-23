@@ -7,6 +7,8 @@ Pending release
 ---------------
 
 * New release notes go here
+* Make cascaded delete queries deterministic on Django <1.10, with another
+  Patchy patch to make it match the order from 1.10+.
 
 2.0.0 (2017-02-09)
 ------------------
