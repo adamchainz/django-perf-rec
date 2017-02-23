@@ -193,6 +193,11 @@ class RecordTests(TestCase):
             )
             assert os.path.exists(full_path)
 
+    def test_delete_on_cascade_called_twice(self):
+        arthur = Author.objects.create(name='Arthur', age=42)
+        with record():
+            arthur.delete()
+
 
 class TestCaseMixinTests(TestCaseMixin, TestCase):
 
