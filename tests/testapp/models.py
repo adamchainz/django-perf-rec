@@ -14,6 +14,11 @@ class Book(models.Model):
     author = models.ForeignKey(Author)
 
 
+class Award(models.Model):
+    name = models.CharField(max_length=128)
+    author = models.ForeignKey(Author)
+
+
 class Contract(models.Model):
     amount = models.IntegerField()
     author = models.ManyToManyField(Author)
