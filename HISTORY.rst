@@ -6,7 +6,7 @@ History
 Pending release
 ---------------
 
-* New release notes go here
+* Add a patch in order to be deterministic about delete on cascade
 
 2.0.0 (2017-02-09)
 ------------------
