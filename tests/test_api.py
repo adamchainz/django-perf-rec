@@ -11,9 +11,10 @@ from django.db.models.functions import Upper
 from django.test import TestCase, override_settings
 
 from django_perf_rec import TestCaseMixin, record
+from django_perf_rec.utils import current_test
+
 from testapp.models import Author
 
-from django_perf_rec.utils import current_test
 from .utils import pretend_not_under_pytest, run_query, temporary_path
 
 FILE_DIR = os.path.dirname(__file__)
