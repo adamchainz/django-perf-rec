@@ -7,6 +7,7 @@ Pending release
 ---------------
 
 * New release notes go here
+* Added argument to pass custom TestDetails to ``record``
 
 2.0.1 (2017-03-02)
 ------------------
