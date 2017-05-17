@@ -74,8 +74,8 @@ suite does
 API
 ===
 
-``record(record_name=None, path=None)``
----------------------------------------
+``record(record_name=None, path=None, test_details=None)``
+----------------------------------------------------------
 
 Return a context manager that will be used for a single performance test.
 
@@ -92,6 +92,13 @@ If left as ``None``, the code assumes you are inside a Django ``TestCase`` and
 uses magic stack inspection to find that test case, and uses a name based upon
 the test case name + the test method name + an optional counter if you invoke
 ``record()`` multiple times inside the same test method.
+
+``test_details`` is an instance of ``TestDetails``, as documented below. When
+left as ``None`` this will be automatically detected by inspecting the call
+stack, although this code presumes a fairly standard test structure. This might
+not work, for example when using a Pytest fixture to automatically record
+tests, in which case it is possible to manually create a ``TestDetails`` object
+that contains all the information that ``record()`` needs.
 
 Whilst open, the context manager tracks all DB queries on all connections, and
 all cache operations on all defined caches. It names the connection/cache in
@@ -149,6 +156,19 @@ Example:
         def test_special_method(self):
             with self.record_performance():
                 list(Author.objects.special_method())
+
+``TestDetails(file_path, class_name, test_name)``
+-------------------------------------------------
+
+A simple class for holding the details of the current test, that is used to
+construct the automatic ``record_name`` as detailed under ``record()``.
+
+``file_path`` is the absolute path of the file that contains the test.
+
+``class_name`` is the name of the class that contains the test - this can be
+``None`` if the test is not part of any class.
+
+``test_name`` is the name of the actual test that is being run.
 
 Settings
 ========
