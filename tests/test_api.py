@@ -13,6 +13,7 @@ from django.test import TestCase, override_settings
 from django_perf_rec import TestCaseMixin, record
 from testapp.models import Author
 
+from django_perf_rec.utils import current_test
 from .utils import pretend_not_under_pytest, run_query, temporary_path
 
 FILE_DIR = os.path.dirname(__file__)
@@ -136,6 +137,11 @@ class RecordTests(TestCase):
                 'test_api.perf.yml',
             )
             assert os.path.exists(full_path)
+
+    def test_custom_test_details(self):
+        test_details = current_test()
+        with record(test_details=test_details):
+            run_query('default', 'SELECT 1337')
 
     @override_settings(PERF_REC={'MODE': 'once'})
     def test_mode_once(self):
