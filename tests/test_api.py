@@ -11,7 +11,6 @@ from django.db.models.functions import Upper
 from django.test import TestCase, override_settings
 
 from django_perf_rec import TestCaseMixin, record
-from django_perf_rec.utils import current_test
 
 from testapp.models import Author
 

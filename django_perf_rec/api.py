@@ -12,7 +12,8 @@ from .cache import AllCacheRecorder
 from .db import AllDBRecorder
 from .functional import kwargs_only
 from .settings import perf_rec_settings
-from .utils import current_test, record_diff, TestDetails
+from .utils import TestDetails  # noqa: F401
+from .utils import current_test, record_diff
 
 from .yaml import KVFile
 
