@@ -142,7 +142,7 @@ class RecordTests(TestCase):
     def test_custom_test_details(self):
         from django_perf_rec import TestDetails
         test_details = TestDetails(
-            file_path=os.path.dirname(os.path.abspath(__file__)),
+            file_path=os.path.abspath(__file__),
             class_name='RecordTests',
             test_name='test_custom_test_details'
         )
