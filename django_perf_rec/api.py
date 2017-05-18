@@ -12,7 +12,7 @@ from .cache import AllCacheRecorder
 from .db import AllDBRecorder
 from .functional import kwargs_only
 from .settings import perf_rec_settings
-from .utils import current_test, record_diff
+from .utils import current_test, record_diff, TestDetails
 
 from .yaml import KVFile
 
