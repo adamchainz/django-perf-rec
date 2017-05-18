@@ -140,7 +140,12 @@ class RecordTests(TestCase):
             assert os.path.exists(full_path)
 
     def test_custom_test_details(self):
-        test_details = current_test()
+        from django_perf_rec import TestDetails
+        test_details = TestDetails(
+            file_path=os.path.dirname(os.path.abspath(__file__)),
+            class_name='RecordTests',
+            test_name='test_custom_test_details'
+        )
         with record(test_details=test_details):
             run_query('default', 'SELECT 1337')
 
