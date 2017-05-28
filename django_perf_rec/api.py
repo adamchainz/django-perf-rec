@@ -12,6 +12,7 @@ from .cache import AllCacheRecorder
 from .db import AllDBRecorder
 from .functional import kwargs_only
 from .settings import perf_rec_settings
+from .utils import TestDetails  # noqa: F401
 from .utils import current_test, record_diff
 
 from .yaml import KVFile
@@ -21,8 +22,9 @@ record_current = local()
 
 
 @kwargs_only
-def record(record_name=None, path=None):
-    test_details = current_test()
+def record(record_name=None, path=None, test_details=None):
+    if test_details is None:
+        test_details = current_test()
 
     if path is None or path.endswith('/'):
         file_name = test_details.file_path
