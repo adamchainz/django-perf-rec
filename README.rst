@@ -65,6 +65,12 @@ Tested with all combinations of:
 * Python: 2.7, 3.6
 * Django: 1.8, 1.9, 1.10, 1.11
 
+N.B. When using Django 1.8 and SQLite the queries won't be rendered in SQL, but
+a format like 'QUERY = ... PARAMS = ...'. You can workaround this by
+backporting the query rendering code from Django 1.9 as `django-perf-rec's test
+suite does
+<https://github.com/YPlan/django-perf-rec/blob/master/tests/settings.py#L16>`_.
+
 API
 ===
 
