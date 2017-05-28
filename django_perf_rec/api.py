@@ -6,13 +6,13 @@ from threading import local
 
 from django.core.cache import DEFAULT_CACHE_ALIAS
 from django.db import DEFAULT_DB_ALIAS
+from django.utils.functional import SimpleLazyObject
 
 from . import pytest_plugin
 from .cache import AllCacheRecorder
 from .db import AllDBRecorder
 from .functional import kwargs_only
 from .settings import perf_rec_settings
-from .utils import TestDetails  # noqa: F401
 from .utils import current_test, record_diff
 
 from .yaml import KVFile
@@ -22,46 +22,63 @@ record_current = local()
 
 
 @kwargs_only
-def record(record_name=None, path=None, test_details=None):
-    if test_details is None:
-        test_details = current_test()
+def record(record_name=None, path=None):
+    # Lazy since we may not need this to determine record_name or path,
+    # depending on logic below
+    test_details = SimpleLazyObject(current_test)
 
     if path is None or path.endswith('/'):
-        file_name = test_details.file_path
-        if file_name.endswith('.py'):
-            file_name = file_name[:-len('.py')] + '.perf.yml'
-        elif file_name.endswith('.pyc'):
-            file_name = file_name[:-len('.pyc')] + '.perf.yml'
-        else:
-            file_name += '.perf.yml'
+        file_name = get_perf_path(test_details.file_path)
     else:
         file_name = path
 
     if path is not None and path.endswith('/'):
-        directory = os.path.join(os.path.dirname(test_details.file_path), path)
-        if not os.path.exists(directory):
-            os.makedirs(directory)
+        if not os.path.isabs(path):
+            directory = os.path.join(os.path.dirname(test_details.file_path), path)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+        else:
+            directory = path
 
         file_name = os.path.join(directory, os.path.basename(file_name))
 
     if record_name is None:
-        if test_details.class_name:
-            record_name = '{class_}.{test}'.format(
-                class_=test_details.class_name,
-                test=test_details.test_name,
-            )
-        else:
-            record_name = test_details.test_name
-
-        # Multiple calls inside the same test should end up suffixing with .2, .3 etc.
-        if getattr(record_current, 'record_name', None) == record_name:
-            record_current.counter += 1
-            record_name = record_name + '.{}'.format(record_current.counter)
-        else:
-            record_current.record_name = record_name
-            record_current.counter = 1
+        record_name = get_record_name(
+            test_name=test_details.test_name,
+            class_name=test_details.class_name,
+        )
 
     return PerformanceRecorder(file_name, record_name)
+
+
+def get_perf_path(file_path):
+    if file_path.endswith('.py'):
+        perf_path = file_path[:-len('.py')] + '.perf.yml'
+    elif file_path.endswith('.pyc'):
+        perf_path = file_path[:-len('.pyc')] + '.perf.yml'
+    else:
+        perf_path = file_path + '.perf.yml'
+    return perf_path
+
+
+def get_record_name(test_name, class_name=None):
+    if class_name:
+        record_name = '{class_}.{test}'.format(
+            class_=class_name,
+            test=test_name,
+        )
+    else:
+        record_name = test_name
+
+    # Multiple calls inside the same test should end up suffixing with .2, .3 etc.
+    if getattr(record_current, 'record_name', None) == record_name:
+        record_current.counter += 1
+        record_name = record_name + '.{}'.format(record_current.counter)
+    else:
+        record_current.record_name = record_name
+        record_current.counter = 1
+
+    return record_name
 
 
 class PerformanceRecorder(object):

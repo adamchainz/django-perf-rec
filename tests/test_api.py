@@ -8,10 +8,9 @@ import six
 from django.core.cache import caches
 from django.db.models import Q
 from django.db.models.functions import Upper
-from django.test import TestCase, override_settings
+from django.test import SimpleTestCase, TestCase, override_settings
 
-from django_perf_rec import TestCaseMixin, record
-
+from django_perf_rec import TestCaseMixin, get_perf_path, get_record_name, record
 from testapp.models import Author
 
 from .utils import pretend_not_under_pytest, run_query, temporary_path
@@ -138,16 +137,6 @@ class RecordTests(TestCase):
             )
             assert os.path.exists(full_path)
 
-    def test_custom_test_details(self):
-        from django_perf_rec import TestDetails
-        test_details = TestDetails(
-            file_path=os.path.abspath(__file__),
-            class_name='RecordTests',
-            test_name='test_custom_test_details'
-        )
-        with record(test_details=test_details):
-            run_query('default', 'SELECT 1337')
-
     @override_settings(PERF_REC={'MODE': 'once'})
     def test_mode_once(self):
         temp_dir = os.path.join(FILE_DIR, 'perf_files/')
@@ -208,6 +197,43 @@ class RecordTests(TestCase):
         arthur = Author.objects.create(name='Arthur', age=42)
         with record():
             arthur.delete()
+
+
+class GetPerfPathTests(SimpleTestCase):
+
+    def test_py_file(self):
+        assert get_perf_path('foo.py') == 'foo.perf.yml'
+
+    def test_pyc_file(self):
+        assert get_perf_path('foo.pyc') == 'foo.perf.yml'
+
+    def test_unknown_file(self):
+        assert get_perf_path('foo.plob') == 'foo.plob.perf.yml'
+
+
+class GetRecordNameTests(SimpleTestCase):
+
+    def test_class_and_test(self):
+        assert (
+            get_record_name(class_name='FooTests', test_name='test_bar') ==
+            'FooTests.test_bar'
+        )
+
+    def test_just_test(self):
+        assert (
+            get_record_name(test_name='test_baz') ==
+            'test_baz'
+        )
+
+    def test_multiple_calls(self):
+        assert (
+            get_record_name(test_name='test_qux') ==
+            'test_qux'
+        )
+        assert (
+            get_record_name(test_name='test_qux') ==
+            'test_qux.2'
+        )
 
 
 class TestCaseMixinTests(TestCaseMixin, TestCase):

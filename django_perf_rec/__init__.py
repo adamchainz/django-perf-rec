@@ -17,6 +17,6 @@ if pytest is not None:
     else:
         pytest.register_assert_rewrite('django_perf_rec.api')
 
-from .api import TestCaseMixin, record, TestDetails  # noqa: F401
+from .api import TestCaseMixin, get_record_name, get_perf_path, record  # noqa: F401
 
 __version__ = '2.0.1'

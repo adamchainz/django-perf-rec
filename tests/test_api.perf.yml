@@ -2,8 +2,6 @@ FileNameTests.test_default_filename:
 - cache|get: foo
 RecordPathTests.test_default_filename:
 - cache|get: foo
-RecordTests.test_custom_test_details:
-- db: 'SELECT #'
 RecordTests.test_delete_on_cascade_called_twice:
 - db: DELETE FROM "testapp_book" WHERE "testapp_book"."author_id" IN (#)
 - db: DELETE FROM "testapp_award" WHERE "testapp_award"."author_id" IN (#)
@@ -42,3 +40,8 @@ other:
 - cache|get: foo
 test_diff:
 - cache|get: foo
+null:
+- db: DELETE FROM "testapp_book" WHERE "testapp_book"."author_id" IN (#)
+- db: DELETE FROM "testapp_award" WHERE "testapp_award"."author_id" IN (#)
+- db: DELETE FROM "testapp_contract_author" WHERE "testapp_contract_author"."author_id" IN (#)
+- db: DELETE FROM "testapp_author" WHERE "testapp_author"."id" IN (#)

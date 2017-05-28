@@ -74,8 +74,8 @@ suite does
 API
 ===
 
-``record(record_name=None, path=None, test_details=None)``
-----------------------------------------------------------
+``record(record_name=None, path=None)``
+---------------------------------------
 
 Return a context manager that will be used for a single performance test.
 
@@ -92,13 +92,6 @@ If left as ``None``, the code assumes you are inside a Django ``TestCase`` and
 uses magic stack inspection to find that test case, and uses a name based upon
 the test case name + the test method name + an optional counter if you invoke
 ``record()`` multiple times inside the same test method.
-
-``test_details`` is an instance of ``TestDetails``, as documented below. When
-left as ``None`` this will be automatically detected by inspecting the call
-stack, although this code presumes a fairly standard test structure. This might
-not work, for example when using a Pytest fixture to automatically record
-tests, in which case it is possible to manually create a ``TestDetails`` object
-that contains all the information that ``record()`` needs.
 
 Whilst open, the context manager tracks all DB queries on all connections, and
 all cache operations on all defined caches. It names the connection/cache in
@@ -157,18 +150,22 @@ Example:
             with self.record_performance():
                 list(Author.objects.special_method())
 
-``TestDetails(file_path, class_name, test_name)``
--------------------------------------------------
+``get_perf_path(file_path)``
+----------------------------
 
-A simple class for holding the details of the current test, that is used to
-construct the automatic ``record_name`` as detailed under ``record()``.
+Encapsulates the logic used in ``record()`` to form ``path`` from the path of
+the file containing the currently running test, mostly swapping '.py' or '.pyc'
+for '.perf.yml'. You might want to use this when calling ``record()`` from
+somewhere other than inside a test (which causes the automatic inspection to
+fail), to match the same filename.
 
-``file_path`` is the absolute path of the file that contains the test.
+``get_record_name(test_name, class_name=None)``
+-----------------------------------------------
 
-``class_name`` is the name of the class that contains the test - this can be
-``None`` if the test is not part of any class.
-
-``test_name`` is the name of the actual test that is being run.
+Encapsulates the logic used in ``record()`` to form a ``record_name`` from
+details of the currently running test. You might want to use this when calling
+``record()`` from somewhere other than inside a test (which causes the
+automatic inspection to fail), to match the same ``record_name``.
 
 Settings
 ========
@@ -195,3 +192,13 @@ when a performance record does not exist during a test run.
   probably want to use this mode in CI, to ensure new tests fail if their
   corresponding performance records were not committed.
 * ``'all'`` creates missing records and then raises ``AssertionError``.
+
+
+Usage in Pytest
+===============
+
+If you're using Pytest, you might want to call ``record()`` from within a
+Pytest fixture and have it automatically apply to all your tests. We have an
+example of this, see the file `test_pytest_fixture_usage.py
+<https://github.com/YPlan/django-perf-rec/blob/master/tests/test_pytest_fixture_usage.py>`_
+in the test suite.

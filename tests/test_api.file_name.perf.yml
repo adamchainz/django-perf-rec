@@ -1,2 +1,4 @@
 TestCaseMixinTests.test_record_performance_file_name:
 - cache|get: foo
+null:
+- cache|get: foo
