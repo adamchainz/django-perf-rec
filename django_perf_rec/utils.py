@@ -5,6 +5,11 @@ import difflib
 import inspect
 from collections import namedtuple
 
+try:
+    from _pytest.fixtures import FixtureRequest
+except ImportError:
+    FixtureRequest = None
+
 
 TestDetails = namedtuple('TestDetails', ['file_path', 'class_name', 'test_name'])
 
@@ -16,36 +21,65 @@ def current_test():
     frame = inspect.currentframe()
     try:
         while True:
-            if frame.f_code.co_name.startswith('test_'):
-                break
+            details = (
+                _get_details_from_test_function(frame) or
+                _get_details_from_pytest_request(frame)
+            )
+
+            if details:
+                return details
 
             # Next frame
             frame = frame.f_back
             if frame is None:
                 break
 
-        if frame is None:
-            raise RuntimeError("Could not automatically determine the test name.")
-
-        file_path = frame.f_globals['__file__']
-
-        # May be a pytest function test so we can't assume 'self' exists
-        its_self = frame.f_locals.get('self', None)
-        if its_self is None:
-            class_name = None
-        else:
-            class_name = its_self.__class__.__name__
-
-        test_name = frame.f_code.co_name
-
-        return TestDetails(
-            file_path=file_path,
-            class_name=class_name,
-            test_name=test_name,
-        )
+        raise RuntimeError("Could not automatically determine the test name.")
     finally:
         # Always delete frame references to help garbage collector
         del frame
+
+
+def _get_details_from_test_function(frame):
+    if not frame.f_code.co_name.startswith('test_'):
+        return
+
+    file_path = frame.f_globals['__file__']
+
+    # May be a pytest function test so we can't assume 'self' exists
+    its_self = frame.f_locals.get('self', None)
+    if its_self is None:
+        class_name = None
+    else:
+        class_name = its_self.__class__.__name__
+
+    test_name = frame.f_code.co_name
+
+    return TestDetails(
+        file_path=file_path,
+        class_name=class_name,
+        test_name=test_name,
+    )
+
+
+def _get_details_from_pytest_request(frame):
+    if FixtureRequest is None:
+        return
+
+    request = frame.f_locals.get('request', None)
+    if request is None:
+        return
+
+    if request.cls is not None:
+        class_name = request.cls.__name__
+    else:
+        class_name = None
+
+    return TestDetails(
+        file_path=request.fspath.strpath,
+        class_name=class_name,
+        test_name=request.function.__name__,
+    )
 
 
 def sorted_names(names):

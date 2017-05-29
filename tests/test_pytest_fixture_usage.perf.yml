@@ -1,2 +1,6 @@
-test_simple:
+test_auto_name:
+- db: 'SELECT #'
+test_auto_name_with_request:
+- db: 'SELECT #'
+test_build_name:
 - db: 'SELECT #'
