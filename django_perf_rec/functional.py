@@ -11,9 +11,18 @@ def kwargs_only(func):
     This can be dropped in Python 3 in lieu of:
         def foo(*, bar=default):
     """
-    signature = inspect.getargspec(func)
+    if hasattr(inspect, 'signature'):
+        # Python 3
+        signature = inspect.signature(func)
+        first_arg_name = list(signature.parameters.keys())[0]
+    else:
+        # Python 2
+        signature = inspect.getargspec(func)
+        first_arg_name = signature.args[0]
 
-    if signature.args[:1] in (['self'], ['cls']):
+    print(first_arg_name)
+
+    if first_arg_name in ('self', 'cls'):
         allowable_args = 1
     else:
         allowable_args = 0
