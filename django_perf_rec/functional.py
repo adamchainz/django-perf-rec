@@ -20,8 +20,6 @@ def kwargs_only(func):
         signature = inspect.getargspec(func)
         first_arg_name = signature.args[0]
 
-    print(first_arg_name)
-
     if first_arg_name in ('self', 'cls'):
         allowable_args = 1
     else:
