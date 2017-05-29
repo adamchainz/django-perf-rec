@@ -7,6 +7,10 @@ Pending release
 ---------------
 
 * New release notes go here
+
+2.1.0 (2017-05-29)
+------------------
+
 * Exposed the automatic naming logic used in ``record()`` in two new functions
   ``get_perf_path()`` and ``get_record_name()``, in order to ease creation of
   test records from calls outside of tests.
