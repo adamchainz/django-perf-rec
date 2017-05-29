@@ -14,6 +14,9 @@ class KVFile(object):
         self.file_name = file_name
         self.data = self.load(file_name)
 
+    def __len__(self):
+        return len(self.data)
+
     LOAD_CACHE = {}
 
     @classmethod
@@ -35,7 +38,10 @@ class KVFile(object):
                 raise
 
         data = yaml.safe_load(content)
-        if not isinstance(data, dict):
+
+        if data is None:
+            return {}
+        elif not isinstance(data, dict):
             raise TypeError("YAML content of {} is not a dictionary".format(file_name))
 
         return data

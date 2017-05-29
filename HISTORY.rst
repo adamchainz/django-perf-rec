@@ -12,6 +12,7 @@ Pending release
   test records from calls outside of tests.
 * Made the automatic test detection work when running under a Pytest fixture.
 * Stopped throwing warnings on Python 3.
+* Fixed loading empty performance record files.
 
 2.0.1 (2017-03-02)
 ------------------

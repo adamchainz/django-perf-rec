@@ -29,6 +29,7 @@ class KVFileTests(SimpleTestCase):
 
     def test_load_non_existent_is_empty(self):
         kvf = KVFile(self.temp_dir + '/foo.yml')
+        assert len(kvf) == 0
         default = object()
         assert kvf.get('foo', default) is default
 
@@ -37,7 +38,23 @@ class KVFileTests(SimpleTestCase):
         with open(file_name, 'w') as fp:
             fp.write('foo: bar')
 
-        assert KVFile(file_name).get('foo', '') == 'bar'
+        kvf = KVFile(file_name)
+        assert len(kvf) == 1
+        assert kvf.get('foo', '') == 'bar'
+
+    def test_load_empty(self):
+        file_name = self.temp_dir + '/foo.yml'
+        with open(file_name, 'w') as fp:
+            fp.write('')
+
+        assert len(KVFile(file_name)) == 0
+
+    def test_load_whitespace_empty(self):
+        file_name = self.temp_dir + '/foo.yml'
+        with open(file_name, 'w') as fp:
+            fp.write(' \n')
+
+        assert len(KVFile(file_name)) == 0
 
     def test_load_non_dictionary(self):
         file_name = self.temp_dir + '/foo.yml'
@@ -52,6 +69,7 @@ class KVFileTests(SimpleTestCase):
         kvf = KVFile(self.temp_dir + '/foo.yml')
         kvf.set_and_save('foo', 'bar')
 
+        assert len(kvf) == 1
         assert kvf.get('foo', '') == 'bar'
 
     def test_load_second_same(self):
@@ -59,6 +77,7 @@ class KVFileTests(SimpleTestCase):
         kvf.set_and_save('foo', 'bar')
         kvf2 = KVFile(self.temp_dir + '/foo.yml')
 
+        assert len(kvf2) == 1
         assert kvf2.get('foo', '') == 'bar'
 
     def test_sets_dont_cause_append_duplication(self):
