@@ -14,9 +14,7 @@ from .db import AllDBRecorder
 from .functional import kwargs_only
 from .settings import perf_rec_settings
 from .utils import current_test, record_diff
-
 from .yaml import KVFile
-
 
 record_current = local()
 

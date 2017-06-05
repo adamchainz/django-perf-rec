@@ -7,6 +7,7 @@ import shutil
 from contextlib import contextmanager
 
 from django.db import connections
+
 from django_perf_rec import pytest_plugin
 
 
