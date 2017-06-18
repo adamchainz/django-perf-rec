@@ -2,6 +2,7 @@ backports.unittest_mock
 docutils
 flake8
 isort
+kwargs-only
 mock
 multilint
 patchy

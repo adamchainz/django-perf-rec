@@ -39,6 +39,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django',
+        'kwargs-only',
         'patchy',
         'PyYAML',
         'six',

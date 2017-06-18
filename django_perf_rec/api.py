@@ -7,11 +7,11 @@ from threading import local
 from django.core.cache import DEFAULT_CACHE_ALIAS
 from django.db import DEFAULT_DB_ALIAS
 from django.utils.functional import SimpleLazyObject
+from kwargs_only import kwargs_only
 
 from . import pytest_plugin
 from .cache import AllCacheRecorder
 from .db import AllDBRecorder
-from .functional import kwargs_only
 from .settings import perf_rec_settings
 from .utils import current_test, record_diff
 from .yaml import KVFile

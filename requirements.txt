@@ -11,6 +11,7 @@ enum34==1.1.6             # via flake8
 flake8==3.3.0
 funcsigs==1.0.2           # via mock
 isort==4.2.15
+kwargs-only==1.0.0
 mccabe==0.6.1             # via flake8
 mock==2.0.0
 multilint==2.1.0
