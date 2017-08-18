@@ -64,12 +64,12 @@ def patch_Query():
 
 
 def patch_Q():
-    # This one can't be done by patchy since __init__ is different in Python 3,
-    # maybe one day https://github.com/adamchainz/patchy/issues/31 will be
-    # fixed.
-    def __init__(self, *args, **kwargs):
-        super(Q, self).__init__(children=list(args) + sorted(kwargs.items()))
-    Q.__init__ = __init__
+    patchy.patch(Q.__init__, """\
+        @@ -1,2 +1,2 @@
+         def __init__(self, *args, **kwargs):
+        -    super(Q, self).__init__(children=list(args) + list(kwargs.items()))
+        +    super(Q, self).__init__(children=list(args) + sorted(kwargs.items()))
+    """)
 
 
 def patch_delete():
