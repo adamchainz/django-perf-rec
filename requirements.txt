@@ -26,4 +26,4 @@ pytest==3.2.2
 pytz==2017.2
 pyyaml==3.12
 six==1.11.0
-sqlparse==0.2.3
+sqlparse==0.2.4
