@@ -11,12 +11,12 @@ class Author(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=128)
-    author = models.ForeignKey(Author)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
 
 class Award(models.Model):
     name = models.CharField(max_length=128)
-    author = models.ForeignKey(Author)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
 
 class Contract(models.Model):
