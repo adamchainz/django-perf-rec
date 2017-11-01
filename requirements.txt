@@ -23,7 +23,7 @@ pyflakes==1.6.0           # via flake8
 pygments==2.2.0
 pytest-django==3.1.2
 pytest==3.2.3
-pytz==2017.2
+pytz==2017.3
 pyyaml==3.12
 six==1.11.0
 sqlparse==0.2.4
