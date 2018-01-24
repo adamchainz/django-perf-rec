@@ -7,6 +7,10 @@ Pending release
 ---------------
 
 * New release notes go here
+
+2.2.0 (2018-01-24)
+------------------
+
 * Use ``kwargs-only`` library rather than vendored copy.
 * Erase volatile part of PostgreSQL cursor name.
 
