@@ -8,6 +8,7 @@ Pending release
 
 * New release notes go here
 * Use ``kwargs-only`` library rather than vendored copy.
+* Erase volatile part of PostgreSQL cursor name.
 
 2.1.0 (2017-05-29)
 ------------------

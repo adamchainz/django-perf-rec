@@ -53,6 +53,13 @@ def test_update():
     )
 
 
+def test_declare_cursor():
+    assert (
+        sql_fingerprint('DECLARE "_django_curs_140239496394496_1300" NO SCROLL CURSOR WITHOUT') ==
+        'DECLARE "_django_curs_#" NO SCROLL CURSOR WITHOUT'
+    )
+
+
 def test_savepoint():
     assert (
         sql_fingerprint("SAVEPOINT `s140323809662784_x54`") ==

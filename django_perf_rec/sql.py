@@ -54,6 +54,10 @@ def sql_recursively_simplify(node):
             node.tokens[6].tokens[0].value = '`#`'
             return
 
+    # Erase volatile part of PG cursor name
+    if node.tokens[0].value.startswith('"_django_curs_'):
+        node.tokens[0].value = '"_django_curs_#"'
+
     for i, token in enumerate(node.tokens):
         ttype = getattr(token, 'ttype', None)
 
