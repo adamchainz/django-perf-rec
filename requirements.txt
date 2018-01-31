@@ -24,7 +24,7 @@ pycodestyle==2.3.1        # via flake8
 pyflakes==1.6.0           # via flake8
 pygments==2.2.0
 pytest-django==3.1.2
-pytest==3.3.2
+pytest==3.4.0
 pytz==2017.3
 pyyaml==3.12
 six==1.11.0
