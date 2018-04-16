@@ -7,7 +7,7 @@ from django.conf import settings
 class Settings(object):
 
     defaults = {
-        'MODE': 'once'
+        'MODE': 'once',
     }
 
     def get_setting(self, key):

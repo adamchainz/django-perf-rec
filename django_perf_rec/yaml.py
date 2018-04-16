@@ -75,5 +75,5 @@ class KVFile(object):
                 fp,
                 default_flow_style=False,
                 allow_unicode=True,
-                width=10000
+                width=10000,
             )

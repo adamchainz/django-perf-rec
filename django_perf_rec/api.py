@@ -129,11 +129,11 @@ class PerformanceRecorder(object):
 
         if orig_record is not None:
             msg = "Performance record did not match for {}".format(
-                self.record_name
+                self.record_name,
             )
             if not pytest_plugin.in_pytest:
                 msg += '\n{}'.format(
-                    record_diff(orig_record, self.record)
+                    record_diff(orig_record, self.record),
                 )
             assert self.record == orig_record, msg
 

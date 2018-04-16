@@ -107,5 +107,5 @@ def record_diff(old, new):
     """
     return '\n'.join(difflib.ndiff(
         ['%s: %s' % (k, v) for op in old for k, v in op.items()],
-        ['%s: %s' % (k, v) for op in new for k, v in op.items()]
+        ['%s: %s' % (k, v) for op in new for k, v in op.items()],
     ))

@@ -42,25 +42,19 @@ class DBRecorderTests(TestCase):
         callback = mock.Mock()
         with DBRecorder('default', callback):
             run_query('default', 'SELECT 1')
-        callback.assert_called_once_with(
-            DBOp('default', 'SELECT #')
-        )
+        callback.assert_called_once_with(DBOp('default', 'SELECT #'))
 
     def test_secondary(self):
         callback = mock.Mock()
         with DBRecorder('second', callback):
             run_query('second', 'SELECT 1')
-        callback.assert_called_once_with(
-            DBOp('second', 'SELECT #')
-        )
+        callback.assert_called_once_with(DBOp('second', 'SELECT #'))
 
     def test_replica(self):
         callback = mock.Mock()
         with DBRecorder('replica', callback):
             run_query('replica', 'SELECT 1')
-        callback.assert_called_once_with(
-            DBOp('replica', 'SELECT #')
-        )
+        callback.assert_called_once_with(DBOp('replica', 'SELECT #'))
 
     def test_secondary_default_not_recorded(self):
         callback = mock.Mock()

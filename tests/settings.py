@@ -30,7 +30,7 @@ DATABASES = {
         'NAME': ':memory:',
         'TEST': {
             'MIRROR': 'default',
-        }
+        },
     },
     'second': {
         'ENGINE': engine,

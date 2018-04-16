@@ -101,7 +101,7 @@ class CacheRecorder(object):
             setattr(
                 cache,
                 name,
-                MethodType(call_callback(orig_method), cache)
+                MethodType(call_callback(orig_method), cache),
             )
 
     def __exit__(self, _, __, ___):

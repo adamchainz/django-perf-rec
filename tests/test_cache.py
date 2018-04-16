@@ -80,7 +80,7 @@ class CacheRecorderTests(TestCase):
         with CacheRecorder('default', callback):
             caches['default'].get('foo')
         callback.assert_called_once_with(
-            CacheOp('default', 'get', 'foo')
+            CacheOp('default', 'get', 'foo'),
         )
 
     def test_secondary(self):
@@ -88,7 +88,7 @@ class CacheRecorderTests(TestCase):
         with CacheRecorder('second', callback):
             caches['second'].get('foo')
         callback.assert_called_once_with(
-            CacheOp('second', 'get', 'foo')
+            CacheOp('second', 'get', 'foo'),
         )
 
     def test_secondary_default_not_recorded(self):
