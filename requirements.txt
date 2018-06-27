@@ -30,6 +30,6 @@ pygments==2.2.0
 pytest-django==3.3.2
 pytest==3.6.2
 pytz==2018.4
-pyyaml==3.12
+pyyaml==4.1
 six==1.11.0
 sqlparse==0.2.4
