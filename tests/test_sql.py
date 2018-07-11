@@ -35,7 +35,7 @@ def test_select_join():
 def test_select_order_by():
     assert (
         sql_fingerprint('SELECT f1, f2 FROM a ORDER BY f3, f4') ==
-        'SELECT ... FROM a ORDER BY ...'
+        'SELECT ... FROM a ORDER BY f3, f4'
     )
 
 
