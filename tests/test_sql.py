@@ -39,6 +39,20 @@ def test_select_order_by():
     )
 
 
+def test_select_group_by():
+    assert (
+        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1') ==
+        'SELECT ... FROM a GROUP BY f1'
+    )
+
+
+def test_select_group_by_having():
+    assert (
+        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1 HAVING f1 > 21') ==
+        'SELECT ... FROM a GROUP BY f1 HAVING f1 > #'
+    )
+
+
 def test_insert():
     assert (
         sql_fingerprint("INSERT INTO `table` (`f1`, `f2`) VALUES ('v1', 2)") ==
