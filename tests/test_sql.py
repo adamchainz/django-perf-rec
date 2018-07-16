@@ -41,15 +41,15 @@ def test_select_order_by():
 
 def test_select_group_by():
     assert (
-        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1') ==
-        'SELECT ... FROM a GROUP BY f1'
+        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1, f2') ==
+        'SELECT ... FROM a GROUP BY f1, f2'
     )
 
 
 def test_select_group_by_having():
     assert (
-        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1 HAVING f1 > 21') ==
-        'SELECT ... FROM a GROUP BY f1 HAVING f1 > #'
+        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1 HAVING f1 > 21, f2 < 42') ==
+        'SELECT ... FROM a GROUP BY f1 HAVING f1 > #, f2 < #'
     )
 
 

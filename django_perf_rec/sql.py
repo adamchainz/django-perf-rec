@@ -65,13 +65,14 @@ def sql_recursively_simplify(node):
     for token in node.tokens:
         ttype = getattr(token, 'ttype', None)
 
-        # Detect if the token is an ORDER BY clause. If so, we don't want
-        # to replace its value with "..."
-        is_order = is_keyword(two_before, "ORDER")
-        is_by = is_keyword(one_before, "BY")
-        is_order_by = is_order and is_by
+        # Detect if the token is an ORDER BY, GROUP BY or HAVING clause.
+        # If so, we don't want to replace its value with "..."
+        keywords_with_by = match_keyword(two_before, ["ORDER", "GROUP"])
+        is_by = match_keyword(one_before, "BY")
+        is_having = match_keyword(one_before, "HAVING")
+        disable_replacement = (keywords_with_by and is_by) or is_having
 
-        if isinstance(token, IdentifierList) and not is_order_by:
+        if isinstance(token, IdentifierList) and not disable_replacement:
             token.tokens = [Token(tokens.Punctuation, '...')]
         elif hasattr(token, 'tokens'):
             sql_recursively_simplify(token)
@@ -88,16 +89,16 @@ def sql_recursively_simplify(node):
             two_before, one_before = one_before, token
 
 
-def is_keyword(token, keyword):
+def match_keyword(token, keywords):
     """
-    Checks if the given token represents the given keyword
+    Checks if the given token represents one of the given keywords
     """
     if not token:
         return False
     if not token.is_keyword:
         return False
 
-    return token.value.upper() == keyword.upper()
+    return token.value.upper() in keywords
 
 
 def _is_group(token):
