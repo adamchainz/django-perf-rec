@@ -58,21 +58,20 @@ def sql_recursively_simplify(node):
     if node.tokens[0].value.startswith('"_django_curs_'):
         node.tokens[0].value = '"_django_curs_#"'
 
-    # Memorize the 2 last non-whitespace tokens
     two_before = None
     one_before = None
 
     for token in node.tokens:
         ttype = getattr(token, 'ttype', None)
 
-        # Detect if the token is an ORDER BY, GROUP BY or HAVING clause.
-        # If so, we don't want to replace its value with "..."
-        keywords_with_by = match_keyword(two_before, ["ORDER", "GROUP"])
-        is_by = match_keyword(one_before, "BY")
-        is_having = match_keyword(one_before, "HAVING")
-        disable_replacement = (keywords_with_by and is_by) or is_having
+        # Detect IdentifierList tokens within an ORDER BY, GROUP BY or HAVING
+        # clauses
+        match_order_or_group = match_keyword(two_before, ["ORDER", "GROUP"])
+        match_by = match_keyword(one_before, ["BY"])
+        match_having = match_keyword(one_before, ["HAVING"])
+        inside_order_group_having = (match_order_or_group and match_by) or match_having
 
-        if isinstance(token, IdentifierList) and not disable_replacement:
+        if isinstance(token, IdentifierList) and not inside_order_group_having:
             token.tokens = [Token(tokens.Punctuation, '...')]
         elif hasattr(token, 'tokens'):
             sql_recursively_simplify(token)

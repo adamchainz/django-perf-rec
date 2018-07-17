@@ -6,7 +6,9 @@ History
 Pending release
 ---------------
 
-* Don't replace columns in ORDER BY, GROUP BY and HAVING clause.
+.. Insert new release notes below this line
+
+* Don't replace columns in ORDER BY, GROUP BY and HAVING clauses.
 
 2.2.0 (2018-01-24)
 ------------------

@@ -34,6 +34,13 @@ def test_select_join():
 
 def test_select_order_by():
     assert (
+        sql_fingerprint('SELECT f1, f2 FROM a ORDER BY f3') ==
+        'SELECT ... FROM a ORDER BY f3'
+    )
+
+
+def test_select_order_by_multiple():
+    assert (
         sql_fingerprint('SELECT f1, f2 FROM a ORDER BY f3, f4') ==
         'SELECT ... FROM a ORDER BY f3, f4'
     )
@@ -41,12 +48,26 @@ def test_select_order_by():
 
 def test_select_group_by():
     assert (
+        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1') ==
+        'SELECT ... FROM a GROUP BY f1'
+    )
+
+
+def test_select_group_by_multiple():
+    assert (
         sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1, f2') ==
         'SELECT ... FROM a GROUP BY f1, f2'
     )
 
 
 def test_select_group_by_having():
+    assert (
+        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1 HAVING f1 > 21') ==
+        'SELECT ... FROM a GROUP BY f1 HAVING f1 > #'
+    )
+
+
+def test_select_group_by_having_multiple():
     assert (
         sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1 HAVING f1 > 21, f2 < 42') ==
         'SELECT ... FROM a GROUP BY f1 HAVING f1 > #, f2 < #'
