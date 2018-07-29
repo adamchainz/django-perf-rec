@@ -5,8 +5,8 @@ django-perf-rec
 .. image:: https://img.shields.io/pypi/v/django-perf-rec.svg
     :target: https://pypi.python.org/pypi/django-perf-rec
 
-.. image:: https://img.shields.io/travis/YPlan/django-perf-rec/master.svg
-        :target: https://travis-ci.org/YPlan/django-perf-rec
+.. image:: https://img.shields.io/travis/adamchainz/django-perf-rec/master.svg
+        :target: https://travis-ci.org/adamchainz/django-perf-rec
 
 "Keep detailed records of the performance of your Django code."
 
@@ -69,7 +69,7 @@ N.B. When using Django 1.8 and SQLite the queries won't be rendered in SQL, but
 a format like 'QUERY = ... PARAMS = ...'. You can workaround this by
 backporting the query rendering code from Django 1.9 as `django-perf-rec's test
 suite does
-<https://github.com/YPlan/django-perf-rec/blob/master/tests/settings.py#L16>`_.
+<https://github.com/adamchainz/django-perf-rec/blob/master/tests/settings.py#L16>`_.
 
 API
 ===
@@ -200,5 +200,5 @@ Usage in Pytest
 If you're using Pytest, you might want to call ``record()`` from within a
 Pytest fixture and have it automatically apply to all your tests. We have an
 example of this, see the file `test_pytest_fixture_usage.py
-<https://github.com/YPlan/django-perf-rec/blob/master/tests/test_pytest_fixture_usage.py>`_
+<https://github.com/adamchainz/django-perf-rec/blob/master/tests/test_pytest_fixture_usage.py>`_
 in the test suite.

@@ -28,9 +28,9 @@ setup(
     description="Keep detailed records of the performance of your Django "
                 "code.",
     long_description=readme + '\n\n' + history,
-    author='YPlan',
-    author_email='adam@yplanapp.com',
-    url='https://github.com/YPlan/django-perf-rec',
+    author='Adam Johnson',
+    author_email='me@adamj.eu',
+    url='https://github.com/adamchainz/django-perf-rec',
     packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True,
     install_requires=[
