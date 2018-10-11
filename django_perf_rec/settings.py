@@ -8,6 +8,7 @@ class Settings(object):
 
     defaults = {
         'MODE': 'once',
+        'HIDE_COLUMNS': True,
     }
 
     def get_setting(self, key):
@@ -19,6 +20,10 @@ class Settings(object):
     @property
     def MODE(self):
         return self.get_setting('MODE')
+
+    @property
+    def HIDE_COLUMNS(self):
+        return self.get_setting('HIDE_COLUMNS')
 
 
 perf_rec_settings = Settings()
