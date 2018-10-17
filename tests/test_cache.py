@@ -1,13 +1,16 @@
 # -*- coding:utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-from unittest import mock
-
 import pytest
 from django.core.cache import caches
 from django.test import SimpleTestCase, TestCase
 
 from django_perf_rec.cache import AllCacheRecorder, CacheOp, CacheRecorder
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 
 class CacheOpTests(SimpleTestCase):

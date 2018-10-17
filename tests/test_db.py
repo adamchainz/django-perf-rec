@@ -1,13 +1,16 @@
 # -*- coding:utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-from unittest import mock
-
 from django.test import SimpleTestCase, TestCase
 
 from django_perf_rec.db import AllDBRecorder, DBOp, DBRecorder
 
 from .utils import run_query
+
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 
 class DBOpTests(SimpleTestCase):
