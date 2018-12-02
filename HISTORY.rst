@@ -6,6 +6,8 @@ History
 Pending release
 ---------------
 
+.. Insert new release notes below this line
+
 * Don't replace selected columns according to settings.
 
 3.0.0 (2018-07-17)

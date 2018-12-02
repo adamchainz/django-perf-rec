@@ -181,6 +181,20 @@ Django settings, for example:
 
 The possible keys to this dictionary are explained below.
 
+``HIDE_COLUMNS``
+----------------
+
+The ``HIDE_COLUMNS`` setting may be used to change the way **django-perf-rec**
+simplifies SQL in the recording files it makes. It takes a boolean:
+
+* ``True`` (default) causes column lists in queries to be collapsed, e.g.
+  ``SELECT a, b, c FROM t`` becomes ``SELECT ... FROM t``. This is useful
+  because selected columns often don't affect query time in typical
+  Django applications, it makes the records easier to read, and they then don't
+  need updating every time model fields are changed.
+* ``False`` stops the collapsing behaviour, causing all the columns to be
+  output in the files.
+
 ``MODE``
 --------
 

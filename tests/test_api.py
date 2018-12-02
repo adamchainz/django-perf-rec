@@ -24,6 +24,15 @@ class RecordTests(TestCase):
         with record():
             run_query('default', 'SELECT 1337')
 
+    def test_single_db_query_model(self):
+        with record():
+            list(Author.objects.all())
+
+    @override_settings(PERF_REC={'HIDE_COLUMNS': False})
+    def test_single_db_query_model_with_columns(self):
+        with record():
+            list(Author.objects.all())
+
     def test_multiple_db_queries(self):
         with record():
             run_query('default', 'SELECT 1337')
