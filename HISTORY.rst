@@ -8,7 +8,11 @@ Pending release
 
 .. Insert new release notes below this line
 
-* Don't replace selected columns according to settings.
+3.1.0 (2018-07-17)
+------------------
+
+* Add the ``HIDE_COLUMNS`` option in settings to disable replacing column lists
+  with ``...`` in all places.
 
 3.0.0 (2018-07-17)
 ------------------
