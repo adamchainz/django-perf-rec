@@ -1,7 +1,14 @@
 # -*- coding:utf-8 -*-
 from __future__ import absolute_import, division, print_function, unicode_literals
 
+import pytest
+
 from django_perf_rec.sql import sql_fingerprint
+
+
+@pytest.fixture(autouse=True)
+def clear_lru_cache():
+    sql_fingerprint.cache_clear()
 
 
 def test_select():
@@ -11,7 +18,25 @@ def test_select():
     )
 
 
+def test_select_show_columns(settings):
+    settings.PERF_REC = {'HIDE_COLUMNS': False}
+
+    assert (
+        sql_fingerprint("SELECT `f1`, `f2` FROM `b`") ==
+        "SELECT `f1`, `f2` FROM `b`"
+    )
+
+
 def test_select_where():
+    assert (
+        sql_fingerprint("SELECT DISTINCT `table`.`field` FROM `table` WHERE `table`.`id` = 1") ==
+        "SELECT DISTINCT `table`.`field` FROM `table` WHERE `table`.`id` = #"
+    )
+
+
+def test_select_where_show_columns(settings):
+    settings.PERF_REC = {'HIDE_COLUMNS': False}
+
     assert (
         sql_fingerprint("SELECT DISTINCT `table`.`field` FROM `table` WHERE `table`.`id` = 1") ==
         "SELECT DISTINCT `table`.`field` FROM `table` WHERE `table`.`id` = #"
@@ -25,6 +50,15 @@ def test_select_comment():
     )
 
 
+def test_select_comment_show_columns(settings):
+    settings.PERF_REC = {'HIDE_COLUMNS': False}
+
+    assert (
+        sql_fingerprint("SELECT /* comment */ `f1`, `f2` FROM `b`") ==
+        "SELECT /* comment */ `f1`, `f2` FROM `b`"
+    )
+
+
 def test_select_join():
     assert (
         sql_fingerprint('SELECT f1, f2 FROM a INNER JOIN b ON (a.b_id = b.id) WHERE a.f2 = 1') ==
@@ -32,10 +66,28 @@ def test_select_join():
     )
 
 
+def test_select_join_show_columns(settings):
+    settings.PERF_REC = {'HIDE_COLUMNS': False}
+
+    assert (
+        sql_fingerprint('SELECT f1, f2 FROM a INNER JOIN b ON (a.b_id = b.id) WHERE a.f2 = 1') ==
+        'SELECT f1, f2 FROM a INNER JOIN b ON (a.b_id = b.id) WHERE a.f2 = #'
+    )
+
+
 def test_select_order_by():
     assert (
         sql_fingerprint('SELECT f1, f2 FROM a ORDER BY f3') ==
         'SELECT ... FROM a ORDER BY f3'
+    )
+
+
+def test_select_order_by_show_columns(settings):
+    settings.PERF_REC = {'HIDE_COLUMNS': False}
+
+    assert (
+        sql_fingerprint('SELECT f1, f2 FROM a ORDER BY f3') ==
+        'SELECT f1, f2 FROM a ORDER BY f3'
     )
 
 
@@ -53,6 +105,15 @@ def test_select_group_by():
     )
 
 
+def test_select_group_by_show_columns(settings):
+    settings.PERF_REC = {'HIDE_COLUMNS': False}
+
+    assert (
+        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1') ==
+        'SELECT f1, f2 FROM a GROUP BY f1'
+    )
+
+
 def test_select_group_by_multiple():
     assert (
         sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1, f2') ==
@@ -67,6 +128,15 @@ def test_select_group_by_having():
     )
 
 
+def test_select_group_by_having_show_columns(settings):
+    settings.PERF_REC = {'HIDE_COLUMNS': False}
+
+    assert (
+        sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1 HAVING f1 > 21') ==
+        'SELECT f1, f2 FROM a GROUP BY f1 HAVING f1 > #'
+    )
+
+
 def test_select_group_by_having_multiple():
     assert (
         sql_fingerprint('SELECT f1, f2 FROM a GROUP BY f1 HAVING f1 > 21, f2 < 42') ==
@@ -78,6 +148,15 @@ def test_insert():
     assert (
         sql_fingerprint("INSERT INTO `table` (`f1`, `f2`) VALUES ('v1', 2)") ==
         "INSERT INTO `table` (...) VALUES (...)"
+    )
+
+
+def test_insert_show_columns(settings):
+    settings.PERF_REC = {'HIDE_COLUMNS': False}
+
+    assert (
+        sql_fingerprint("INSERT INTO `table` (`f1`, `f2`) VALUES ('v1', 2)") ==
+        "INSERT INTO `table` (`f1`, `f2`) VALUES (#, #)"
     )
 
 
