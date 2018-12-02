@@ -26,6 +26,10 @@ RecordTests.test_single_cache_op:
 - cache|get: foo
 RecordTests.test_single_db_query:
 - db: 'SELECT #'
+RecordTests.test_single_db_query_model:
+- db: SELECT ... FROM "testapp_author"
+RecordTests.test_single_db_query_model_with_columns:
+- db: SELECT ... FROM "testapp_author"
 TestCaseMixinTests.test_record_performance:
 - cache|get: foo
 custom:

@@ -6,18 +6,16 @@ from django.utils.lru_cache import lru_cache
 from sqlparse import parse, tokens
 from sqlparse.sql import IdentifierList, Token
 
-from .settings import perf_rec_settings
-
 
 @lru_cache(maxsize=500)
-def sql_fingerprint(query):
+def sql_fingerprint(query, hide_columns=True):
     """
     Simplify a query, taking away exact values and fields selected.
 
     Imperfect but better than super explicit, value-dependent queries.
     """
     parsed_query = parse(query)[0]
-    sql_recursively_simplify(parsed_query)
+    sql_recursively_simplify(parsed_query, hide_columns=hide_columns)
     return six.text_type(parsed_query)
 
 
@@ -31,7 +29,7 @@ sql_deleteable_tokens = (
 )
 
 
-def sql_recursively_simplify(node):
+def sql_recursively_simplify(node, hide_columns=True):
     # Erase which fields are being updated in an UPDATE
     if node.tokens[0].value == 'UPDATE':
         i_set = [i for (i, t) in enumerate(node.tokens) if t.value == 'SET'][0]
@@ -72,13 +70,12 @@ def sql_recursively_simplify(node):
         match_by = match_keyword(one_before, ["BY"])
         match_having = match_keyword(one_before, ["HAVING"])
         inside_order_group_having = (match_order_or_group and match_by) or match_having
-        hide_columns = perf_rec_settings.HIDE_COLUMNS
         replace_columns = not inside_order_group_having and hide_columns
 
         if isinstance(token, IdentifierList) and replace_columns:
             token.tokens = [Token(tokens.Punctuation, '...')]
         elif hasattr(token, 'tokens'):
-            sql_recursively_simplify(token)
+            sql_recursively_simplify(token, hide_columns=hide_columns)
         elif ttype in sql_deleteable_tokens:
             token.value = '#'
         elif ttype == tokens.Whitespace.Newline:
