@@ -8,7 +8,12 @@ Pending release
 
 .. Insert new release notes below this line
 
-3.1.0 (2018-07-17)
+3.1.1 (2018-12-03)
+------------------
+
+* Fix to actually obey the ``HIDE_COLUMNS`` option.
+
+3.1.0 (2018-12-02)
 ------------------
 
 * Add the ``HIDE_COLUMNS`` option in settings to disable replacing column lists
