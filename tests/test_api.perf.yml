@@ -29,7 +29,7 @@ RecordTests.test_single_db_query:
 RecordTests.test_single_db_query_model:
 - db: SELECT ... FROM "testapp_author"
 RecordTests.test_single_db_query_model_with_columns:
-- db: SELECT ... FROM "testapp_author"
+- db: SELECT "testapp_author"."id", "testapp_author"."name", "testapp_author"."age" FROM "testapp_author"
 TestCaseMixinTests.test_record_performance:
 - cache|get: foo
 custom:
