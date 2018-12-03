@@ -8,6 +8,7 @@ from django.conf import settings
 from django.db import connections
 
 from .orm import patch_ORM_to_be_deterministic
+from .settings import perf_rec_settings
 from .sql import sql_fingerprint
 from .utils import sorted_names
 
@@ -58,9 +59,10 @@ class DBRecorder(object):
             @wraps(func)
             def inner(self, *args, **kwargs):
                 sql = func(*args, **kwargs)
+                hide_columns = perf_rec_settings.HIDE_COLUMNS
                 callback(DBOp(
                     alias=alias,
-                    sql=sql_fingerprint(sql),
+                    sql=sql_fingerprint(sql, hide_columns=hide_columns),
                 ))
                 return sql
 
