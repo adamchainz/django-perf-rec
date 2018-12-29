@@ -17,7 +17,7 @@ isort==4.3.4
 kwargs-only==1.0.0
 mccabe==0.6.1             # via flake8
 mock==2.0.0
-more-itertools==4.3.0     # via pytest
+more-itertools==5.0.0     # via pytest
 multilint==2.4.0
 patchy==1.4.0
 pathlib2==2.3.3           # via pytest, pytest-django
