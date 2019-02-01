@@ -8,6 +8,9 @@ Pending release
 
 .. Insert new release notes below this line
 
+4.0.0 (2019-02-01)
+------------------
+
 * Drop Python 2 support, only Python 3.4+ is supported now.
 * Drop Django 1.8, 1.9, and 1.10 support. Only Django 1.11+ is supported now.
 * Dropped requirements for ``kwargs-only`` and ``six``.
