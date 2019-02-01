@@ -63,15 +63,9 @@ Requirements
 Tested with all combinations of:
 
 * Python: 3.6
-* Django: 1.8, 1.9, 1.10, 1.11, 2.0
+* Django: 1.11, 2.0, 2.1
 
 Python 3.4+ supported.
-
-N.B. When using Django 1.8 and SQLite the queries won't be rendered in SQL, but
-a format like 'QUERY = ... PARAMS = ...'. You can workaround this by
-backporting the query rendering code from Django 1.9 as `django-perf-rec's test
-suite does
-<https://github.com/adamchainz/django-perf-rec/blob/master/tests/settings.py#L16>`_.
 
 API
 ===
