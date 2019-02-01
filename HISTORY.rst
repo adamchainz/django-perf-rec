@@ -8,6 +8,9 @@ Pending release
 
 .. Insert new release notes below this line
 
+* Drop Python 2 support, only Python 3.4+ is supported now.
+* Dropped requirements for ``kwargs-only`` and ``six``.
+
 3.1.1 (2018-12-03)
 ------------------
 

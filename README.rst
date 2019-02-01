@@ -62,8 +62,10 @@ Requirements
 
 Tested with all combinations of:
 
-* Python: 2.7, 3.6
+* Python: 3.6
 * Django: 1.8, 1.9, 1.10, 1.11, 2.0
+
+Python 3.4+ supported.
 
 N.B. When using Django 1.8 and SQLite the queries won't be rendered in SQL, but
 a format like 'QUERY = ... PARAMS = ...'. You can workaround this by

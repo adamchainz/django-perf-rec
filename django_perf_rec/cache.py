@@ -1,13 +1,9 @@
-# -*- coding:utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import inspect
 import re
 from collections import Mapping, Sequence
 from functools import wraps
 from types import MethodType
 
-import six
 from django.conf import settings
 from django.core.cache import caches
 
@@ -19,7 +15,7 @@ class CacheOp(object):
     def __init__(self, alias, operation, key_or_keys):
         self.alias = alias
         self.operation = operation
-        if isinstance(key_or_keys, six.string_types):
+        if isinstance(key_or_keys, str):
             self.key_or_keys = self.clean_key(key_or_keys)
         elif isinstance(key_or_keys, (Mapping, Sequence)):
             self.key_or_keys = sorted(self.clean_key(k) for k in key_or_keys)
@@ -88,7 +84,7 @@ class CacheRecorder(object):
                 if not is_internal_call:
                     callback(CacheOp(
                         alias=alias,
-                        operation=six.text_type(func.__name__),
+                        operation=str(func.__name__),
                         key_or_keys=args[0],
                     ))
 

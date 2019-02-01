@@ -1,10 +1,6 @@
-# -*- coding:utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import os
 
 import pytest
-import six
 from django.core.cache import caches
 from django.db.models import Q
 from django.db.models.functions import Upper
@@ -85,7 +81,7 @@ class RecordTests(TestCase):
             with record(record_name='custom'):
                 caches['default'].get('bar')
 
-        assert 'Performance record did not match' in six.text_type(excinfo.value)
+        assert 'Performance record did not match' in str(excinfo.value)
 
     def test_diff(self):
         with pretend_not_under_pytest():
@@ -96,7 +92,7 @@ class RecordTests(TestCase):
                 with record(record_name='test_diff'):
                     caches['default'].get('bar')
 
-            msg = six.text_type(excinfo.value)
+            msg = str(excinfo.value)
             assert '- cache|get: foo\n' in msg
             assert '+ cache|get: bar\n' in msg
 
@@ -172,7 +168,7 @@ class RecordTests(TestCase):
                 with record(path='perf_files/api/'):
                     caches['default'].get('foo')
 
-            assert 'Original performance record does not exist' in six.text_type(excinfo.value)
+            assert 'Original performance record does not exist' in str(excinfo.value)
 
             full_path = os.path.join(
                 FILE_DIR,
@@ -192,7 +188,7 @@ class RecordTests(TestCase):
                 with record(path='perf_files/api/'):
                     caches['default'].get('foo')
 
-            assert 'Original performance record did not exist' in six.text_type(excinfo.value)
+            assert 'Original performance record did not exist' in str(excinfo.value)
 
             full_path = os.path.join(
                 FILE_DIR,

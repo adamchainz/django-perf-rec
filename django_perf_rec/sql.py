@@ -1,7 +1,3 @@
-# -*- coding:utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
-import six
 from django.utils.lru_cache import lru_cache
 from sqlparse import parse, tokens
 from sqlparse.sql import IdentifierList, Token
@@ -16,7 +12,7 @@ def sql_fingerprint(query, hide_columns=True):
     """
     parsed_query = parse(query)[0]
     sql_recursively_simplify(parsed_query, hide_columns=hide_columns)
-    return six.text_type(parsed_query)
+    return str(parsed_query)
 
 
 sql_deleteable_tokens = (

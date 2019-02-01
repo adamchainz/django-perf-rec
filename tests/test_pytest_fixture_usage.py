@@ -1,6 +1,3 @@
-# -*- coding:utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import pytest
 
 from django_perf_rec import get_perf_path, get_record_name, record
