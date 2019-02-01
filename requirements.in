@@ -1,10 +1,7 @@
 docutils
 flake8
 flake8-commas
-futures<3.2.0
 isort
-kwargs-only
-mock
 multilint
 patchy
 pytest
@@ -12,5 +9,4 @@ pytest-django
 pytz
 Pygments
 PyYAML
-six
 sqlparse

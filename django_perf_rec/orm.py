@@ -1,6 +1,3 @@
-# -*- coding:utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import django
 import patchy
 from django.db.models.deletion import get_candidate_relations_to_delete

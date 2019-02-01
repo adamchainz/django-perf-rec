@@ -1,11 +1,7 @@
-# -*- coding:utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import shutil
 from tempfile import mkdtemp
 
 import pytest
-import six
 import yaml
 from django.test import SimpleTestCase
 
@@ -63,7 +59,7 @@ class KVFileTests(SimpleTestCase):
 
         with pytest.raises(TypeError) as excinfo:
             KVFile(file_name)
-        assert 'not a dictionary' in six.text_type(excinfo.value)
+        assert 'not a dictionary' in str(excinfo.value)
 
     def test_get_after_set_same(self):
         kvf = KVFile(self.temp_dir + '/foo.yml')

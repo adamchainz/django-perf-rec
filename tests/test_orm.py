@@ -1,6 +1,3 @@
-# -*- coding:utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 from django.test import SimpleTestCase
 
 from django_perf_rec.orm import patch_ORM_to_be_deterministic

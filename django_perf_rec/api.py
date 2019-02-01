@@ -1,13 +1,9 @@
-# -*- coding:utf-8 -*-
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import os
 from threading import local
 
 from django.core.cache import DEFAULT_CACHE_ALIAS
 from django.db import DEFAULT_DB_ALIAS
 from django.utils.functional import SimpleLazyObject
-from kwargs_only import kwargs_only
 
 from . import pytest_plugin
 from .cache import AllCacheRecorder
@@ -19,8 +15,7 @@ from .yaml import KVFile
 record_current = local()
 
 
-@kwargs_only
-def record(record_name=None, path=None):
+def record(*, record_name=None, path=None):
     # Lazy since we may not need this to determine record_name or path,
     # depending on logic below
     test_details = SimpleLazyObject(current_test)
@@ -148,6 +143,5 @@ class TestCaseMixin(object):
     Adds record_performance() method to TestCase class it's mixed into
     for easy import-free use.
     """
-    @kwargs_only
-    def record_performance(self, record_name=None, path=None):
+    def record_performance(self, *, record_name=None, path=None):
         return record(record_name=record_name, path=path)
