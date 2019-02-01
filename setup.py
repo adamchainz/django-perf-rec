@@ -30,7 +30,7 @@ setup(
     packages=find_packages(exclude=['tests', 'tests.*']),
     include_package_data=True,
     install_requires=[
-        'Django',
+        'Django>=1.11',
         'patchy',
         'PyYAML',
         'sqlparse>=0.2.0',
@@ -44,9 +44,6 @@ setup(
     },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
-        'Framework :: Django :: 1.8',
-        'Framework :: Django :: 1.9',
-        'Framework :: Django :: 1.10',
         'Framework :: Django :: 1.11',
         'Framework :: Django :: 2.0',
         'Framework :: Django :: 2.1',
