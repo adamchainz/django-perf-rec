@@ -1,0 +1,4 @@
+test_duplicate_name:
+- db: 'SELECT #'
+- db: 'SELECT #'
+- db: 'SELECT #'
