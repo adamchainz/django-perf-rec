@@ -8,6 +8,9 @@ Pending release
 
 .. Insert new release notes below this line
 
+4.1.0 (2019-03-04)
+------------------
+
 * Fix a bug in automatic test record naming when two different modules had a
   test with the same class + name that ran one after another.
 * Fix Python 3.7 ``DeprecationWarning`` for ``collections.abc`` (Python 3.7 not
