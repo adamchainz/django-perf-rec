@@ -8,6 +8,9 @@ Pending release
 
 .. Insert new release notes below this line
 
+* Fix a bug in automatic test record naming when two different modules had a
+  test with the same class + name that ran one after another.
+
 4.0.0 (2019-02-01)
 ------------------
 
