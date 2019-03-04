@@ -1,6 +1,6 @@
 import inspect
 import re
-from collections import Mapping, Sequence
+from collections.abc import Mapping, Sequence
 from functools import wraps
 from types import MethodType
 
