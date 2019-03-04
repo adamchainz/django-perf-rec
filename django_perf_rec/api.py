@@ -64,18 +64,13 @@ def get_record_name(test_name, class_name=None, file_name=''):
     else:
         record_name = test_name
 
-    # Use both record_name and path to prevent generation of multiple calls in
-    # case of 2 following tests with same name and different modules, e.g:
-    #     foo.py::test_a
-    #     foo2.py::test_a
-    record_full_name = '{}::{}'.format(file_name, record_name)
-
     # Multiple calls inside the same test should end up suffixing with .2, .3 etc.
-    if getattr(record_current, 'record_full_name', None) == record_full_name:
+    record_spec = (file_name, record_name)
+    if getattr(record_current, 'record_spec', None) == record_spec:
         record_current.counter += 1
         record_name = record_name + '.{}'.format(record_current.counter)
     else:
-        record_current.record_full_name = record_full_name
+        record_current.record_spec = record_spec
         record_current.counter = 1
 
     return record_name
