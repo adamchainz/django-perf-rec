@@ -39,6 +39,7 @@ def record(*, record_name=None, path=None):
         record_name = get_record_name(
             test_name=test_details.test_name,
             class_name=test_details.class_name,
+            file_name=file_name,
         )
 
     return PerformanceRecorder(file_name, record_name)
@@ -54,7 +55,7 @@ def get_perf_path(file_path):
     return perf_path
 
 
-def get_record_name(test_name, class_name=None):
+def get_record_name(test_name, class_name=None, file_name=''):
     if class_name:
         record_name = '{class_}.{test}'.format(
             class_=class_name,
@@ -63,12 +64,18 @@ def get_record_name(test_name, class_name=None):
     else:
         record_name = test_name
 
+    # Use both record_name and path to prevent generation of multiple calls in
+    # case of 2 following tests with same name and different modules, e.g:
+    #     foo.py::test_a
+    #     foo2.py::test_a
+    record_full_name = '{}::{}'.format(file_name, record_name)
+
     # Multiple calls inside the same test should end up suffixing with .2, .3 etc.
-    if getattr(record_current, 'record_name', None) == record_name:
+    if getattr(record_current, 'record_full_name', None) == record_full_name:
         record_current.counter += 1
         record_name = record_name + '.{}'.format(record_current.counter)
     else:
-        record_current.record_name = record_name
+        record_current.record_full_name = record_full_name
         record_current.counter = 1
 
     return record_name

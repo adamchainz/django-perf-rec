@@ -240,6 +240,27 @@ class GetRecordNameTests(SimpleTestCase):
             'test_qux.2'
         )
 
+    def test_multiple_calls_from_different_files(self):
+        assert (
+            get_record_name(test_name='test_qux', file_name='foo.py') ==
+            'test_qux'
+        )
+
+        assert (
+            get_record_name(test_name='test_qux', file_name='foo2.py') ==
+            'test_qux'
+        )
+
+        assert (
+            get_record_name(test_name='test_qux', file_name='foo.py') ==
+            'test_qux'
+        )
+
+        assert (
+            get_record_name(test_name='test_qux', file_name='foo.py') ==
+            'test_qux.2'
+        )
+
 
 class TestCaseMixinTests(TestCaseMixin, TestCase):
 
