@@ -33,7 +33,7 @@ setup(
         'Django>=1.11',
         'patchy',
         'PyYAML',
-        'sqlparse>=0.2.0',
+        'sqlparse>=0.3.0',
     ],
     python_requires='>=3.4',
     license='MIT',

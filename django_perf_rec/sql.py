@@ -54,7 +54,6 @@ def sql_recursively_simplify(node, hide_columns=True):
     if node.tokens[0].value.startswith('"_django_curs_'):
         node.tokens[0].value = '"_django_curs_#"'
 
-    two_before = None
     one_before = None
 
     for token in node.tokens:
@@ -62,10 +61,7 @@ def sql_recursively_simplify(node, hide_columns=True):
 
         # Detect IdentifierList tokens within an ORDER BY, GROUP BY or HAVING
         # clauses
-        match_order_or_group = match_keyword(two_before, ["ORDER", "GROUP"])
-        match_by = match_keyword(one_before, ["BY"])
-        match_having = match_keyword(one_before, ["HAVING"])
-        inside_order_group_having = (match_order_or_group and match_by) or match_having
+        inside_order_group_having = match_keyword(one_before, ['ORDER BY', 'GROUP BY', 'HAVING'])
         replace_columns = not inside_order_group_having and hide_columns
 
         if isinstance(token, IdentifierList) and replace_columns:
@@ -82,7 +78,7 @@ def sql_recursively_simplify(node, hide_columns=True):
             token.value = '#'
 
         if not token.is_whitespace:
-            two_before, one_before = one_before, token
+            one_before = token
 
 
 def match_keyword(token, keywords):
