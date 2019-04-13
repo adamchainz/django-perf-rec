@@ -8,6 +8,9 @@ Pending release
 
 .. Insert new release notes below this line
 
+4.2.0 (2019-04-13)
+------------------
+
 * Work with, and require, ``sqlparse`` > 0.3.0.
 
 4.1.0 (2019-03-04)
