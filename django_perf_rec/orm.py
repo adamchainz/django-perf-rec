@@ -1,3 +1,4 @@
+import django
 import patchy
 from django.db.models.query import QuerySet
 from django.db.models.query_utils import Q
@@ -41,18 +42,32 @@ def patch_QuerySet():
     """)
 
 
-def patch_Query():
-    patchy.patch(Query.add_extra, """\
-        @@ -13,7 +13,7 @@
-                     param_iter = iter(select_params)
-                 else:
-                     param_iter = iter([])
-        -        for name, entry in select.items():
-        +        for name, entry in sorted(select.items()):
-                     entry = force_text(entry)
-                     entry_params = []
-                     pos = entry.find("%s")
-    """)
+if django.VERSION >= (2, 2):
+    def patch_Query():
+        patchy.patch(Query.add_extra, """\
+            @@ -13,7 +13,7 @@
+                         param_iter = iter(select_params)
+                     else:
+                         param_iter = iter([])
+            -        for name, entry in select.items():
+            +        for name, entry in sorted(select.items()):
+                         entry = str(entry)
+                         entry_params = []
+                         pos = entry.find("%s")
+        """)
+else:
+    def patch_Query():
+        patchy.patch(Query.add_extra, """\
+            @@ -13,7 +13,7 @@
+                         param_iter = iter(select_params)
+                     else:
+                         param_iter = iter([])
+            -        for name, entry in select.items():
+            +        for name, entry in sorted(select.items()):
+                         entry = force_text(entry)
+                         entry_params = []
+                         pos = entry.find("%s")
+        """)
 
 
 def patch_Q():

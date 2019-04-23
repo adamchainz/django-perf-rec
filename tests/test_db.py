@@ -37,6 +37,7 @@ class DBOpTests(SimpleTestCase):
 
 
 class DBRecorderTests(TestCase):
+    databases = ('default', 'second', 'replica')
 
     def test_default(self):
         callback = mock.Mock()
@@ -64,6 +65,7 @@ class DBRecorderTests(TestCase):
 
 
 class AllDBRecorderTests(TestCase):
+    databases = ('default', 'second', 'replica')
 
     def test_records_all(self):
         callback = mock.Mock()
