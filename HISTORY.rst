@@ -8,6 +8,9 @@ Pending release
 
 .. Insert new release notes below this line
 
+4.3.0 (2019-04-26)
+------------------
+
 * Add support for Django 2.2.
 
 4.2.0 (2019-04-13)
