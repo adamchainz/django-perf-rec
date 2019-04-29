@@ -1,6 +1,6 @@
 from django.utils.lru_cache import lru_cache
 from sqlparse import parse, tokens
-from sqlparse.sql import IdentifierList, Token
+from sqlparse.sql import Comment, IdentifierList, Parenthesis, Token
 
 
 @lru_cache(maxsize=500)
@@ -10,9 +10,14 @@ def sql_fingerprint(query, hide_columns=True):
 
     Imperfect but better than super explicit, value-dependent queries.
     """
-    parsed_query = parse(query)[0]
+    parsed_queries = parse(query)
+
+    if not parsed_queries:
+        return ''
+
+    parsed_query = sql_recursively_strip(parsed_queries[0])
     sql_recursively_simplify(parsed_query, hide_columns=hide_columns)
-    return str(parsed_query)
+    return str(parsed_query).strip()
 
 
 sql_deleteable_tokens = (
@@ -25,12 +30,50 @@ sql_deleteable_tokens = (
 )
 
 
+def sql_trim(node, idx=0):
+    tokens = node.tokens
+    count = len(tokens)
+    min_count = abs(idx)
+
+    while count > min_count and tokens[idx].is_whitespace:
+        tokens.pop(idx)
+        count -= 1
+
+
+def sql_strip(node):
+    ws_count = 0
+
+    for token in node.tokens:
+        if token.is_whitespace:
+            token.value = '' if ws_count > 0 else ' '
+            ws_count += 1
+        else:
+            ws_count = 0
+
+
+def sql_recursively_strip(node):
+    for sub_node in node.get_sublists():
+        sql_recursively_strip(sub_node)
+
+    if isinstance(node, Comment):
+        return node
+
+    sql_strip(node)
+
+    # strip duplicate whitespaces between parenthesis
+    if isinstance(node, Parenthesis):
+        sql_trim(node, 1)
+        sql_trim(node, -2)
+
+    return node
+
+
 def sql_recursively_simplify(node, hide_columns=True):
     # Erase which fields are being updated in an UPDATE
     if node.tokens[0].value == 'UPDATE':
         i_set = [i for (i, t) in enumerate(node.tokens) if t.value == 'SET'][0]
         i_where = [i for (i, t) in enumerate(node.tokens)
-                   if _is_group(t) and t.tokens[0].value == 'WHERE'][0]
+                   if t.is_group and t.tokens[0].value == 'WHERE'][0]
         middle = [Token(tokens.Punctuation, ' ... ')]
         node.tokens = node.tokens[:i_set + 1] + middle + node.tokens[i_where:]
 
@@ -54,14 +97,14 @@ def sql_recursively_simplify(node, hide_columns=True):
     if node.tokens[0].value.startswith('"_django_curs_'):
         node.tokens[0].value = '"_django_curs_#"'
 
-    one_before = None
+    prev_word_token = None
 
     for token in node.tokens:
         ttype = getattr(token, 'ttype', None)
 
         # Detect IdentifierList tokens within an ORDER BY, GROUP BY or HAVING
         # clauses
-        inside_order_group_having = match_keyword(one_before, ['ORDER BY', 'GROUP BY', 'HAVING'])
+        inside_order_group_having = match_keyword(prev_word_token, ['ORDER BY', 'GROUP BY', 'HAVING'])
         replace_columns = not inside_order_group_having and hide_columns
 
         if isinstance(token, IdentifierList) and replace_columns:
@@ -70,15 +113,11 @@ def sql_recursively_simplify(node, hide_columns=True):
             sql_recursively_simplify(token, hide_columns=hide_columns)
         elif ttype in sql_deleteable_tokens:
             token.value = '#'
-        elif ttype == tokens.Whitespace.Newline:
-            token.value = ''  # Erase newlines
-        elif ttype == tokens.Whitespace:
-            token.value = ' '
         elif getattr(token, 'value', None) == 'NULL':
             token.value = '#'
 
         if not token.is_whitespace:
-            one_before = token
+            prev_word_token = token
 
 
 def match_keyword(token, keywords):
@@ -91,14 +130,3 @@ def match_keyword(token, keywords):
         return False
 
     return token.value.upper() in keywords
-
-
-def _is_group(token):
-    """
-    sqlparse 0.2.2 changed it from a callable to a bool property
-    """
-    is_group = token.is_group
-    if isinstance(is_group, bool):
-        return is_group
-    else:
-        return is_group()
