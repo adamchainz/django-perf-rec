@@ -5,6 +5,7 @@ isort
 multilint
 patchy
 pytest
+pytest-cov
 pytest-django
 pytz
 Pygments

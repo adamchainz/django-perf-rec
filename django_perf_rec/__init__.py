@@ -3,7 +3,7 @@ isort:skip_file
 """
 try:
     import pytest
-except ImportError:
+except ImportError:  # pragma: no cover
     pytest = None
 
 if pytest is not None:

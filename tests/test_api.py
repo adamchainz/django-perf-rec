@@ -7,12 +7,11 @@ from django.db.models.functions import Upper
 from django.test import SimpleTestCase, TestCase, override_settings
 
 from django_perf_rec import TestCaseMixin, get_perf_path, get_record_name, record
-from testapp.models import Author
+from tests.testapp.models import Author
 
 from .utils import pretend_not_under_pytest, run_query, temporary_path
 
 FILE_DIR = os.path.dirname(__file__)
-
 
 class RecordTests(TestCase):
 
