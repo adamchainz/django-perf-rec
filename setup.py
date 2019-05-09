@@ -35,7 +35,7 @@ setup(
         'PyYAML',
         'sqlparse>=0.3.0',
     ],
-    python_requires='>=3.4',
+    python_requires='>=3.5',
     license='MIT',
     zip_safe=False,
     keywords='Django',
@@ -54,8 +54,8 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
 )
