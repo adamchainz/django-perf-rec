@@ -8,6 +8,8 @@ Pending release
 
 .. Insert new release notes below this line
 
+* Normalize SQL whitespace. This will change fingerprinted SQL in some cases.
+
 4.3.0 (2019-04-26)
 ------------------
 
