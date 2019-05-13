@@ -60,12 +60,9 @@ Use **pip**:
 Requirements
 ============
 
-Tested with all combinations of:
-
-* Python: 3.5, 3.6, 3.7
-* Django: 1.11, 2.0, 2.1, 2.2
-
 Python 3.5-3.7 supported.
+
+Django 1.11-2.2 suppported.
 
 API
 ===
