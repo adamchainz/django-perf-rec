@@ -11,3 +11,4 @@ pytz
 Pygments
 PyYAML
 sqlparse
+twine
