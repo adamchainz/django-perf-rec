@@ -1,6 +1,6 @@
 #!/bin/sh
 set -ex
-export CUSTOM_COMPILE_COMMAND="./requirements-compile.sh"
+export CUSTOM_COMPILE_COMMAND="./compile.sh"
 python3.5 -m piptools compile --generate-hashes -P 'Django>=1.11,<2.0' "$@" -o py35-django111.txt
 python3.5 -m piptools compile --generate-hashes -P 'Django>=2.0,<2.1' "$@" -o py35-django20.txt
 python3.5 -m piptools compile --generate-hashes -P 'Django>=2.1,<2.2' "$@" -o py35-django21.txt
