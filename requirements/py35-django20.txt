@@ -24,9 +24,9 @@ chardet==3.0.4 \
     --hash=sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae \
     --hash=sha256:fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691 \
     # via requests
-django==2.2.1 \
-    --hash=sha256:6fcc3cbd55b16f9a01f37de8bcbe286e0ea22e87096557f1511051780338eaea \
-    --hash=sha256:bb407d0bb46395ca1241f829f5bd03f7e482f97f7d1936e26e98dacb201ed4ec
+django==2.0.13 \
+    --hash=sha256:665457d4146bbd34ae9d2970fa3b37082d7b225b0671bfd24c337458f229db78 \
+    --hash=sha256:bde46d4dbc410678e89bc95ea5d312dd6eb4c37d0fa0e19c9415cad94addf22f
 docutils==0.14 \
     --hash=sha256:02aec4bd92ab067f6ff27a38a38a41173bf01bed8f89157768c1573f53e474a6 \
     --hash=sha256:51e64ef2ebfb29cae1faa133b3710143496eca21c530f3f71424d77687764274 \
