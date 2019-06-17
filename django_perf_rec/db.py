@@ -11,7 +11,6 @@ from .utils import sorted_names
 
 
 class DBOp(object):
-
     def __init__(self, alias, sql):
         self.alias = alias
         self.sql = sql
@@ -21,9 +20,9 @@ class DBOp(object):
 
     def __eq__(self, other):
         return (
-            isinstance(other, DBOp) and
-            self.alias == other.alias and
-            self.sql == other.sql
+            isinstance(other, DBOp)
+            and self.alias == other.alias
+            and self.sql == other.sql
         )
 
 
@@ -32,6 +31,7 @@ class DBRecorder(object):
     Monkey-patch-wraps a database connection to call 'callback' on every
     query it runs.
     """
+
     def __init__(self, alias, callback):
         self.alias = alias
         self.callback = callback
@@ -57,18 +57,18 @@ class DBRecorder(object):
             def inner(self, *args, **kwargs):
                 sql = func(*args, **kwargs)
                 hide_columns = perf_rec_settings.HIDE_COLUMNS
-                callback(DBOp(
-                    alias=alias,
-                    sql=sql_fingerprint(sql, hide_columns=hide_columns),
-                ))
+                callback(
+                    DBOp(
+                        alias=alias, sql=sql_fingerprint(sql, hide_columns=hide_columns)
+                    )
+                )
                 return sql
 
             return inner
 
         self.orig_last_executed_query = connection.ops.last_executed_query
         connection.ops.last_executed_query = MethodType(
-            call_callback(connection.ops.last_executed_query),
-            connection.ops,
+            call_callback(connection.ops.last_executed_query), connection.ops
         )
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
@@ -81,6 +81,7 @@ class AllDBRecorder(object):
     """
     Launches DBRecorders on all database connections
     """
+
     def __init__(self, callback):
         self.callback = callback
 

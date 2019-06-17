@@ -3,10 +3,7 @@ from django.conf import settings
 
 class Settings(object):
 
-    defaults = {
-        'HIDE_COLUMNS': True,
-        'MODE': 'once',
-    }
+    defaults = {"HIDE_COLUMNS": True, "MODE": "once"}
 
     def get_setting(self, key):
         try:
@@ -16,11 +13,11 @@ class Settings(object):
 
     @property
     def HIDE_COLUMNS(self):
-        return self.get_setting('HIDE_COLUMNS')
+        return self.get_setting("HIDE_COLUMNS")
 
     @property
     def MODE(self):
-        return self.get_setting('MODE')
+        return self.get_setting("MODE")
 
 
 perf_rec_settings = Settings()

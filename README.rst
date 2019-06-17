@@ -8,6 +8,9 @@ django-perf-rec
 .. image:: https://img.shields.io/travis/adamchainz/django-perf-rec/master.svg
         :target: https://travis-ci.org/adamchainz/django-perf-rec
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/python/black
+
 "Keep detailed records of the performance of your Django code."
 
 **django-perf-rec** is like Django's ``assertNumQueries`` on steroids. It lets
