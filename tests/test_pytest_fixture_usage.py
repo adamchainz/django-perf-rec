@@ -14,7 +14,7 @@ def record_auto_name():
 
 
 def test_auto_name(record_auto_name):
-    run_query('default', 'SELECT 1337')
+    run_query("default", "SELECT 1337")
 
 
 @pytest.fixture
@@ -24,7 +24,7 @@ def record_auto_name_with_request(request):
 
 
 def test_auto_name_with_request(record_auto_name_with_request):
-    run_query('default', 'SELECT 1337')
+    run_query("default", "SELECT 1337")
 
 
 @pytest.fixture
@@ -39,4 +39,4 @@ def record_build_name(request):
 
 
 def test_build_name(record_build_name):
-    run_query('default', 'SELECT 1337')
+    run_query("default", "SELECT 1337")

@@ -21,7 +21,7 @@ def temporary_path(path):
 
 
 def ensure_path_does_not_exist(path):
-    if path.endswith('/'):
+    if path.endswith("/"):
         shutil.rmtree(path, ignore_errors=True)
     else:
         try:

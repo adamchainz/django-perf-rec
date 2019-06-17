@@ -6,7 +6,6 @@ from django.core.files import locks
 
 
 class KVFile(object):
-
     def __init__(self, file_name):
         self.file_name = file_name
         self.data = self.load(file_name)
@@ -25,12 +24,12 @@ class KVFile(object):
     @classmethod
     def load_file(cls, file_name):
         try:
-            with open(file_name, 'r') as fp:
+            with open(file_name, "r") as fp:
                 locks.lock(fp, locks.LOCK_EX)
                 content = fp.read()
         except IOError as exc:
             if exc.errno == errno.ENOENT:
-                content = '{}'
+                content = "{}"
             else:
                 raise
 
@@ -56,7 +55,7 @@ class KVFile(object):
             return
 
         fd = os.open(self.file_name, os.O_RDWR | os.O_CREAT)
-        with os.fdopen(fd, 'r+') as fp:
+        with os.fdopen(fd, "r+") as fp:
             locks.lock(fd, locks.LOCK_EX)
 
             data = yaml.safe_load(fp)
@@ -68,9 +67,5 @@ class KVFile(object):
 
             fp.seek(0)
             yaml.safe_dump(
-                data,
-                fp,
-                default_flow_style=False,
-                allow_unicode=True,
-                width=10000,
+                data, fp, default_flow_style=False, allow_unicode=True, width=10000
             )

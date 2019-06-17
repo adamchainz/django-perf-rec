@@ -9,4 +9,4 @@ pytestmark = [pytest.mark.django_db]
 
 def test_duplicate_name():
     with record():
-        run_query('default', 'SELECT 1337')
+        run_query("default", "SELECT 1337")

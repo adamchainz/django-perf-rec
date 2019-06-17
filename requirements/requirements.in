@@ -1,7 +1,8 @@
+black ; python_version == '3.7.*'
 django
 docutils
 flake8
-flake8-commas
+flake8-bugbear
 isort
 multilint
 patchy

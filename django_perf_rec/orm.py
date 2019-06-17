@@ -29,7 +29,9 @@ patch_ORM_to_be_deterministic.have_patched = False
 
 
 def patch_QuerySet():
-    patchy.patch(QuerySet.annotate, """\
+    patchy.patch(
+        QuerySet.annotate,
+        """\
         @@ -17,7 +17,7 @@
                  except (AttributeError, TypeError):
                      raise TypeError("Complex annotations require an alias")
@@ -39,12 +41,16 @@ def patch_QuerySet():
 
              clone = self._clone()
              names = self._fields
-    """)
+    """,
+    )
 
 
 if django.VERSION >= (2, 2):
+
     def patch_Query():
-        patchy.patch(Query.add_extra, """\
+        patchy.patch(
+            Query.add_extra,
+            """\
             @@ -13,7 +13,7 @@
                          param_iter = iter(select_params)
                      else:
@@ -54,10 +60,16 @@ if django.VERSION >= (2, 2):
                          entry = str(entry)
                          entry_params = []
                          pos = entry.find("%s")
-        """)
+        """,
+        )
+
+
 else:
+
     def patch_Query():
-        patchy.patch(Query.add_extra, """\
+        patchy.patch(
+            Query.add_extra,
+            """\
             @@ -13,7 +13,7 @@
                          param_iter = iter(select_params)
                      else:
@@ -67,7 +79,8 @@ else:
                          entry = force_text(entry)
                          entry_params = []
                          pos = entry.find("%s")
-        """)
+        """,
+        )
 
 
 def patch_Q():
@@ -76,4 +89,5 @@ def patch_Q():
     # fixed.
     def __init__(self, *args, **kwargs):
         super(Q, self).__init__(children=list(args) + sorted(kwargs.items()))
+
     Q.__init__ = __init__
