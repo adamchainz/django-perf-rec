@@ -26,6 +26,11 @@ setup(
     author="Adam Johnson",
     author_email="me@adamj.eu",
     url="https://github.com/adamchainz/django-perf-rec",
+    project_urls={
+        "Changelog": (
+            "https://github.com/adamchainz/django-perf-rec/blob/master/HISTORY.rst"
+        )
+    },
     packages=find_packages(exclude=["tests", "tests.*"]),
     include_package_data=True,
     install_requires=["Django>=1.11", "patchy", "PyYAML", "sqlparse>=0.3.0"],
