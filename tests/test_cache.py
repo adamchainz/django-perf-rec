@@ -1,6 +1,6 @@
 import pytest
 from django.core.cache import caches
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase, TestCase, override_settings
 
 from django_perf_rec.cache import AllCacheRecorder, CacheOp, CacheRecorder
 
@@ -47,6 +47,11 @@ class CacheOpTests(SimpleTestCase):
     def test_equal(self):
         assert CacheOp("x", "foo", "bar") == CacheOp("x", "foo", "bar")
 
+    def test_equal_with_traceback(self):
+        assert CacheOp("x", "foo", "bar", "traceback") == CacheOp(
+            "x", "foo", "bar", "traceback"
+        )
+
     def test_not_equal_alias(self):
         assert CacheOp("x", "foo", "bar") != CacheOp("y", "foo", "bar")
 
@@ -55,6 +60,9 @@ class CacheOpTests(SimpleTestCase):
 
     def test_not_equal_keys(self):
         assert CacheOp("x", "foo", ["bar"]) != CacheOp("x", "foo", ["baz"])
+
+    def test_not_equal_traceback(self):
+        assert CacheOp("x", "foo", "bar", "traceback") != CacheOp("x", "foo", "bar")
 
 
 class CacheRecorderTests(TestCase):
@@ -75,6 +83,19 @@ class CacheRecorderTests(TestCase):
         with CacheRecorder("second", callback):
             caches["default"].get("foo")
         assert len(callback.mock_calls) == 0
+
+    @override_settings(PERF_REC={"TRACE_CACHE_PATTERN": "foo"})
+    def test_record_traceback(self):
+        callback = mock.Mock()
+        with CacheRecorder("default", callback):
+            caches["default"].get("foo")
+            caches["default"].get("bar")
+
+        assert len(callback.mock_calls) == 2
+        assert "/django-perf-rec/django_perf_rec/cache.py" in str(
+            callback.call_args_list[0][0][0].tb
+        )
+        assert callback.call_args_list[1][0][0].tb is None
 
 
 class AllCacheRecorderTests(TestCase):

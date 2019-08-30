@@ -60,6 +60,17 @@ class RecordTests(TestCase):
         with record():
             caches["default"].get("foo")
 
+    @override_settings(PERF_REC={"TRACE_CACHE_PATTERN": "foo"})
+    def test_single_cache_op_with_traceback(self):
+        with pretend_not_under_pytest():
+            with pytest.raises(AssertionError) as excinfo:
+                with record(record_name="RecordTests.test_single_cache_op"):
+                    caches["default"].get("foo")
+
+            msg = str(excinfo.value)
+            assert "+ traceback:" in msg
+            assert "in test_single_cache_op_with_traceback" in msg
+
     def test_multiple_cache_ops(self):
         with record():
             caches["default"].set("foo", "bar")
