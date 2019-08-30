@@ -9,6 +9,9 @@ Pending release
 .. Insert new release notes below this line
 
 * Update Python support to 3.5-3.7, as 3.4 has reached its end of life.
+* Allow recording of a traceback alongside db queries or cache operation
+  when they match settings TRACE_QUERY_PATTERN or TRACE_CACHE_PATTERN
+  respectively.
 
 4.4.0 (2019-05-09)
 ------------------

@@ -203,6 +203,31 @@ when a performance record does not exist during a test run.
   corresponding performance records were not committed.
 * ``'all'`` creates missing records and then raises ``AssertionError``.
 
+Sometimes when looking at a record you can have troubles understanding where
+some database queries or cache operations may come from, the following two
+settings can help you with that.
+
+``TRACE_CACHE_PATTERN``
+-----------------------
+
+The ``TRACE_CACHE_PATTERN`` setting may be used as a debug tool to add a trace
+back to the record of each cache operation when the keys contain the pattern.
+
+* None (default) no traceback is recorded.
+* ``'my_key'`` will add a traceback to cache operation on keys containing the
+  pattern.
+
+``TRACE_QUERY_PATTERN``
+-----------------------
+
+The ``TRACE_CACHE_PATTERN`` setting may be used as a debug tool to add a trace
+back to the record of each database query that contains the pattern.
+
+* None (default) no traceback is recorded for cache operations.
+* ``'tables.my_table'`` will add a traceback to each database query that
+  contains that string, like ``'select ... from tables.my_table'`` or
+  ``'insert into tables.my_table'``
+
 
 Usage in Pytest
 ===============
