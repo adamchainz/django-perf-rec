@@ -19,5 +19,9 @@ class Settings(object):
     def MODE(self):
         return self.get_setting("MODE")
 
+    @property
+    def TRACE_QUERY_PATTERN(self):
+        return self.get_setting("TRACE_QUERY_PATTERN")
+
 
 perf_rec_settings = Settings()

@@ -1,4 +1,5 @@
 import os
+import traceback
 from threading import local
 
 from django.core.cache import DEFAULT_CACHE_ALIAS
@@ -101,6 +102,10 @@ class PerformanceRecorder(object):
         name = "|".join(name_parts)
 
         self.record.append({name: db_op.sql})
+        if db_op.tb is not None:
+            self.record[-1]["traceback"] = traceback.StackSummary.from_list(
+                db_op.tb
+            ).format()
 
     def on_cache_op(self, cache_op):
         name_parts = ["cache"]

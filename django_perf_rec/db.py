@@ -1,3 +1,4 @@
+import traceback
 from functools import wraps
 from types import MethodType
 
@@ -11,18 +12,22 @@ from .utils import sorted_names
 
 
 class DBOp(object):
-    def __init__(self, alias, sql):
+    def __init__(self, alias, sql, trace_back=None):
         self.alias = alias
         self.sql = sql
+        self.tb = trace_back
 
     def __repr__(self):
-        return "DBOp({!r}, {!r})".format(repr(self.alias), repr(self.sql))
+        return "DBOp({!r}, {!r}, {!r})".format(
+            repr(self.alias), repr(self.sql), repr(self.tb)
+        )
 
     def __eq__(self, other):
         return (
             isinstance(other, DBOp)
             and self.alias == other.alias
             and self.sql == other.sql
+            and self.tb == other.tb
         )
 
 
@@ -57,9 +62,15 @@ class DBRecorder(object):
             def inner(self, *args, **kwargs):
                 sql = func(*args, **kwargs)
                 hide_columns = perf_rec_settings.HIDE_COLUMNS
+                match_pattern = (
+                    perf_rec_settings.TRACE_QUERY_PATTERN
+                    and perf_rec_settings.TRACE_QUERY_PATTERN in sql
+                )
                 callback(
                     DBOp(
-                        alias=alias, sql=sql_fingerprint(sql, hide_columns=hide_columns)
+                        alias=alias,
+                        sql=sql_fingerprint(sql, hide_columns=hide_columns),
+                        trace_back=traceback.extract_stack() if match_pattern else None,
                     )
                 )
                 return sql
