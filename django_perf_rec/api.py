@@ -115,6 +115,10 @@ class PerformanceRecorder(object):
         name = "|".join(name_parts)
 
         self.record.append({name: cache_op.key_or_keys})
+        if cache_op.tb is not None:
+            self.record[-1]["traceback"] = traceback.StackSummary.from_list(
+                cache_op.tb
+            ).format()
 
     def load_recordings(self):
         self.records_file = KVFile(self.file_name)

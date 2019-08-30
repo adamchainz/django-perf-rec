@@ -20,6 +20,10 @@ class Settings(object):
         return self.get_setting("MODE")
 
     @property
+    def TRACE_CACHE_PATTERN(self):
+        return self.get_setting("TRACE_CACHE_PATTERN")
+
+    @property
     def TRACE_QUERY_PATTERN(self):
         return self.get_setting("TRACE_QUERY_PATTERN")
 

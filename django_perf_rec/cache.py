@@ -1,5 +1,6 @@
 import inspect
 import re
+import traceback
 from collections.abc import Mapping, Sequence
 from functools import wraps
 from types import MethodType
@@ -7,13 +8,16 @@ from types import MethodType
 from django.conf import settings
 from django.core.cache import caches
 
+from django_perf_rec.settings import perf_rec_settings
+
 from .utils import sorted_names
 
 
 class CacheOp(object):
-    def __init__(self, alias, operation, key_or_keys):
+    def __init__(self, alias, operation, key_or_keys, trace_back=None):
         self.alias = alias
         self.operation = operation
+        self.tb = trace_back
         if isinstance(key_or_keys, str):
             self.key_or_keys = self.clean_key(key_or_keys)
         elif isinstance(key_or_keys, (Mapping, Sequence)):
@@ -50,6 +54,7 @@ class CacheOp(object):
             and self.alias == other.alias
             and self.operation == other.operation
             and self.key_or_keys == other.key_or_keys
+            and self.tb == other.tb
         )
 
 
@@ -83,11 +88,19 @@ class CacheRecorder(object):
                     del frame
 
                 if not is_internal_call:
+                    key_or_keys = args[0]
+                    match_pattern = (
+                        perf_rec_settings.TRACE_CACHE_PATTERN
+                        and perf_rec_settings.TRACE_CACHE_PATTERN in key_or_keys
+                    )
                     callback(
                         CacheOp(
                             alias=alias,
                             operation=str(func.__name__),
-                            key_or_keys=args[0],
+                            key_or_keys=key_or_keys,
+                            trace_back=traceback.extract_stack()
+                            if match_pattern
+                            else None,
                         )
                     )
 
