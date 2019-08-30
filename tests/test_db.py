@@ -1,4 +1,4 @@
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase, TestCase, override_settings
 
 from django_perf_rec.db import AllDBRecorder, DBOp, DBRecorder
 
@@ -19,11 +19,17 @@ class DBOpTests(SimpleTestCase):
     def test_equal(self):
         assert DBOp("foo", "bar") == DBOp("foo", "bar")
 
+    def test_equal_with_traceback(self):
+        assert DBOp("foo", "bar", "traceback") == DBOp("foo", "bar", "traceback")
+
     def test_not_equal_alias(self):
         assert DBOp("foo", "bar") != DBOp("baz", "bar")
 
     def test_not_equal_sql(self):
         assert DBOp("foo", "bar") != DBOp("foo", "baz")
+
+    def test_not_equal_traceback(self):
+        assert DBOp("foo", "bar", "traceback") != DBOp("foo", "baz")
 
 
 class DBRecorderTests(TestCase):
@@ -52,6 +58,19 @@ class DBRecorderTests(TestCase):
         with DBRecorder("second", callback):
             run_query("default", "SELECT 1")
         assert len(callback.mock_calls) == 0
+
+    @override_settings(PERF_REC={"TRACE_QUERY_PATTERN": "SELECT 1"})
+    def test_record_traceback(self):
+        callback = mock.Mock()
+        with DBRecorder("default", callback):
+            run_query("default", "SELECT 1")
+            run_query("default", "SELECT 2")
+
+        assert len(callback.mock_calls) == 2
+        assert "/django-perf-rec/django_perf_rec/db.py" in str(
+            callback.call_args_list[0][0][0].tb
+        )
+        assert callback.call_args_list[1][0][0].tb is None
 
 
 class AllDBRecorderTests(TestCase):

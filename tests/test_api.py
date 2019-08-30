@@ -19,6 +19,17 @@ class RecordTests(TestCase):
         with record():
             run_query("default", "SELECT 1337")
 
+    @override_settings(PERF_REC={"TRACE_QUERY_PATTERN": "SELECT 1337"})
+    def test_single_db_query_with_traceback(self):
+        with pretend_not_under_pytest():
+            with pytest.raises(AssertionError) as excinfo:
+                with record(record_name="RecordTests.test_single_db_query"):
+                    run_query("default", "SELECT 1337")
+
+            msg = str(excinfo.value)
+            assert "+ traceback:" in msg
+            assert "in test_single_db_query_with_traceback" in msg
+
     def test_single_db_query_model(self):
         with record():
             list(Author.objects.all())
