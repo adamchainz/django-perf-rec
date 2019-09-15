@@ -1,4 +1,5 @@
-from django.utils.lru_cache import lru_cache
+from functools import lru_cache
+
 from sqlparse import parse, tokens
 from sqlparse.sql import Comment, IdentifierList, Parenthesis, Token
 
