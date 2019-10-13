@@ -111,12 +111,12 @@ pyparsing==2.4.2 \
 pytest-django==3.5.1 \
     --hash=sha256:264fb4c506db5d48a6364c311a0b00b7b48a52715bad8839b2d8bee9b99ed6bb \
     --hash=sha256:4adfe5fb3ed47f0ba55506dd3daf688b1f74d5e69148c10ad2dd2f79f40c0d62
-pytest==5.2.0 \
-    --hash=sha256:13c1c9b22127a77fc684eee24791efafcef343335d855e3573791c68588fe1a5 \
-    --hash=sha256:d8ba7be9466f55ef96ba203fc0f90d0cf212f2f927e69186e1353e30bc7f62e5
-pytz==2019.2 \
-    --hash=sha256:26c0b32e437e54a18161324a2fca3c4b9846b74a8dccddd843113109e1116b32 \
-    --hash=sha256:c894d57500a4cd2d5c71114aaab77dbab5eabd9022308ce5ac9bb93a60a6f0c7
+pytest==5.2.1 \
+    --hash=sha256:7e4800063ccfc306a53c461442526c5571e1462f61583506ce97e4da6a1d88c8 \
+    --hash=sha256:ca563435f4941d0cb34767301c27bc65c510cb82e90b9ecf9cb52dc2c63caaa0
+pytz==2019.3 \
+    --hash=sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d \
+    --hash=sha256:b02c06db6cf09c12dd25137e563b31700d3b80fcc4ad23abb7a315f2789819be
 pyyaml==5.1.2 \
     --hash=sha256:0113bc0ec2ad727182326b61326afa3d1d8280ae1122493553fd6f4397f33df9 \
     --hash=sha256:01adf0b6c6f61bd11af6e10ca52b7d4057dd0be0343eb9283c878cf3af56aee4 \
@@ -180,4 +180,4 @@ zipp==0.6.0 \
 
 # WARNING: The following packages were not pinned, but pip requires them to be
 # pinned when the requirements file includes hashes. Consider using the --allow-unsafe flag.
-# setuptools==41.2.0        # via twine
+# setuptools==41.4.0        # via twine
