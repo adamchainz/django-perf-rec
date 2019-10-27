@@ -3,13 +3,16 @@ django
 docutils
 flake8
 flake8-bugbear
+flake8-comprehensions
+flake8-tidy-imports
 isort
 multilint
 patchy
+Pygments
 pytest
 pytest-django
+pytest-randomly
 pytz
-Pygments
 PyYAML
 sqlparse
 twine
