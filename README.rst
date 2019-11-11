@@ -63,7 +63,7 @@ Use **pip**:
 Requirements
 ============
 
-Python 3.5-3.7 supported.
+Python 3.5-3.8 supported.
 
 Django 1.11-3.0 suppported.
 
