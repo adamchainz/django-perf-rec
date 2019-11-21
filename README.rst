@@ -63,9 +63,9 @@ Use **pip**:
 Requirements
 ============
 
-Python 3.5-3.8 supported.
+Python 3.5 to 3.8 supported.
 
-Django 1.11-3.0 suppported.
+Django 1.11 to 3.0 suppported.
 
 API
 ===
