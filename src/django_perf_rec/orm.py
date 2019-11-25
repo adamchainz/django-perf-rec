@@ -83,11 +83,38 @@ else:
         )
 
 
-def patch_Q():
-    # This one can't be done by patchy since __init__ is different in Python 3,
-    # maybe one day https://github.com/adamchainz/patchy/issues/31 will be
-    # fixed.
-    def __init__(self, *args, **kwargs):
-        super(Q, self).__init__(children=list(args) + sorted(kwargs.items()))
+if django.VERSION < (2, 0):
 
-    Q.__init__ = __init__
+    def patch_Q():
+        # This one can't be done by patchy since __init__ is different in Python 3,
+        # maybe one day https://github.com/adamchainz/patchy/issues/31 will be
+        # fixed.
+        def __init__(self, *args, **kwargs):
+            super(Q, self).__init__(children=list(args) + sorted(kwargs.items()))
+
+        Q.__init__ = __init__
+
+
+elif django.VERSION < (2, 0, 3):
+
+    def patch_Q():
+        # This one can't be done by patchy since __init__ is different in Python 3,
+        # maybe one day https://github.com/adamchainz/patchy/issues/31 will be
+        # fixed.
+        def __init__(self, *args, **kwargs):
+            connector = kwargs.pop("_connector", None)
+            negated = kwargs.pop("_negated", False)
+            super().__init__(
+                children=list(args) + sorted(kwargs.items()),
+                connector=connector,
+                negated=negated,
+            )
+
+        Q.__init__ = __init__
+
+
+# After Django 2.0.3, kwargs are sorted so we don't need to patch anything
+else:
+
+    def patch_Q():
+        pass
