@@ -15,6 +15,7 @@ class PatchORMToBeDeterministicTests(SimpleTestCase):
 
     @pytest.mark.skipif(django.VERSION < (2, 0), reason="Django 2.0+")
     def test_q_connector(self):
-        q = Q(foo="bar") | Q(bar="foo")
-        _, _, kwargs = q.deconstruct()
-        self.assertEqual(kwargs, {"_connector": "OR"})
+        q1 = Q(foo="bar") | Q(bar="foo")
+        _path, args, kwargs = q1.deconstruct()
+        q2 = Q(*args, **kwargs)
+        self.assertEqual(q1, q2)
