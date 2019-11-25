@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.test import SimpleTestCase
 
 from django_perf_rec.orm import patch_ORM_to_be_deterministic
@@ -9,3 +10,8 @@ class PatchORMToBeDeterministicTests(SimpleTestCase):
 
     def test_call_it_again(self):
         patch_ORM_to_be_deterministic()
+
+    def test_q_connector(self):
+        q = Q(foo="bar") | Q(bar="foo")
+        _, _, kwargs = q.deconstruct()
+        self.assertEqual(kwargs, {"_connector": "OR"})
