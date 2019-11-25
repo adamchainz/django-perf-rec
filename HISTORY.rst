@@ -1,10 +1,8 @@
 History
 =======
 
-Pending release
----------------
-
-.. Insert new release notes below this line
+4.5.0 (2019-11-25)
+------------------
 
 * Update Python support to 3.5-3.8, as 3.4 has reached its end of life.
 * Converted setuptools metadata to configuration file. This meant removing the
