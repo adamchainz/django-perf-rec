@@ -113,8 +113,9 @@ elif django.VERSION < (2, 0, 3):
         Q.__init__ = __init__
 
 
-# After Django 2.0.3, kwargs are sorted so we don't need to patch anything
 else:
 
+    # After Django 2.0.3, kwargs are sorted so we don't need to patch anything
+    # https://code.djangoproject.com/ticket/29125
     def patch_Q():
         pass
