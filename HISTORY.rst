@@ -13,7 +13,7 @@ Pending release
   ``importlib.metadata.version("django-perf-rec")``
   (`docs <https://docs.python.org/3.8/library/importlib.metadata.html#distribution-versions>`__ /
   `backport <https://pypi.org/project/importlib-metadata/>`__).
-* Fix ``Q()`` Patchy patch for Django 2.0+.
+* Fix ``Q()`` Patchy patch for Django 2.0+ with non-ANDed ``Q()``'s.
 
 4.4.0 (2019-05-09)
 ------------------
