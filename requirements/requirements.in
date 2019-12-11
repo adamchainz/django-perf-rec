@@ -14,5 +14,6 @@ pytest-django
 pytest-randomly
 pytz
 PyYAML
+secretstorage # required for twine on linux
 sqlparse
 twine
