@@ -5,12 +5,12 @@ from django.core.cache import DEFAULT_CACHE_ALIAS
 from django.db import DEFAULT_DB_ALIAS
 from django.utils.functional import SimpleLazyObject
 
-from . import pytest_plugin
-from .cache import AllCacheRecorder
-from .db import AllDBRecorder
-from .settings import perf_rec_settings
-from .utils import current_test, record_diff
-from .yaml import KVFile
+from django_perf_rec import pytest_plugin
+from django_perf_rec.cache import AllCacheRecorder
+from django_perf_rec.db import AllDBRecorder
+from django_perf_rec.settings import perf_rec_settings
+from django_perf_rec.utils import current_test, record_diff
+from django_perf_rec.yaml import KVFile
 
 record_current = local()
 

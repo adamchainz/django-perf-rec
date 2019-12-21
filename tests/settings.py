@@ -7,13 +7,14 @@ TEMPLATE_DEBUG = DEBUG
 
 SECRET_KEY = "NOTASECRET"
 
-
-engine = "django.db.backends.sqlite3"
-
 DATABASES = {
-    "default": {"ENGINE": engine, "NAME": ":memory:"},
-    "replica": {"ENGINE": engine, "NAME": ":memory:", "TEST": {"MIRROR": "default"}},
-    "second": {"ENGINE": engine, "NAME": ":memory:"},
+    "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"},
+    "replica": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": ":memory:",
+        "TEST": {"MIRROR": "default"},
+    },
+    "second": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"},
 }
 
 CACHES = {
@@ -23,7 +24,7 @@ CACHES = {
 
 ALLOWED_HOSTS = []
 
-INSTALLED_APPS = ("django.contrib.auth", "django.contrib.contenttypes", "testapp")
+INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "tests.testapp"]
 
 MIDDLEWARE_CLASSES = (
     "django.middleware.common.CommonMiddleware",
@@ -34,7 +35,7 @@ MIDDLEWARE_CLASSES = (
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 )
 
-ROOT_URLCONF = "urls"
+ROOT_URLCONF = "tests.urls"
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True

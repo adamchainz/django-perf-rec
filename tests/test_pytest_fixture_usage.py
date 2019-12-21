@@ -1,8 +1,7 @@
 import pytest
 
 from django_perf_rec import get_perf_path, get_record_name, record
-
-from .utils import run_query
+from tests.utils import run_query
 
 pytestmark = [pytest.mark.django_db]
 
