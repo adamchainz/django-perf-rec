@@ -78,9 +78,9 @@ cryptography==2.8 \
     --hash=sha256:ecadccc7ba52193963c0475ac9f6fa28ac01e01349a2ca48509667ef41ffd2cf \
     --hash=sha256:fb81c17e0ebe3358486cd8cc3ad78adbae58af12fc2bf2bc0bb84e8090fa5ce8 \
     # via secretstorage
-django==1.11.26 \
-    --hash=sha256:83615ecf738ed710e90ca0dff719b269cc93128c5f0f361370d4e52f42209d16 \
-    --hash=sha256:861db7f82436ab43e1411832ed8dca81fc5fc0f7c2039c7e07a080a63092fb44
+django==1.11.27 \
+    --hash=sha256:20111383869ad1b11400c94b0c19d4ab12975316cd058eabd17452e0546169b8 \
+    --hash=sha256:372faee5b93c92f19e9d65f52b278a1b689d3e3b4a7d9d30db73a78ebc729770
 docutils==0.15.2 \
     --hash=sha256:6c4f696463b79f1fb8ba0c594b63840ebd41f059e92b31957c46b74a4599b6d0 \
     --hash=sha256:9e4d7ecfc600058e07ba661411a2b7de2fd0fafa17d1a7f7361cd47b1175c827 \
@@ -88,7 +88,7 @@ docutils==0.15.2 \
 entrypoints==0.3 \
     --hash=sha256:589f874b313739ad35be6e0cd7efde2a4e9b6fea91edcc34e58ecbb8dbe56d19 \
     --hash=sha256:c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451 \
-    # via flake8, pytest-randomly
+    # via flake8
 flake8-bugbear==19.8.0 \
     --hash=sha256:d8c466ea79d5020cb20bf9f11cf349026e09517a42264f313d3f6fddb83e0571 \
     --hash=sha256:ded4d282778969b5ab5530ceba7aa1a9f1b86fa7618fc96a19a1d512331640f8
@@ -105,10 +105,10 @@ idna==2.8 \
     --hash=sha256:c357b3f628cf53ae2c4c05627ecc484553142ca23264e593d327bcde5e9c3407 \
     --hash=sha256:ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c \
     # via requests
-importlib-metadata==1.2.0 \
-    --hash=sha256:3a8b2dfd0a2c6a3636e7c016a7e54ae04b997d30e69d5eacdca7a6c2221a1402 \
-    --hash=sha256:41e688146d000891f32b1669e8573c57e39e5060e7f5f647aa617cd9a9568278 \
-    # via flake8-comprehensions, flake8-tidy-imports, keyring, pluggy, pytest, twine
+importlib-metadata==1.3.0 \
+    --hash=sha256:073a852570f92da5f744a3472af1b61e28e9f78ccf0c9117658dc32b15de7b45 \
+    --hash=sha256:d95141fbfa7ef2ec65cfd945e2af7e5a6ddbd7c8d9a25e66ff3be8e3daf9f60f \
+    # via flake8-comprehensions, flake8-tidy-imports, keyring, pluggy, pytest, pytest-randomly, twine
 isort==4.3.21 \
     --hash=sha256:54da7e92468955c4fceacd0c86bd0ec997b0e1ee80d97f67c35a78b719dccab1 \
     --hash=sha256:6e811fcb295968434526407adb8796944f1988c5b65e8139058f2014cbe100fd
@@ -116,9 +116,9 @@ jeepney==0.4.1 \
     --hash=sha256:13806f91a96e9b2623fd2a81b950d763ee471454aafd9eb6d75dbe7afce428fb \
     --hash=sha256:f6a3f93464a0cf052f4e87da3c8b3ed1e27696758fb9739c63d3a74d9a1b6774 \
     # via secretstorage
-keyring==19.3.0 \
-    --hash=sha256:9b80469783d3f6106bce1d389c6b8b20c8d4d739943b1b8cd0ddc2a45d065f9d \
-    --hash=sha256:ee3d35b7f1ac3cb69e9a1e4323534649d3ab2fea402738a77e4250c152970fed \
+keyring==20.0.0 \
+    --hash=sha256:a3f71fc0cf6b74e201e70532879ba1d15db25cb2c7407dce52fe52a6d5fc7b66 \
+    --hash=sha256:fc9cadedae35b77141f670f84c10a657147d2e526348698c93dd77f039979729 \
     # via twine
 mccabe==0.6.1 \
     --hash=sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42 \
@@ -171,12 +171,12 @@ pyparsing==2.4.5 \
 pytest-django==3.7.0 \
     --hash=sha256:17592f06d51c2ef4b7a0fb24aa32c8b6998506a03c8439606cb96db160106659 \
     --hash=sha256:ef3d15b35ed7e46293475e6f282e71a53bcd8c6f87bdc5d5e7ad0f4d49352127
-pytest-randomly==3.1.0 \
-    --hash=sha256:5facc2b5ac56e36b9c4bf14f49cc7b4c95427835bbf4a3c739b71a5f5f82d58a \
-    --hash=sha256:9256c9ff88466f7bf9794d2eeeea8fbf1cd1bc8df1b3575df59e89b8813bffaa
-pytest==5.3.1 \
-    --hash=sha256:63344a2e3bce2e4d522fd62b4fdebb647c019f1f9e4ca075debbd13219db4418 \
-    --hash=sha256:f67403f33b2b1d25a6756184077394167fe5e2f9d8bdaab30707d19ccec35427
+pytest-randomly==3.2.0 \
+    --hash=sha256:1ccaba7214858c681ff73da232f585a6fcccf0fe504e78ac38d077b3cba00b4e \
+    --hash=sha256:2e89768ea851723b733cc57eb9e33b425490d1ebc858e7a122ade602d9cb58b6
+pytest==5.3.2 \
+    --hash=sha256:6b571215b5a790f9b41f19f3531c53a45cf6bb8ef2988bc1ff9afb38270b25fa \
+    --hash=sha256:e41d489ff43948babd0fad7ad5e49b8735d5d55e26628a58673c39ff61d95de4
 pytz==2019.3 \
     --hash=sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d \
     --hash=sha256:b02c06db6cf09c12dd25137e563b31700d3b80fcc4ad23abb7a315f2789819be
@@ -214,9 +214,9 @@ six==1.13.0 \
 sqlparse==0.3.0 \
     --hash=sha256:40afe6b8d4b1117e7dff5504d7a8ce07d9a1b15aeeade8a2d10f130a834f8177 \
     --hash=sha256:7c3dca29c022744e95b547e867cee89f4fce4373f3549ccd8797d8eb52cdb873
-tqdm==4.40.1 \
-    --hash=sha256:895796ea8df435b6f502bf122f2b2034a3d48e6d8ff52175606ac1051b0e3e12 \
-    --hash=sha256:e405d16c98fcf30725d0c9d493ed07302a18846b5452de5253030ccd18996f87 \
+tqdm==4.41.0 \
+    --hash=sha256:166a82cdea964ae45528e0cc89436255ff2be73dc848bdf239f13c501cae5dc7 \
+    --hash=sha256:9036904496bd2afacf836a6f206c5a766ce11d3e9319d54a4e794c0f34b111dc \
     # via twine
 twine==3.1.1 \
     --hash=sha256:c1af8ca391e43b0a06bbc155f7f67db0bf0d19d284bfc88d1675da497a946124 \
