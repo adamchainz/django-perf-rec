@@ -4,10 +4,10 @@ from types import MethodType
 from django.conf import settings
 from django.db import connections
 
-from .orm import patch_ORM_to_be_deterministic
-from .settings import perf_rec_settings
-from .sql import sql_fingerprint
-from .utils import sorted_names
+from django_perf_rec.orm import patch_ORM_to_be_deterministic
+from django_perf_rec.settings import perf_rec_settings
+from django_perf_rec.sql import sql_fingerprint
+from django_perf_rec.utils import sorted_names
 
 
 class DBOp(object):

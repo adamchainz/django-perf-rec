@@ -2,7 +2,7 @@ from django.test import SimpleTestCase
 
 from django_perf_rec import pytest_plugin
 
-from .utils import pretend_not_under_pytest
+from tests.utils import pretend_not_under_pytest
 
 
 class PytestPluginTests(SimpleTestCase):

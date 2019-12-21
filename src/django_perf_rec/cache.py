@@ -7,7 +7,7 @@ from types import MethodType
 from django.conf import settings
 from django.core.cache import caches
 
-from .utils import sorted_names
+from django_perf_rec.utils import sorted_names
 
 
 class CacheOp(object):
