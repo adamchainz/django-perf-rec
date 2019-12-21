@@ -12,8 +12,8 @@ if pytest is not None:
 from django_perf_rec.api import TestCaseMixin, get_record_name, get_perf_path, record
 
 __all__ = [
-    'TestCaseMixin',
-    'get_record_name',
-    'get_perf_path',
-    'record',
+    "TestCaseMixin",
+    "get_record_name",
+    "get_perf_path",
+    "record",
 ]
