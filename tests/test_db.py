@@ -1,7 +1,6 @@
 from django.test import SimpleTestCase, TestCase
 
 from django_perf_rec.db import AllDBRecorder, DBOp, DBRecorder
-
 from tests.utils import run_query
 
 try:

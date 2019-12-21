@@ -2,7 +2,6 @@ import pytest
 from django.test.utils import override_settings
 
 from django_perf_rec import record
-
 from tests.utils import run_query
 
 pytestmark = [pytest.mark.django_db]
