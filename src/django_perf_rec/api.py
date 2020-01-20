@@ -100,7 +100,7 @@ class PerformanceRecorder:
             name_parts.append(db_op.alias)
         name = "|".join(name_parts)
 
-        self.record.append({name: db_op.sql})
+        self.record.append({name: db_op.operation})
 
     def on_cache_op(self, cache_op):
         name_parts = ["cache"]

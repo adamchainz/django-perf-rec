@@ -4,26 +4,16 @@ from types import MethodType
 from django.conf import settings
 from django.db import connections
 
+from django_perf_rec.operation import Operation
 from django_perf_rec.orm import patch_ORM_to_be_deterministic
 from django_perf_rec.settings import perf_rec_settings
 from django_perf_rec.sql import sql_fingerprint
 from django_perf_rec.utils import sorted_names
 
 
-class DBOp:
-    def __init__(self, alias, sql):
-        self.alias = alias
-        self.sql = sql
-
+class DBOp(Operation):
     def __repr__(self):
-        return "DBOp({!r}, {!r})".format(repr(self.alias), repr(self.sql))
-
-    def __eq__(self, other):
-        return (
-            isinstance(other, DBOp)
-            and self.alias == other.alias
-            and self.sql == other.sql
-        )
+        return "DBOp({!r}, {!r})".format(repr(self.alias), repr(self.query))
 
 
 class DBRecorder:
@@ -59,7 +49,8 @@ class DBRecorder:
                 hide_columns = perf_rec_settings.HIDE_COLUMNS
                 callback(
                     DBOp(
-                        alias=alias, sql=sql_fingerprint(sql, hide_columns=hide_columns)
+                        alias=alias,
+                        query=sql_fingerprint(sql, hide_columns=hide_columns),
                     )
                 )
                 return sql

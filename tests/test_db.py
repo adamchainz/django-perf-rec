@@ -13,7 +13,7 @@ class DBOpTests(SimpleTestCase):
     def test_create(self):
         op = DBOp("myalias", "SELECT 1")
         assert op.alias == "myalias"
-        assert op.sql == "SELECT 1"
+        assert op.query == "SELECT 1"
 
     def test_equal(self):
         assert DBOp("foo", "bar") == DBOp("foo", "bar")

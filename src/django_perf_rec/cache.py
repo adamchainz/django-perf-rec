@@ -7,19 +7,21 @@ from types import MethodType
 from django.conf import settings
 from django.core.cache import caches
 
+from django_perf_rec.operation import Operation
 from django_perf_rec.utils import sorted_names
 
 
-class CacheOp:
+class CacheOp(Operation):
     def __init__(self, alias, operation, key_or_keys):
-        self.alias = alias
         self.operation = operation
         if isinstance(key_or_keys, str):
-            self.key_or_keys = self.clean_key(key_or_keys)
+            cleaned_key_or_keys = self.clean_key(key_or_keys)
         elif isinstance(key_or_keys, (Mapping, Sequence)):
-            self.key_or_keys = sorted(self.clean_key(k) for k in key_or_keys)
+            cleaned_key_or_keys = sorted(self.clean_key(k) for k in key_or_keys)
         else:
             raise ValueError("key_or_keys must be a string, mapping, or sequence")
+
+        super().__init__(alias, cleaned_key_or_keys)
 
     @classmethod
     def clean_key(cls, key):
@@ -45,12 +47,7 @@ class CacheOp:
     )
 
     def __eq__(self, other):
-        return (
-            isinstance(other, CacheOp)
-            and self.alias == other.alias
-            and self.operation == other.operation
-            and self.key_or_keys == other.key_or_keys
-        )
+        return super().__eq__(other) and self.operation == other.operation
 
 
 class CacheRecorder:

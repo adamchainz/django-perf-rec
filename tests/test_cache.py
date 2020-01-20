@@ -32,13 +32,13 @@ class CacheOpTests(SimpleTestCase):
         op = CacheOp("default", "foo", "bar")
         assert op.alias == "default"
         assert op.operation == "foo"
-        assert op.key_or_keys == "bar"
+        assert op.query == "bar"
 
     def test_keys(self):
         op = CacheOp("default", "foo", ["bar", "baz"])
         assert op.alias == "default"
         assert op.operation == "foo"
-        assert op.key_or_keys == ["bar", "baz"]
+        assert op.query == ["bar", "baz"]
 
     def test_invalid(self):
         with pytest.raises(ValueError):
