@@ -4,11 +4,9 @@ from collections.abc import Mapping, Sequence
 from functools import wraps
 from types import MethodType
 
-from django.conf import settings
 from django.core.cache import caches
 
-from django_perf_rec.operation import Operation
-from django_perf_rec.utils import sorted_names
+from django_perf_rec.operation import AllSourceRecorder, Operation
 
 
 class CacheOp(Operation):
@@ -116,22 +114,10 @@ class CacheRecorder:
     )
 
 
-class AllCacheRecorder:
+class AllCacheRecorder(AllSourceRecorder):
     """
     Launches CacheRecorders on all the active caches
     """
 
-    def __init__(self, callback):
-        self.callback = callback
-
-    def __enter__(self):
-        self.recorders = []
-        for name in sorted_names(settings.CACHES.keys()):
-            recorder = CacheRecorder(name, self.callback)
-            recorder.__enter__()
-            self.recorders.append(recorder)
-
-    def __exit__(self, type_, value, traceback):
-        for recorder in reversed(self.recorders):
-            recorder.__exit__(type_, value, traceback)
-        self.recorders = []
+    sources_setting = "CACHES"
+    recorder_class = CacheRecorder

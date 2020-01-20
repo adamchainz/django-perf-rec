@@ -1,14 +1,12 @@
 from functools import wraps
 from types import MethodType
 
-from django.conf import settings
 from django.db import connections
 
-from django_perf_rec.operation import Operation
+from django_perf_rec.operation import AllSourceRecorder, Operation
 from django_perf_rec.orm import patch_ORM_to_be_deterministic
 from django_perf_rec.settings import perf_rec_settings
 from django_perf_rec.sql import sql_fingerprint
-from django_perf_rec.utils import sorted_names
 
 
 class DBOp(Operation):
@@ -68,22 +66,10 @@ class DBRecorder:
         connection.ops.last_executed_query = self.orig_last_executed_query
 
 
-class AllDBRecorder:
+class AllDBRecorder(AllSourceRecorder):
     """
     Launches DBRecorders on all database connections
     """
 
-    def __init__(self, callback):
-        self.callback = callback
-
-    def __enter__(self):
-        self.recorders = []
-        for alias in sorted_names(settings.DATABASES.keys()):
-            recorder = DBRecorder(alias, self.callback)
-            recorder.__enter__()
-            self.recorders.append(recorder)
-
-    def __exit__(self, type_, value, traceback):
-        for recorder in reversed(self.recorders):
-            recorder.__exit__(type_, value, traceback)
-        self.recorders = []
+    sources_setting = "DATABASES"
+    recorder_class = DBRecorder
