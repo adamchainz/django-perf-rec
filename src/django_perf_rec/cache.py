@@ -4,7 +4,7 @@ from collections.abc import Mapping, Sequence
 from functools import wraps
 from types import MethodType
 
-from django.core.cache import caches
+from django.core.cache import DEFAULT_CACHE_ALIAS, caches
 
 from django_perf_rec.operation import AllSourceRecorder, Operation
 
@@ -46,6 +46,14 @@ class CacheOp(Operation):
 
     def __eq__(self, other):
         return super().__eq__(other) and self.operation == other.operation
+
+    @property
+    def name(self):
+        name_parts = ["cache"]
+        if self.alias != DEFAULT_CACHE_ALIAS:
+            name_parts.append(self.alias)
+        name_parts.append(self.operation)
+        return "|".join(name_parts)
 
 
 class CacheRecorder:

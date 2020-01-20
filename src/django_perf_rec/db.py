@@ -1,7 +1,7 @@
 from functools import wraps
 from types import MethodType
 
-from django.db import connections
+from django.db import DEFAULT_DB_ALIAS, connections
 
 from django_perf_rec.operation import AllSourceRecorder, Operation
 from django_perf_rec.orm import patch_ORM_to_be_deterministic
@@ -12,6 +12,13 @@ from django_perf_rec.sql import sql_fingerprint
 class DBOp(Operation):
     def __repr__(self):
         return "DBOp({!r}, {!r})".format(repr(self.alias), repr(self.query))
+
+    @property
+    def name(self):
+        name_parts = ["db"]
+        if self.alias != DEFAULT_DB_ALIAS:
+            name_parts.append(self.alias)
+        return "|".join(name_parts)
 
 
 class DBRecorder:

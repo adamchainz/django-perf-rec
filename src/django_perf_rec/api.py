@@ -1,8 +1,6 @@
 import os
 from threading import local
 
-from django.core.cache import DEFAULT_CACHE_ALIAS
-from django.db import DEFAULT_DB_ALIAS
 from django.utils.functional import SimpleLazyObject
 
 from django_perf_rec import pytest_plugin
@@ -79,8 +77,8 @@ class PerformanceRecorder:
         self.record_name = record_name
 
         self.record = []
-        self.db_recorder = AllDBRecorder(self.on_db_op)
-        self.cache_recorder = AllCacheRecorder(self.on_cache_op)
+        self.db_recorder = AllDBRecorder(self.on_op)
+        self.cache_recorder = AllCacheRecorder(self.on_op)
 
     def __enter__(self):
         self.db_recorder.__enter__()
@@ -94,22 +92,8 @@ class PerformanceRecorder:
         if exc_type is None:
             self.save_or_assert()
 
-    def on_db_op(self, db_op):
-        name_parts = ["db"]
-        if db_op.alias != DEFAULT_DB_ALIAS:
-            name_parts.append(db_op.alias)
-        name = "|".join(name_parts)
-
-        self.record.append({name: db_op.operation})
-
-    def on_cache_op(self, cache_op):
-        name_parts = ["cache"]
-        if cache_op.alias != DEFAULT_CACHE_ALIAS:
-            name_parts.append(cache_op.alias)
-        name_parts.append(cache_op.operation)
-        name = "|".join(name_parts)
-
-        self.record.append({name: cache_op.key_or_keys})
+    def on_op(self, op):
+        self.record.append({op.name: op.query})
 
     def load_recordings(self):
         self.records_file = KVFile(self.file_name)
