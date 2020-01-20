@@ -69,7 +69,7 @@ class DBRecorder:
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         connection = connections[self.alias]
-        connection.force_debug_cursor = False
+        connection.force_debug_cursor = self.orig_force_debug_cursor
         connection.ops.last_executed_query = self.orig_last_executed_query
 
 
