@@ -1,4 +1,7 @@
+PyYAML
+Pygments
 black ; python_version == '3.8.*'
+check-manifest ; python_version == '3.8.*'
 django
 docutils
 flake8
@@ -8,12 +11,10 @@ flake8-tidy-imports
 isort
 multilint
 patchy
-Pygments
 pytest
 pytest-django
 pytest-randomly
 pytz
-PyYAML
 secretstorage # required for twine on linux
 sqlparse
 twine
