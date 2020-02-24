@@ -58,7 +58,7 @@ Use **pip**:
 
 .. code-block:: bash
 
-    pip install django-perf-rec
+    python -m pip install django-perf-rec
 
 Requirements
 ============
