@@ -10,7 +10,7 @@ from django.core.cache import caches
 from django_perf_rec.utils import sorted_names
 
 
-class CacheOp(object):
+class CacheOp:
     def __init__(self, alias, operation, key_or_keys):
         self.alias = alias
         self.operation = operation
@@ -53,7 +53,7 @@ class CacheOp(object):
         )
 
 
-class CacheRecorder(object):
+class CacheRecorder:
     """
     Monkey patches a cache class to call 'callback' on every operation it calls
     """
@@ -119,7 +119,7 @@ class CacheRecorder(object):
     )
 
 
-class AllCacheRecorder(object):
+class AllCacheRecorder:
     """
     Launches CacheRecorders on all the active caches
     """

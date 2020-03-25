@@ -73,7 +73,7 @@ def get_record_name(test_name, class_name=None, file_name=""):
     return record_name
 
 
-class PerformanceRecorder(object):
+class PerformanceRecorder:
     def __init__(self, file_name, record_name):
         self.file_name = file_name
         self.record_name = record_name
@@ -140,7 +140,7 @@ class PerformanceRecorder(object):
             )
 
 
-class TestCaseMixin(object):
+class TestCaseMixin:
     """
     Adds record_performance() method to TestCase class it's mixed into
     for easy import-free use.

@@ -5,7 +5,7 @@ import yaml
 from django.core.files import locks
 
 
-class KVFile(object):
+class KVFile:
     def __init__(self, file_name):
         self.file_name = file_name
         self.data = self.load(file_name)
@@ -24,10 +24,10 @@ class KVFile(object):
     @classmethod
     def load_file(cls, file_name):
         try:
-            with open(file_name, "r") as fp:
+            with open(file_name) as fp:
                 locks.lock(fp, locks.LOCK_EX)
                 content = fp.read()
-        except IOError as exc:
+        except OSError as exc:
             if exc.errno == errno.ENOENT:
                 content = "{}"
             else:

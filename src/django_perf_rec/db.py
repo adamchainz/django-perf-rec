@@ -10,7 +10,7 @@ from django_perf_rec.sql import sql_fingerprint
 from django_perf_rec.utils import sorted_names
 
 
-class DBOp(object):
+class DBOp:
     def __init__(self, alias, sql):
         self.alias = alias
         self.sql = sql
@@ -26,7 +26,7 @@ class DBOp(object):
         )
 
 
-class DBRecorder(object):
+class DBRecorder:
     """
     Monkey-patch-wraps a database connection to call 'callback' on every
     query it runs.
@@ -77,7 +77,7 @@ class DBRecorder(object):
         connection.ops.last_executed_query = self.orig_last_executed_query
 
 
-class AllDBRecorder(object):
+class AllDBRecorder:
     """
     Launches DBRecorders on all database connections
     """

@@ -10,13 +10,13 @@ from django_perf_rec.yaml import KVFile
 
 class KVFileTests(SimpleTestCase):
     def setUp(self):
-        super(KVFileTests, self).setUp()
+        super().setUp()
         KVFile._clear_load_cache()
         self.temp_dir = mkdtemp()
 
     def tearDown(self):
         shutil.rmtree(self.temp_dir)
-        super(KVFileTests, self).tearDown()
+        super().tearDown()
 
     def test_load_no_permissions(self):
         with pytest.raises(IOError):
@@ -81,7 +81,7 @@ class KVFileTests(SimpleTestCase):
         kvf.set_and_save("foo", "bar")
         kvf.set_and_save("foo2", "bar")
 
-        with open(file_name, "r") as fp:
+        with open(file_name) as fp:
             lines = fp.readlines()
             fp.seek(0)
             data = yaml.safe_load(fp)

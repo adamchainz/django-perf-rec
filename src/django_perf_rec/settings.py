@@ -1,7 +1,7 @@
 from django.conf import settings
 
 
-class Settings(object):
+class Settings:
 
     defaults = {"HIDE_COLUMNS": True, "MODE": "once"}
 
