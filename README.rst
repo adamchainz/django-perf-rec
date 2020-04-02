@@ -5,8 +5,8 @@ django-perf-rec
 .. image:: https://img.shields.io/pypi/v/django-perf-rec.svg
     :target: https://pypi.python.org/pypi/django-perf-rec
 
-.. image:: https://img.shields.io/travis/adamchainz/django-perf-rec/master.svg
-        :target: https://travis-ci.org/adamchainz/django-perf-rec
+.. image:: https://github.com/adamchainz/django-perf-rec/workflows/CI/badge.svg?branch=master
+        :target: https://github.com/adamchainz/django-perf-rec/actions?workflow=CI
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/python/black
