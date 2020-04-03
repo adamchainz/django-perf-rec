@@ -83,19 +83,7 @@ else:
         )
 
 
-if django.VERSION < (2, 0):
-
-    def patch_Q():
-        # This one can't be done by patchy since __init__ is different in Python 3,
-        # maybe one day https://github.com/adamchainz/patchy/issues/31 will be
-        # fixed.
-        def __init__(self, *args, **kwargs):
-            super(Q, self).__init__(children=list(args) + sorted(kwargs.items()))
-
-        Q.__init__ = __init__
-
-
-elif django.VERSION < (2, 0, 3):
+if django.VERSION < (2, 0, 3):
 
     def patch_Q():
         # This one can't be done by patchy since __init__ is different in Python 3,
