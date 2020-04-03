@@ -2,14 +2,14 @@
 django-perf-rec
 ===============
 
-.. image:: https://img.shields.io/pypi/v/django-perf-rec.svg
-    :target: https://pypi.python.org/pypi/django-perf-rec
-
 .. image:: https://github.com/adamchainz/django-perf-rec/workflows/CI/badge.svg?branch=master
-        :target: https://github.com/adamchainz/django-perf-rec/actions?workflow=CI
+   :target: https://github.com/adamchainz/django-perf-rec/actions?workflow=CI
+
+.. image:: https://img.shields.io/pypi/v/django-perf-rec.svg
+   :target: https://pypi.python.org/pypi/django-perf-rec
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-    :target: https://github.com/python/black
+   :target: https://github.com/python/black
 
 "Keep detailed records of the performance of your Django code."
 
