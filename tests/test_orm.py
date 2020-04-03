@@ -1,5 +1,3 @@
-import django
-import pytest
 from django.db.models import Q
 from django.test import SimpleTestCase
 
@@ -13,7 +11,6 @@ class PatchORMToBeDeterministicTests(SimpleTestCase):
     def test_call_it_again(self):
         patch_ORM_to_be_deterministic()
 
-    @pytest.mark.skipif(django.VERSION < (2, 0), reason="Django 2.0+")
     def test_q_connector(self):
         q1 = Q(foo="bar") | Q(bar="foo")
         _path, args, kwargs = q1.deconstruct()
