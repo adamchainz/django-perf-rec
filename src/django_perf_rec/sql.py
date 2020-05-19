@@ -81,6 +81,18 @@ def sql_recursively_simplify(node, hide_columns=True):
         middle = [Token(tokens.Punctuation, " ... ")]
         node.tokens = node.tokens[: i_set + 1] + middle + node.tokens[i_where:]
 
+    # Ensure IN clauses with simple value in always simplify to "..."
+    if node.tokens[0].value == "WHERE":
+        for i_in in [i for i, t in enumerate(node.tokens) if t.value == "IN"]:
+            for parens in [
+                t for t in node.tokens[i_in + 1 :] if isinstance(t, Parenthesis)
+            ]:
+                if all(
+                    hasattr(t, "ttype") and t.ttype in sql_deleteable_tokens
+                    for t in parens.tokens[1:-1]
+                ):
+                    parens.tokens[1:-1] = [Token(tokens.Punctuation, "...")]
+
     # Erase the names of savepoints since they are non-deteriministic
     if hasattr(node, "tokens"):
         # SAVEPOINT x
