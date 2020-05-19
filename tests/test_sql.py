@@ -270,3 +270,17 @@ EXISTS (
             + '"table_b" WHERE "table_b"."id" = # ) = true)'
         )
     )
+
+
+def test_in_single_value():
+    assert (
+        sql_fingerprint("SELECT `f1`, `f2` FROM `b` WHERE `x` IN (1)")
+        == "SELECT ... FROM `b` WHERE `x` IN (#)"
+    )
+
+
+def test_in_multiple_values():
+    assert (
+        sql_fingerprint("SELECT `f1`, `f2` FROM `b` WHERE `x` IN (1, 2, 3)")
+        == "SELECT ... FROM `b` WHERE `x` IN (...)"
+    )
