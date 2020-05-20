@@ -288,14 +288,18 @@ def test_in_multiple_values():
 
 def test_in_multiple_clauses():
     assert (
-        sql_fingerprint("SELECT `f1`, `f2` FROM `b` WHERE `x` IN (1, 2, 3) AND `y` IN (4, 5, 6)")
+        sql_fingerprint(
+            "SELECT `f1`, `f2` FROM `b` WHERE `x` IN (1, 2, 3) AND `y` IN (4, 5, 6)"
+        )
         == "SELECT ... FROM `b` WHERE `x` IN (...) AND `y` IN (...)"
     )
 
 
 def test_in_multiple_values_and_clause():
     assert (
-        sql_fingerprint("SELECT `f1`, `f2` FROM `b` WHERE `x` IN (1, 2, 3) AND (`y` = 1 OR `y` = 2)")
+        sql_fingerprint(
+            "SELECT `f1`, `f2` FROM `b` WHERE `x` IN (1, 2, 3) AND (`y` = 1 OR `y` = 2)"
+        )
         == "SELECT ... FROM `b` WHERE `x` IN (...) AND (`y` = # OR `y` = #)"
     )
 
