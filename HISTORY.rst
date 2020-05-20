@@ -2,6 +2,11 @@ History
 =======
 
 * Drop Django 1.11 support. Only Django 2.0+ is supported now.
+* Simplify SQL ``IN`` clauses to always use ``(...)``. Now ``x IN (1)`` and
+  ``x IN (1,2)`` both simplify to ``x IN (...)``.
+
+  Thanks to Dan Palmer in
+  `PR #263 <https://github.com/adamchainz/django-perf-rec/pull/263>`__.
 
 4.5.0 (2019-11-25)
 ------------------
