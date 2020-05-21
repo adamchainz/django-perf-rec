@@ -54,7 +54,7 @@ class KVFile:
         if self.data.get(key, object()) == value:
             return
 
-        fd = os.open(self.file_name, os.O_RDWR | os.O_CREAT)
+        fd = os.open(self.file_name, os.O_RDWR | os.O_CREAT, mode=0o666)
         with os.fdopen(fd, "r+") as fp:
             locks.lock(fd, locks.LOCK_EX)
 
