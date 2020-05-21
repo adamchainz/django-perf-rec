@@ -1,6 +1,12 @@
 History
 =======
 
+* Create YAML files as non-executable. This will not be applied to existing
+  files, modify their permissions if necessary, or delete and recreate.
+
+  Thanks to Peter Law for the report in `Issue #264
+  <https://github.com/adamchainz/django-perf-rec/issues/264>`__.
+
 4.6.0 (2020-05-20)
 ------------------
 
