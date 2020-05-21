@@ -1,6 +1,9 @@
 History
 =======
 
+4.6.1 (2020-05-21)
+------------------
+
 * Create YAML files as non-executable. This will not be applied to existing
   files, modify their permissions if necessary, or delete and recreate.
 
