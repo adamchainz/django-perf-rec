@@ -1,7 +1,5 @@
-import django
 import patchy
 from django.db.models.query import QuerySet
-from django.db.models.query_utils import Q
 from django.db.models.sql.query import Query
 
 
@@ -22,7 +20,6 @@ def patch_ORM_to_be_deterministic():
 
     patch_QuerySet()
     patch_Query()
-    patch_Q()
 
 
 patch_ORM_to_be_deterministic.have_patched = False
@@ -45,65 +42,18 @@ def patch_QuerySet():
     )
 
 
-if django.VERSION >= (2, 2):
-
-    def patch_Query():
-        patchy.patch(
-            Query.add_extra,
-            """\
-            @@ -13,7 +13,7 @@
-                         param_iter = iter(select_params)
-                     else:
-                         param_iter = iter([])
-            -        for name, entry in select.items():
-            +        for name, entry in sorted(select.items()):
-                         entry = str(entry)
-                         entry_params = []
-                         pos = entry.find("%s")
-        """,
-        )
-
-
-else:
-
-    def patch_Query():
-        patchy.patch(
-            Query.add_extra,
-            """\
-            @@ -13,7 +13,7 @@
-                         param_iter = iter(select_params)
-                     else:
-                         param_iter = iter([])
-            -        for name, entry in select.items():
-            +        for name, entry in sorted(select.items()):
-                         entry = force_text(entry)
-                         entry_params = []
-                         pos = entry.find("%s")
-        """,
-        )
-
-
-if django.VERSION < (2, 0, 3):
-
-    def patch_Q():
-        # This one can't be done by patchy since __init__ is different in Python 3,
-        # maybe one day https://github.com/adamchainz/patchy/issues/31 will be
-        # fixed.
-        def __init__(self, *args, **kwargs):
-            connector = kwargs.pop("_connector", None)
-            negated = kwargs.pop("_negated", False)
-            super().__init__(
-                children=list(args) + sorted(kwargs.items()),
-                connector=connector,
-                negated=negated,
-            )
-
-        Q.__init__ = __init__
-
-
-else:
-
-    # After Django 2.0.3, kwargs are sorted so we don't need to patch anything
-    # https://code.djangoproject.com/ticket/29125
-    def patch_Q():
-        pass
+def patch_Query():
+    patchy.patch(
+        Query.add_extra,
+        """\
+        @@ -13,7 +13,7 @@
+                     param_iter = iter(select_params)
+                 else:
+                     param_iter = iter([])
+        -        for name, entry in select.items():
+        +        for name, entry in sorted(select.items()):
+                     entry = str(entry)
+                     entry_params = []
+                     pos = entry.find("%s")
+    """,
+    )
