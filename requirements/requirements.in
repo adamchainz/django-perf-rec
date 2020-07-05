@@ -13,7 +13,6 @@ pygments
 pytest
 pytest-django
 pytest-randomly
-pytz
 pyyaml
 secretstorage ; python_version == '3.8.*' # required for twine on linux
 sqlparse
