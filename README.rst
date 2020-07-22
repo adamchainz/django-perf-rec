@@ -67,6 +67,13 @@ Python 3.5 to 3.8 supported.
 
 Django 2.2 to 3.0 suppported.
 
+----
+
+**Are your tests slow?**
+Check out my book `Speed Up Your Django Tests <https://gumroad.com/l/suydt>`__ which covers loads of best practices so you can write faster, more accurate tests.
+
+----
+
 API
 ===
 
