@@ -4,22 +4,22 @@ from collections.abc import Mapping, Sequence
 from functools import wraps
 from types import MethodType
 
-from django.conf import settings
-from django.core.cache import caches
+from django.core.cache import DEFAULT_CACHE_ALIAS, caches
 
-from django_perf_rec.utils import sorted_names
+from django_perf_rec.operation import AllSourceRecorder, Operation
 
 
-class CacheOp:
+class CacheOp(Operation):
     def __init__(self, alias, operation, key_or_keys):
-        self.alias = alias
         self.operation = operation
         if isinstance(key_or_keys, str):
-            self.key_or_keys = self.clean_key(key_or_keys)
+            cleaned_key_or_keys = self.clean_key(key_or_keys)
         elif isinstance(key_or_keys, (Mapping, Sequence)):
-            self.key_or_keys = sorted(self.clean_key(k) for k in key_or_keys)
+            cleaned_key_or_keys = sorted(self.clean_key(k) for k in key_or_keys)
         else:
             raise ValueError("key_or_keys must be a string, mapping, or sequence")
+
+        super().__init__(alias, cleaned_key_or_keys)
 
     @classmethod
     def clean_key(cls, key):
@@ -45,12 +45,15 @@ class CacheOp:
     )
 
     def __eq__(self, other):
-        return (
-            isinstance(other, CacheOp)
-            and self.alias == other.alias
-            and self.operation == other.operation
-            and self.key_or_keys == other.key_or_keys
-        )
+        return super().__eq__(other) and self.operation == other.operation
+
+    @property
+    def name(self):
+        name_parts = ["cache"]
+        if self.alias != DEFAULT_CACHE_ALIAS:
+            name_parts.append(self.alias)
+        name_parts.append(self.operation)
+        return "|".join(name_parts)
 
 
 class CacheRecorder:
@@ -119,22 +122,10 @@ class CacheRecorder:
     )
 
 
-class AllCacheRecorder:
+class AllCacheRecorder(AllSourceRecorder):
     """
     Launches CacheRecorders on all the active caches
     """
 
-    def __init__(self, callback):
-        self.callback = callback
-
-    def __enter__(self):
-        self.recorders = []
-        for name in sorted_names(settings.CACHES.keys()):
-            recorder = CacheRecorder(name, self.callback)
-            recorder.__enter__()
-            self.recorders.append(recorder)
-
-    def __exit__(self, type_, value, traceback):
-        for recorder in reversed(self.recorders):
-            recorder.__exit__(type_, value, traceback)
-        self.recorders = []
+    sources_setting = "CACHES"
+    recorder_class = CacheRecorder

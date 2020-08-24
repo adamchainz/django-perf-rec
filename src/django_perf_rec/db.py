@@ -1,29 +1,24 @@
 from functools import wraps
 from types import MethodType
 
-from django.conf import settings
-from django.db import connections
+from django.db import DEFAULT_DB_ALIAS, connections
 
+from django_perf_rec.operation import AllSourceRecorder, Operation
 from django_perf_rec.orm import patch_ORM_to_be_deterministic
 from django_perf_rec.settings import perf_rec_settings
 from django_perf_rec.sql import sql_fingerprint
-from django_perf_rec.utils import sorted_names
 
 
-class DBOp:
-    def __init__(self, alias, sql):
-        self.alias = alias
-        self.sql = sql
-
+class DBOp(Operation):
     def __repr__(self):
-        return "DBOp({!r}, {!r})".format(repr(self.alias), repr(self.sql))
+        return "DBOp({!r}, {!r})".format(repr(self.alias), repr(self.query))
 
-    def __eq__(self, other):
-        return (
-            isinstance(other, DBOp)
-            and self.alias == other.alias
-            and self.sql == other.sql
-        )
+    @property
+    def name(self):
+        name_parts = ["db"]
+        if self.alias != DEFAULT_DB_ALIAS:
+            name_parts.append(self.alias)
+        return "|".join(name_parts)
 
 
 class DBRecorder:
@@ -59,7 +54,8 @@ class DBRecorder:
                 hide_columns = perf_rec_settings.HIDE_COLUMNS
                 callback(
                     DBOp(
-                        alias=alias, sql=sql_fingerprint(sql, hide_columns=hide_columns)
+                        alias=alias,
+                        query=sql_fingerprint(sql, hide_columns=hide_columns),
                     )
                 )
                 return sql
@@ -73,26 +69,14 @@ class DBRecorder:
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         connection = connections[self.alias]
-        connection.force_debug_cursor = False
+        connection.force_debug_cursor = self.orig_force_debug_cursor
         connection.ops.last_executed_query = self.orig_last_executed_query
 
 
-class AllDBRecorder:
+class AllDBRecorder(AllSourceRecorder):
     """
     Launches DBRecorders on all database connections
     """
 
-    def __init__(self, callback):
-        self.callback = callback
-
-    def __enter__(self):
-        self.recorders = []
-        for alias in sorted_names(settings.DATABASES.keys()):
-            recorder = DBRecorder(alias, self.callback)
-            recorder.__enter__()
-            self.recorders.append(recorder)
-
-    def __exit__(self, type_, value, traceback):
-        for recorder in reversed(self.recorders):
-            recorder.__exit__(type_, value, traceback)
-        self.recorders = []
+    sources_setting = "DATABASES"
+    recorder_class = DBRecorder
