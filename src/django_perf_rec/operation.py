@@ -3,7 +3,7 @@ from django.conf import settings
 from django_perf_rec.utils import sorted_names
 
 
-class Operation(object):
+class Operation:
     def __init__(self, alias, query):
         self.alias = alias
         self.query = query
@@ -16,7 +16,7 @@ class Operation(object):
         )
 
 
-class AllSourceRecorder(object):
+class AllSourceRecorder:
     """
     Launches Recorders on all the active sources
     """
