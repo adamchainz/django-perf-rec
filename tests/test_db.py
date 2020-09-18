@@ -65,9 +65,7 @@ class DBRecorderTests(TestCase):
             run_query("default", "SELECT 1")
 
         assert len(callback.mock_calls) == 1
-        assert "/django-perf-rec/src/django_perf_rec/db.py" in str(
-            callback.call_args_list[0][0][0].tb
-        )
+        assert "django_perf_rec/db.py" in str(callback.call_args_list[0][0][0].tb)
 
 
 class AllDBRecorderTests(TestCase):

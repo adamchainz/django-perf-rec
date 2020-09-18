@@ -91,9 +91,7 @@ class CacheRecorderTests(TestCase):
             caches["default"].get("foo")
 
         assert len(callback.mock_calls) == 1
-        assert "/django-perf-rec/src/django_perf_rec/cache.py" in str(
-            callback.call_args_list[0][0][0].tb
-        )
+        assert "django_perf_rec/cache.py" in str(callback.call_args_list[0][0][0].tb)
 
 
 class AllCacheRecorderTests(TestCase):
