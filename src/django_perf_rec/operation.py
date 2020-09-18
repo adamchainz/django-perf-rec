@@ -4,15 +4,17 @@ from django_perf_rec.utils import sorted_names
 
 
 class Operation:
-    def __init__(self, alias, query):
+    def __init__(self, alias, query, trace_back):
         self.alias = alias
         self.query = query
+        self.tb = trace_back
 
     def __eq__(self, other):
         return (
             isinstance(other, type(self))
             and self.alias == other.alias
             and self.query == other.query
+            and self.tb == other.tb
         )
 
 

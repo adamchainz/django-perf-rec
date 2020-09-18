@@ -1,5 +1,6 @@
 import inspect
 import re
+import traceback
 from collections.abc import Mapping, Sequence
 from functools import wraps
 from types import MethodType
@@ -10,7 +11,8 @@ from django_perf_rec.operation import AllSourceRecorder, Operation
 
 
 class CacheOp(Operation):
-    def __init__(self, alias, operation, key_or_keys):
+    def __init__(self, alias, operation, key_or_keys, trace_back):
+        self.alias = alias
         self.operation = operation
         if isinstance(key_or_keys, str):
             cleaned_key_or_keys = self.clean_key(key_or_keys)
@@ -19,7 +21,7 @@ class CacheOp(Operation):
         else:
             raise ValueError("key_or_keys must be a string, mapping, or sequence")
 
-        super().__init__(alias, cleaned_key_or_keys)
+        super().__init__(alias, cleaned_key_or_keys, trace_back)
 
     @classmethod
     def clean_key(cls, key):
@@ -86,11 +88,13 @@ class CacheRecorder:
                     del frame
 
                 if not is_internal_call:
+                    key_or_keys = args[0]
                     callback(
                         CacheOp(
                             alias=alias,
                             operation=str(func.__name__),
-                            key_or_keys=args[0],
+                            key_or_keys=key_or_keys,
+                            trace_back=traceback.extract_stack(),
                         )
                     )
 

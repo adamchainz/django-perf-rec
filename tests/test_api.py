@@ -18,6 +18,27 @@ class RecordTests(TestCase):
         with record():
             run_query("default", "SELECT 1337")
 
+    def test_single_db_query_with_traceback(self):
+        with pretend_not_under_pytest():
+            with pytest.raises(AssertionError) as excinfo:
+
+                def capture_traceback(operation):
+                    return True
+
+                with record(
+                    record_name="RecordTests.test_single_db_query",
+                    capture_traceback=capture_traceback,
+                ):
+                    run_query("default", "SELECT 1337")
+
+            msg = str(excinfo.value)
+            assert (
+                "Performance record did not match for RecordTests.test_single_db_query"
+                in msg
+            )
+            assert "+ traceback:" in msg
+            assert "in test_single_db_query_with_traceback" in msg
+
     def test_single_db_query_model(self):
         with record():
             list(Author.objects.all())
@@ -47,6 +68,23 @@ class RecordTests(TestCase):
     def test_single_cache_op(self):
         with record():
             caches["default"].get("foo")
+
+    def test_single_cache_op_with_traceback(self):
+        with pretend_not_under_pytest():
+            with pytest.raises(AssertionError) as excinfo:
+
+                def capture_traceback(operation):
+                    return True
+
+                with record(
+                    record_name="RecordTests.test_single_cache_op",
+                    capture_traceback=capture_traceback,
+                ):
+                    caches["default"].get("foo")
+
+            msg = str(excinfo.value)
+            assert "+ traceback:" in msg
+            assert "in test_single_cache_op_with_traceback" in msg
 
     def test_multiple_cache_ops(self):
         with record():

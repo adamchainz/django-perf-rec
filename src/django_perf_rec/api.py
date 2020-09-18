@@ -1,4 +1,5 @@
 import os
+import traceback
 from threading import local
 
 from django.utils.functional import SimpleLazyObject
@@ -13,7 +14,7 @@ from django_perf_rec.yaml import KVFile
 record_current = local()
 
 
-def record(*, record_name=None, path=None):
+def record(*, record_name=None, path=None, capture_traceback=None):
     # Lazy since we may not need this to determine record_name or path,
     # depending on logic below
     test_details = SimpleLazyObject(current_test)
@@ -40,7 +41,7 @@ def record(*, record_name=None, path=None):
             file_name=file_name,
         )
 
-    return PerformanceRecorder(file_name, record_name)
+    return PerformanceRecorder(file_name, record_name, capture_traceback)
 
 
 def get_perf_path(file_path):
@@ -72,13 +73,14 @@ def get_record_name(test_name, class_name=None, file_name=""):
 
 
 class PerformanceRecorder:
-    def __init__(self, file_name, record_name):
+    def __init__(self, file_name, record_name, capture_traceback):
         self.file_name = file_name
         self.record_name = record_name
 
         self.record = []
         self.db_recorder = AllDBRecorder(self.on_op)
         self.cache_recorder = AllCacheRecorder(self.on_op)
+        self.capture_traceback = capture_traceback
 
     def __enter__(self):
         self.db_recorder.__enter__()
@@ -93,14 +95,18 @@ class PerformanceRecorder:
             self.save_or_assert()
 
     def on_op(self, op):
-        self.record.append({op.name: op.query})
+        record = {op.name: op.query}
+
+        if self.capture_traceback and self.capture_traceback(op):
+            record["traceback"] = traceback.StackSummary.from_list(op.tb).format()
+
+        self.record.append(record)
 
     def load_recordings(self):
         self.records_file = KVFile(self.file_name)
 
     def save_or_assert(self):
         orig_record = self.records_file.get(self.record_name, None)
-
         if perf_rec_settings.MODE == "none":
             assert (
                 orig_record is not None

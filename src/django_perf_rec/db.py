@@ -1,3 +1,4 @@
+import traceback
 from functools import wraps
 from types import MethodType
 
@@ -53,6 +54,7 @@ class DBRecorder:
                     DBOp(
                         alias=alias,
                         query=sql_fingerprint(sql, hide_columns=hide_columns),
+                        trace_back=traceback.extract_stack(),
                     )
                 )
                 return sql

@@ -81,8 +81,8 @@ Check out my book `Speed Up Your Django Tests <https://gumroad.com/l/suydt>`__ w
 API
 ===
 
-``record(record_name=None, path=None)``
----------------------------------------
+``record(record_name=None, path=None, capture_traceback=None)``
+---------------------------------------------------------------
 
 Return a context manager that will be used for a single performance test.
 
@@ -127,6 +127,28 @@ Example:
             with django_perf_rec.record():
                 list(Author.objects.special_method())
 
+
+``capture_traceback`` is a function that is called for each DB or cache
+operation, to know if a traceback should be recorded alongside the operation.
+This is intended to be used as a debugging tool, by default tracebacks are not
+recorded. The function receive an ``Operation`` object as parameter and should
+return either True or False. This is useful to understand where some operations
+come from, for instance if you wanted to know what piece of code triggers a
+query on ``my_table`` table, you can do:
+
+.. code-block:: SQL
+
+    def debug_sql_query(operation):
+        return "FROM my_table" in operation.query
+
+    def test_special_method(self):
+        with django_perf_rec.record(capture_traceback=debug_sql_query):
+            list(Author.objects.special_method())
+
+In the performance record you'll find a traceback printed under each SQL
+queries containing "FROM my_table". Be aware that two records differing only by
+the presence of tracebacks will be considered different and ``AssertionError``
+will be raised.
 
 ``TestCaseMixin``
 -----------------
@@ -213,7 +235,6 @@ when a performance record does not exist during a test run.
   probably want to use this mode in CI, to ensure new tests fail if their
   corresponding performance records were not committed.
 * ``'all'`` creates missing records and then raises ``AssertionError``.
-
 
 Usage in Pytest
 ===============

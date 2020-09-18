@@ -11,40 +11,47 @@ except ImportError:
 
 class DBOpTests(SimpleTestCase):
     def test_create(self):
-        op = DBOp("myalias", "SELECT 1")
+        op = DBOp("myalias", "SELECT 1", None)
         assert op.alias == "myalias"
         assert op.query == "SELECT 1"
+        assert op.tb is None
 
     def test_equal(self):
-        assert DBOp("foo", "bar") == DBOp("foo", "bar")
+        assert DBOp("foo", "bar", "traceback") == DBOp("foo", "bar", "traceback")
 
     def test_not_equal_alias(self):
-        assert DBOp("foo", "bar") != DBOp("baz", "bar")
+        assert DBOp("foo", "bar", None) != DBOp("baz", "bar", None)
 
     def test_not_equal_sql(self):
-        assert DBOp("foo", "bar") != DBOp("foo", "baz")
+        assert DBOp("foo", "bar", None) != DBOp("foo", "baz", None)
+
+    def test_not_equal_traceback(self):
+        assert DBOp("foo", "bar", "traceback") != DBOp("foo", "baz", None)
 
 
 class DBRecorderTests(TestCase):
     databases = ("default", "second", "replica")
 
-    def test_default(self):
+    @mock.patch("django_perf_rec.db.traceback.extract_stack", return_value=None)
+    def test_default(self, extract_stack):
         callback = mock.Mock()
         with DBRecorder("default", callback):
             run_query("default", "SELECT 1")
-        callback.assert_called_once_with(DBOp("default", "SELECT #"))
+        callback.assert_called_once_with(DBOp("default", "SELECT #", None))
 
-    def test_secondary(self):
+    @mock.patch("django_perf_rec.db.traceback.extract_stack", return_value=None)
+    def test_secondary(self, extract_stack):
         callback = mock.Mock()
         with DBRecorder("second", callback):
             run_query("second", "SELECT 1")
-        callback.assert_called_once_with(DBOp("second", "SELECT #"))
+        callback.assert_called_once_with(DBOp("second", "SELECT #", None))
 
-    def test_replica(self):
+    @mock.patch("django_perf_rec.db.traceback.extract_stack", return_value=None)
+    def test_replica(self, extract_stack):
         callback = mock.Mock()
         with DBRecorder("replica", callback):
             run_query("replica", "SELECT 1")
-        callback.assert_called_once_with(DBOp("replica", "SELECT #"))
+        callback.assert_called_once_with(DBOp("replica", "SELECT #", None))
 
     def test_secondary_default_not_recorded(self):
         callback = mock.Mock()
@@ -52,11 +59,22 @@ class DBRecorderTests(TestCase):
             run_query("default", "SELECT 1")
         assert len(callback.mock_calls) == 0
 
+    def test_record_traceback(self):
+        callback = mock.Mock()
+        with DBRecorder("default", callback):
+            run_query("default", "SELECT 1")
+
+        assert len(callback.mock_calls) == 1
+        assert "/django-perf-rec/src/django_perf_rec/db.py" in str(
+            callback.call_args_list[0][0][0].tb
+        )
+
 
 class AllDBRecorderTests(TestCase):
     databases = ("default", "second", "replica")
 
-    def test_records_all(self):
+    @mock.patch("django_perf_rec.db.traceback.extract_stack", return_value=None)
+    def test_records_all(self, extract_stack):
         callback = mock.Mock()
         with AllDBRecorder(callback):
             run_query("replica", "SELECT 1")
@@ -64,7 +82,7 @@ class AllDBRecorderTests(TestCase):
             run_query("second", "SELECT 3")
 
         assert callback.mock_calls == [
-            mock.call(DBOp("replica", "SELECT #")),
-            mock.call(DBOp("default", "SELECT #")),
-            mock.call(DBOp("second", "SELECT #")),
+            mock.call(DBOp("replica", "SELECT #", None)),
+            mock.call(DBOp("default", "SELECT #", None)),
+            mock.call(DBOp("second", "SELECT #", None)),
         ]

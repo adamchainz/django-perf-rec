@@ -29,46 +29,55 @@ class CacheOpTests(SimpleTestCase):
         assert CacheOp.clean_key(key) == "django.contrib.sessions.cached_db#"
 
     def test_key(self):
-        op = CacheOp("default", "foo", "bar")
+        op = CacheOp("default", "foo", "bar", None)
         assert op.alias == "default"
         assert op.operation == "foo"
         assert op.query == "bar"
 
     def test_keys(self):
-        op = CacheOp("default", "foo", ["bar", "baz"])
+        op = CacheOp("default", "foo", ["bar", "baz"], None)
         assert op.alias == "default"
         assert op.operation == "foo"
         assert op.query == ["bar", "baz"]
 
     def test_invalid(self):
         with pytest.raises(ValueError):
-            CacheOp("x", "foo", object())
+            CacheOp("x", "foo", object(), None)
 
     def test_equal(self):
-        assert CacheOp("x", "foo", "bar") == CacheOp("x", "foo", "bar")
+        assert CacheOp("x", "foo", "bar", "traceback") == CacheOp(
+            "x", "foo", "bar", "traceback"
+        )
 
     def test_not_equal_alias(self):
-        assert CacheOp("x", "foo", "bar") != CacheOp("y", "foo", "bar")
+        assert CacheOp("x", "foo", "bar", None) != CacheOp("y", "foo", "bar", None)
 
     def test_not_equal_operation(self):
-        assert CacheOp("x", "foo", "bar") != CacheOp("x", "bar", "bar")
+        assert CacheOp("x", "foo", "bar", None) != CacheOp("x", "bar", "bar", None)
 
     def test_not_equal_keys(self):
-        assert CacheOp("x", "foo", ["bar"]) != CacheOp("x", "foo", ["baz"])
+        assert CacheOp("x", "foo", ["bar"], None) != CacheOp("x", "foo", ["baz"], None)
+
+    def test_not_equal_traceback(self):
+        assert CacheOp("x", "foo", "bar", "traceback") != CacheOp(
+            "x", "foo", "bar", None
+        )
 
 
 class CacheRecorderTests(TestCase):
-    def test_default(self):
+    @mock.patch("django_perf_rec.cache.traceback.extract_stack", return_value=None)
+    def test_default(self, extract_stack):
         callback = mock.Mock()
         with CacheRecorder("default", callback):
             caches["default"].get("foo")
-        callback.assert_called_once_with(CacheOp("default", "get", "foo"))
+        callback.assert_called_once_with(CacheOp("default", "get", "foo", None))
 
-    def test_secondary(self):
+    @mock.patch("django_perf_rec.cache.traceback.extract_stack", return_value=None)
+    def test_secondary(self, extract_stack):
         callback = mock.Mock()
         with CacheRecorder("second", callback):
             caches["second"].get("foo")
-        callback.assert_called_once_with(CacheOp("second", "get", "foo"))
+        callback.assert_called_once_with(CacheOp("second", "get", "foo", None))
 
     def test_secondary_default_not_recorded(self):
         callback = mock.Mock()
@@ -76,9 +85,20 @@ class CacheRecorderTests(TestCase):
             caches["default"].get("foo")
         assert len(callback.mock_calls) == 0
 
+    def test_record_traceback(self):
+        callback = mock.Mock()
+        with CacheRecorder("default", callback):
+            caches["default"].get("foo")
+
+        assert len(callback.mock_calls) == 1
+        assert "/django-perf-rec/src/django_perf_rec/cache.py" in str(
+            callback.call_args_list[0][0][0].tb
+        )
+
 
 class AllCacheRecorderTests(TestCase):
-    def test_records_all(self):
+    @mock.patch("django_perf_rec.cache.traceback.extract_stack", return_value=None)
+    def test_records_all(self, extract_stack):
         callback = mock.Mock()
         with AllCacheRecorder(callback):
             caches["default"].get("foo")
@@ -86,7 +106,7 @@ class AllCacheRecorderTests(TestCase):
             caches["default"].delete_many(["foo"])
 
         assert callback.mock_calls == [
-            mock.call(CacheOp("default", "get", "foo")),
-            mock.call(CacheOp("second", "set", "bar")),
-            mock.call(CacheOp("default", "delete_many", ["foo"])),
+            mock.call(CacheOp("default", "get", "foo", None)),
+            mock.call(CacheOp("second", "set", "bar", None)),
+            mock.call(CacheOp("default", "delete_many", ["foo"], None)),
         ]

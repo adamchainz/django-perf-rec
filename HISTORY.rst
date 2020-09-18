@@ -3,6 +3,8 @@ History
 =======
 
 * Support Python 3.9.
+* * Allow recording of a traceback alongside db queries or cache operation
+  by passing a discriminant function to record()
 
 4.8.0 (2020-10-10)
 ------------------
