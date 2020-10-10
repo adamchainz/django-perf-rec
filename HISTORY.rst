@@ -2,6 +2,10 @@ History
 =======
 
 * Drop Django 2.0 and 2.1 support.
+* Upgrade for sqlparse 0.4.0+. This required changing how SQL lists of one
+  element are simplified, e.g. ``IN (1)`` will now be simplified to ``IN (#)``
+  instead of ``IN (...)``. You should regenerate your performance record files
+  to match.
 
 4.7.0 (2020-06-15)
 ------------------
