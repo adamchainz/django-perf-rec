@@ -11,6 +11,10 @@ django-perf-rec
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/python/black
 
+.. image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white
+   :target: https://github.com/pre-commit/pre-commit
+   :alt: pre-commit
+
 "Keep detailed records of the performance of your Django code."
 
 **django-perf-rec** is like Django's ``assertNumQueries`` on steroids. It lets
