@@ -16,9 +16,9 @@ django==3.1.2 \
     --hash=sha256:a2127ad0150ec6966655bedf15dbbff9697cc86d61653db2da1afa506c0b04cc \
     --hash=sha256:c93c28ccf1d094cbd00d860e83128a39e45d2c571d3b54361713aaaf9a94cac4 \
     # via -r requirements.in
-iniconfig==1.0.1 \
-    --hash=sha256:80cf40c597eb564e86346103f609d74efce0f6b4d4f30ec8ce9e2c26411ba437 \
-    --hash=sha256:e5f92f89355a67de0595932a6c6c02ab4afddc6fcdc0bfc5becd0d60884d3f69 \
+iniconfig==1.1.1 \
+    --hash=sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3 \
+    --hash=sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32 \
     # via pytest
 packaging==20.4 \
     --hash=sha256:4357f74f47b9c12db93624a82154e9b120fa8293699949152b22065d556079f8 \
@@ -40,17 +40,17 @@ py==1.9.0 \
     --hash=sha256:366389d1db726cd2fcfc79732e75410e5fe4d31db13692115529d34069a043c2 \
     --hash=sha256:9ca6883ce56b4e8da7e79ac18787889fa5206c79dcc67fb065376cd2fe03f342 \
     # via pytest
-pygments==2.7.1 \
-    --hash=sha256:307543fe65c0947b126e83dd5a61bd8acbd84abec11f43caebaf5534cbc17998 \
-    --hash=sha256:926c3f319eda178d1bd90851e4317e6d8cdb5e292a3386aac9bd75eca29cf9c7 \
+pygments==2.7.2 \
+    --hash=sha256:381985fcc551eb9d37c52088a32914e00517e57f4a21609f48141ba08e193fa0 \
+    --hash=sha256:88a0bbcd659fcb9573703957c6b9cff9fab7295e6e76db54c9d00ae42df32773 \
     # via -r requirements.in
 pyparsing==2.4.7 \
     --hash=sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1 \
     --hash=sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b \
     # via packaging
-pytest-django==3.10.0 \
-    --hash=sha256:4de6dbd077ed8606616958f77655fed0d5e3ee45159475671c7fa67596c6dba6 \
-    --hash=sha256:c33e3d3da14d8409b125d825d4e74da17bb252191bf6fc3da6856e27a8b73ea4 \
+pytest-django==4.1.0 \
+    --hash=sha256:10e384e6b8912ded92db64c58be8139d9ae23fb8361e5fc139d8e4f8fc601bc2 \
+    --hash=sha256:26f02c16d36fd4c8672390deebe3413678d89f30720c16efb8b2a6bf63b9041f \
     # via -r requirements.in
 pytest-randomly==3.4.1 \
     --hash=sha256:2c4df1390db72a33a4f44fac0c780e7883cd5968238efa2a2bdbdd54e3fc6681 \
