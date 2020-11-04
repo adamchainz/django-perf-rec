@@ -1,13 +1,11 @@
+from unittest import mock
+
 import pytest
 from django.core.cache import caches
 from django.test import SimpleTestCase, TestCase
 
 from django_perf_rec.cache import AllCacheRecorder, CacheOp, CacheRecorder
-
-try:
-    from unittest import mock
-except ImportError:
-    import mock
+from tests.utils import disable_traceback
 
 
 class CacheOpTests(SimpleTestCase):
@@ -65,14 +63,14 @@ class CacheOpTests(SimpleTestCase):
 
 
 class CacheRecorderTests(TestCase):
-    @mock.patch("django_perf_rec.cache.traceback.extract_stack", return_value=None)
+    @disable_traceback
     def test_default(self, extract_stack):
         callback = mock.Mock()
         with CacheRecorder("default", callback):
             caches["default"].get("foo")
         callback.assert_called_once_with(CacheOp("default", "get", "foo", None))
 
-    @mock.patch("django_perf_rec.cache.traceback.extract_stack", return_value=None)
+    @disable_traceback
     def test_secondary(self, extract_stack):
         callback = mock.Mock()
         with CacheRecorder("second", callback):
@@ -91,11 +89,13 @@ class CacheRecorderTests(TestCase):
             caches["default"].get("foo")
 
         assert len(callback.mock_calls) == 1
-        assert "django_perf_rec/cache.py" in str(callback.call_args_list[0][0][0].traceback)
+        assert "django_perf_rec/cache.py" in str(
+            callback.call_args_list[0][0][0].traceback
+        )
 
 
 class AllCacheRecorderTests(TestCase):
-    @mock.patch("django_perf_rec.cache.traceback.extract_stack", return_value=None)
+    @disable_traceback
     def test_records_all(self, extract_stack):
         callback = mock.Mock()
         with AllCacheRecorder(callback):

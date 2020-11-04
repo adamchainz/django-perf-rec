@@ -1,12 +1,9 @@
+from unittest import mock
+
 from django.test import SimpleTestCase, TestCase
 
 from django_perf_rec.db import AllDBRecorder, DBOp, DBRecorder
-from tests.utils import run_query
-
-try:
-    from unittest import mock
-except ImportError:
-    import mock
+from tests.utils import disable_traceback, run_query
 
 
 class DBOpTests(SimpleTestCase):
@@ -32,21 +29,21 @@ class DBOpTests(SimpleTestCase):
 class DBRecorderTests(TestCase):
     databases = ("default", "second", "replica")
 
-    @mock.patch("django_perf_rec.db.traceback.extract_stack", return_value=None)
+    @disable_traceback
     def test_default(self, extract_stack):
         callback = mock.Mock()
         with DBRecorder("default", callback):
             run_query("default", "SELECT 1")
         callback.assert_called_once_with(DBOp("default", "SELECT #", None))
 
-    @mock.patch("django_perf_rec.db.traceback.extract_stack", return_value=None)
+    @disable_traceback
     def test_secondary(self, extract_stack):
         callback = mock.Mock()
         with DBRecorder("second", callback):
             run_query("second", "SELECT 1")
         callback.assert_called_once_with(DBOp("second", "SELECT #", None))
 
-    @mock.patch("django_perf_rec.db.traceback.extract_stack", return_value=None)
+    @disable_traceback
     def test_replica(self, extract_stack):
         callback = mock.Mock()
         with DBRecorder("replica", callback):
@@ -65,13 +62,15 @@ class DBRecorderTests(TestCase):
             run_query("default", "SELECT 1")
 
         assert len(callback.mock_calls) == 1
-        assert "django_perf_rec/db.py" in str(callback.call_args_list[0][0][0].traceback)
+        assert "django_perf_rec/db.py" in str(
+            callback.call_args_list[0][0][0].traceback
+        )
 
 
 class AllDBRecorderTests(TestCase):
     databases = ("default", "second", "replica")
 
-    @mock.patch("django_perf_rec.db.traceback.extract_stack", return_value=None)
+    @disable_traceback
     def test_records_all(self, extract_stack):
         callback = mock.Mock()
         with AllDBRecorder(callback):
