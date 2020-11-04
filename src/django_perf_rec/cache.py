@@ -11,7 +11,7 @@ from django_perf_rec.operation import AllSourceRecorder, Operation
 
 
 class CacheOp(Operation):
-    def __init__(self, alias, operation, key_or_keys, trace_back):
+    def __init__(self, alias, operation, key_or_keys, traceback):
         self.alias = alias
         self.operation = operation
         if isinstance(key_or_keys, str):
@@ -21,7 +21,7 @@ class CacheOp(Operation):
         else:
             raise ValueError("key_or_keys must be a string, mapping, or sequence")
 
-        super().__init__(alias, cleaned_key_or_keys, trace_back)
+        super().__init__(alias, cleaned_key_or_keys, traceback)
 
     @classmethod
     def clean_key(cls, key):
@@ -94,7 +94,7 @@ class CacheRecorder:
                             alias=alias,
                             operation=str(func.__name__),
                             key_or_keys=key_or_keys,
-                            trace_back=traceback.extract_stack(),
+                            traceback=traceback.extract_stack(),
                         )
                     )
 

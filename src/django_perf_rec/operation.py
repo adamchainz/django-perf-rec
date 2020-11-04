@@ -4,10 +4,10 @@ from django_perf_rec.utils import sorted_names
 
 
 class Operation:
-    def __init__(self, alias, query, trace_back):
+    def __init__(self, alias, query, traceback):
         self.alias = alias
         self.query = query
-        self.tb = trace_back
+        self.tb = traceback
 
     def __eq__(self, other):
         return (
