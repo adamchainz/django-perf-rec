@@ -1,7 +1,9 @@
 import errno
 import os
 import shutil
+import traceback
 from contextlib import contextmanager
+from unittest import mock
 
 from django.db import connections
 
@@ -39,3 +41,6 @@ def pretend_not_under_pytest():
         yield
     finally:
         pytest_plugin.in_pytest = orig
+
+
+disable_traceback = mock.patch.object(traceback, "extract_stack", return_value=None)
