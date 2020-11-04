@@ -3,8 +3,8 @@ History
 =======
 
 * Support Python 3.9.
-* * Allow recording of a traceback alongside db queries or cache operation
-  by passing a discriminant function to record()
+* Allow recording of tracebacks alongside db queries or cache operations,
+  selected via a function passed as ``capture_traceback`` to ``record()``.
 
 4.8.0 (2020-10-10)
 ------------------
