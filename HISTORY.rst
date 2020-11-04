@@ -2,6 +2,9 @@
 History
 =======
 
+4.9.0 (2020-11-04)
+------------------
+
 * Support Python 3.9.
 * Allow recording of tracebacks alongside db queries or cache operations,
   selected via a function passed as ``capture_traceback`` to ``record()``.
