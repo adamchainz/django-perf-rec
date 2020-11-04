@@ -128,27 +128,28 @@ Example:
                 list(Author.objects.special_method())
 
 
-``capture_traceback`` is a function that is called for each DB or cache
-operation, to know if a traceback should be recorded alongside the operation.
-This is intended to be used as a debugging tool, by default tracebacks are not
-recorded. The function receive an ``Operation`` object as parameter and should
-return either True or False. This is useful to understand where some operations
-come from, for instance if you wanted to know what piece of code triggers a
-query on ``my_table`` table, you can do:
+``capture_traceback``, if not ``None``, should be a function that takes one
+argument, the given DB or cache operation, and returns a ``bool`` indiciating
+if a traceback should be captured for the operation (by default, they are not).
+Capturing tracebacks allows fine-grained debugging of code paths causing the
+operations. Be aware that records differing only by the presence of tracebacks
+will not match and cause an ``AssertionError`` to be raised, so it's not
+normally suitable to permanently record the tracebacks.
 
-.. code-block:: SQL
+For example, if you wanted to know what code paths query the table
+``my_table``, you could use a ``capture_traceback`` function like so:
+
+.. code-block:: python
 
     def debug_sql_query(operation):
-        return "FROM my_table" in operation.query
+        return "my_tables" in operation.query
 
     def test_special_method(self):
         with django_perf_rec.record(capture_traceback=debug_sql_query):
             list(Author.objects.special_method())
 
-In the performance record you'll find a traceback printed under each SQL
-queries containing "FROM my_table". Be aware that two records differing only by
-the presence of tracebacks will be considered different and ``AssertionError``
-will be raised.
+The performance record herer would include a standard Python traceback attached
+to each SQL query containing "my_table".
 
 ``TestCaseMixin``
 -----------------
