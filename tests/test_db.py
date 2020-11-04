@@ -14,7 +14,7 @@ class DBOpTests(SimpleTestCase):
         op = DBOp("myalias", "SELECT 1", None)
         assert op.alias == "myalias"
         assert op.query == "SELECT 1"
-        assert op.tb is None
+        assert op.traceback is None
 
     def test_equal(self):
         assert DBOp("foo", "bar", "traceback") == DBOp("foo", "bar", "traceback")
@@ -65,7 +65,7 @@ class DBRecorderTests(TestCase):
             run_query("default", "SELECT 1")
 
         assert len(callback.mock_calls) == 1
-        assert "django_perf_rec/db.py" in str(callback.call_args_list[0][0][0].tb)
+        assert "django_perf_rec/db.py" in str(callback.call_args_list[0][0][0].traceback)
 
 
 class AllDBRecorderTests(TestCase):

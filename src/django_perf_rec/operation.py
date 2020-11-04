@@ -7,14 +7,14 @@ class Operation:
     def __init__(self, alias, query, traceback):
         self.alias = alias
         self.query = query
-        self.tb = traceback
+        self.traceback = traceback
 
     def __eq__(self, other):
         return (
             isinstance(other, type(self))
             and self.alias == other.alias
             and self.query == other.query
-            and self.tb == other.tb
+            and self.traceback == other.traceback
         )
 
 

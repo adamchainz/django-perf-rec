@@ -98,7 +98,7 @@ class PerformanceRecorder:
         record = {op.name: op.query}
 
         if self.capture_traceback and self.capture_traceback(op):
-            record["traceback"] = traceback.StackSummary.from_list(op.tb).format()
+            record["traceback"] = traceback.StackSummary.from_list(op.traceback).format()
 
         self.record.append(record)
 
