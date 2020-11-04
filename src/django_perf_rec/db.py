@@ -10,9 +10,6 @@ from django_perf_rec.sql import sql_fingerprint
 
 
 class DBOp(Operation):
-    def __repr__(self):
-        return "DBOp({!r}, {!r})".format(repr(self.alias), repr(self.query))
-
     @property
     def name(self):
         name_parts = ["db"]
