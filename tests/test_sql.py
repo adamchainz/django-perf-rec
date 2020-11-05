@@ -309,3 +309,12 @@ def test_in_subquery():
         sql_fingerprint("SELECT `f1`, `f2` FROM `b` WHERE `x` IN (SELECT 1)")
         == "SELECT ... FROM `b` WHERE `x` IN (SELECT #)"
     )
+
+
+def test_insert_list():
+    assert (
+        sql_fingerprint(
+            "INSERT INTO `t` (`f1`, `f2`) VALUES (`a`, `b`), (`c`, `d`), (`c`, `d`)"
+        )
+        == "INSERT INTO `t` (...) VALUES (...), (...), (...)"
+    )
