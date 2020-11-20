@@ -1,8 +1,10 @@
 RecordTests.test_delete_on_cascade_called_twice:
-- db: 'DELETE FROM "testapp_book" WHERE "testapp_book"."author_id" IN (#)'
-- db: 'DELETE FROM "testapp_award" WHERE "testapp_award"."author_id" IN (#)'
-- db: 'DELETE FROM "testapp_contract_author" WHERE "testapp_contract_author"."author_id" IN (#)'
-- db: 'DELETE FROM "testapp_author" WHERE "testapp_author"."id" IN (#)'
+- db: DELETE FROM "testapp_book" WHERE "testapp_book"."author_id" IN (#)
+- db: DELETE FROM "testapp_award" WHERE "testapp_award"."author_id" IN (#)
+- db: DELETE FROM "testapp_contract_author" WHERE "testapp_contract_author"."author_id" IN (#)
+- db: DELETE FROM "testapp_author" WHERE "testapp_author"."id" IN (#)
+RecordTests.test_get_or_set:
+- cache|get_or_set: foo
 RecordTests.test_multiple_cache_ops:
 - cache|set: foo
 - cache|second|get_many:

@@ -69,6 +69,10 @@ class RecordTests(TestCase):
         with record():
             caches["default"].get("foo")
 
+    def test_get_or_set(self):
+        with record():
+            caches["default"].get_or_set("foo", 42)
+
     def test_single_cache_op_with_traceback(self):
         with pretend_not_under_pytest():
             with pytest.raises(AssertionError) as excinfo:

@@ -2,6 +2,11 @@
 History
 =======
 
+* Correctly record calls to ``cache.get_or_set()``.
+
+  Thanks to Peter Law for the report in
+  `Issue #319 <https://github.com/adamchainz/django-perf-rec/issues/319>`__.
+
 4.9.0 (2020-11-04)
 ------------------
 
