@@ -120,6 +120,7 @@ class CacheRecorder:
         "delete_many",
         "get",
         "get_many",
+        "get_or_set",
         "incr",
         "set",
         "set_many",
