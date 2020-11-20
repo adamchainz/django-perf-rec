@@ -2,6 +2,9 @@
 History
 =======
 
+4.10.0 (2020-11-20)
+-------------------
+
 * Correctly record calls to ``cache.get_or_set()``.
 
   Thanks to Peter Law for the report in
@@ -13,6 +16,9 @@ History
 * Support Python 3.9.
 * Allow recording of tracebacks alongside db queries or cache operations,
   selected via a function passed as ``capture_traceback`` to ``record()``.
+
+  Thanks to Nadege Michel in
+  `PR #299 <https://github.com/adamchainz/django-perf-rec/pull/299>`__.
 
 4.8.0 (2020-10-10)
 ------------------
