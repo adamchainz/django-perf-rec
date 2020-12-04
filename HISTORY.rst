@@ -2,11 +2,15 @@
 History
 =======
 
+4.11.0 (2020-12-04)
+-------------------
+
 * Drop Python 3.5 support.
 * Remove ORM patching. Now that only Python 3.6 is supported, the
   insertion-order of ``dict``\s should mean Django's ORM always provides
   deterministic queries. The two patches django-perf-rec made on the ORM have
-  been removed, and the corresponding dependency on patchy.
+  been removed, and the corresponding dependency on patchy. You may need to
+  regenerate your performance record files.
 
   This fixes an issue where use of ``annotate()`` with dependencies between the
   annotations could cause a query error after django-perf-rec sorted the
