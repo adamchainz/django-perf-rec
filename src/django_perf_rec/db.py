@@ -5,7 +5,6 @@ from types import MethodType
 from django.db import DEFAULT_DB_ALIAS, connections
 
 from django_perf_rec.operation import AllSourceRecorder, Operation
-from django_perf_rec.orm import patch_ORM_to_be_deterministic
 from django_perf_rec.settings import perf_rec_settings
 from django_perf_rec.sql import sql_fingerprint
 
@@ -36,8 +35,6 @@ class DBRecorder:
         library. Here we wrap this function on the connection to grab the SQL
         as it comes out.
         """
-        patch_ORM_to_be_deterministic()
-
         connection = connections[self.alias]
         self.orig_force_debug_cursor = connection.force_debug_cursor
         connection.force_debug_cursor = True

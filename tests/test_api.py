@@ -2,7 +2,7 @@ import os
 
 import pytest
 from django.core.cache import caches
-from django.db.models import Q
+from django.db.models import F, Q
 from django.db.models.functions import Upper
 from django.test import SimpleTestCase, TestCase, override_settings
 
@@ -56,6 +56,10 @@ class RecordTests(TestCase):
     def test_non_deterministic_QuerySet_annotate(self):
         with record():
             list(Author.objects.annotate(x=Upper("name"), y=Upper("name")))
+
+    def test_dependent_QuerySet_annotate(self):
+        with record():
+            list(Author.objects.annotate(y=Upper("name"), x=F("y")))
 
     def test_non_deterministic_QuerySet_extra(self):
         with record():
