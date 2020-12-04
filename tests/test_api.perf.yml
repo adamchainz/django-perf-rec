@@ -3,6 +3,8 @@ RecordTests.test_delete_on_cascade_called_twice:
 - db: DELETE FROM "testapp_award" WHERE "testapp_award"."author_id" IN (#)
 - db: DELETE FROM "testapp_contract_author" WHERE "testapp_contract_author"."author_id" IN (#)
 - db: DELETE FROM "testapp_author" WHERE "testapp_author"."id" IN (#)
+RecordTests.test_dependent_QuerySet_annotate:
+- db: SELECT ... FROM "testapp_author"
 RecordTests.test_get_or_set:
 - cache|get_or_set: foo
 RecordTests.test_multiple_cache_ops:
