@@ -2,7 +2,7 @@
 django-perf-rec
 ===============
 
-.. image:: https://img.shields.io/github/workflow/status/adamchainz/django-perf-rec/CI/master?style=for-the-badge
+.. image:: https://img.shields.io/github/workflow/status/adamchainz/django-perf-rec/CI/main?style=for-the-badge
    :target: https://github.com/adamchainz/django-perf-rec/actions?workflow=CI
 
 .. image:: https://img.shields.io/pypi/v/django-perf-rec.svg?style=for-the-badge
@@ -243,5 +243,5 @@ Usage in Pytest
 If you're using Pytest, you might want to call ``record()`` from within a
 Pytest fixture and have it automatically apply to all your tests. We have an
 example of this, see the file `test_pytest_fixture_usage.py
-<https://github.com/adamchainz/django-perf-rec/blob/master/tests/test_pytest_fixture_usage.py>`_
+<https://github.com/adamchainz/django-perf-rec/blob/main/tests/test_pytest_fixture_usage.py>`_
 in the test suite.
