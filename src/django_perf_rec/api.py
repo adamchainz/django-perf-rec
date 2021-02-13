@@ -14,7 +14,12 @@ from django_perf_rec.yaml import KVFile
 record_current = local()
 
 
-def record(*, record_name=None, path=None, capture_traceback=None):
+def record(
+    *,
+    record_name=None,
+    path=None,
+    capture_traceback=None,
+):
     # Lazy since we may not need this to determine record_name or path,
     # depending on logic below
     test_details = SimpleLazyObject(current_test)
@@ -41,7 +46,11 @@ def record(*, record_name=None, path=None, capture_traceback=None):
             file_name=file_name,
         )
 
-    return PerformanceRecorder(file_name, record_name, capture_traceback)
+    return PerformanceRecorder(
+        file_name,
+        record_name,
+        capture_traceback,
+    )
 
 
 def get_perf_path(file_path):
