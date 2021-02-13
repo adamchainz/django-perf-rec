@@ -19,6 +19,7 @@ def record(
     record_name=None,
     path=None,
     capture_traceback=None,
+    capture_operation=None,
 ):
     # Lazy since we may not need this to determine record_name or path,
     # depending on logic below
@@ -50,6 +51,7 @@ def record(
         file_name,
         record_name,
         capture_traceback,
+        capture_operation,
     )
 
 
@@ -82,13 +84,14 @@ def get_record_name(test_name, class_name=None, file_name=""):
 
 
 class PerformanceRecorder:
-    def __init__(self, file_name, record_name, capture_traceback):
+    def __init__(self, file_name, record_name, capture_traceback, capture_operation):
         self.file_name = file_name
         self.record_name = record_name
 
         self.record = []
         self.db_recorder = AllDBRecorder(self.on_op)
         self.cache_recorder = AllCacheRecorder(self.on_op)
+        self.capture_operation = capture_operation
         self.capture_traceback = capture_traceback
 
     def __enter__(self):
@@ -105,6 +108,9 @@ class PerformanceRecorder:
 
     def on_op(self, op):
         record = {op.name: op.query}
+
+        if self.capture_operation and not self.capture_operation(op):
+            return
 
         if self.capture_traceback and self.capture_traceback(op):
             record["traceback"] = traceback.StackSummary.from_list(
