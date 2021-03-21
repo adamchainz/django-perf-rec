@@ -129,7 +129,7 @@ Example:
 
 
 ``capture_traceback``, if not ``None``, should be a function that takes one
-argument, the given DB or cache operation, and returns a ``bool`` indiciating
+argument, the given DB or cache operation, and returns a ``bool`` indicating
 if a traceback should be captured for the operation (by default, they are not).
 Capturing tracebacks allows fine-grained debugging of code paths causing the
 operations. Be aware that records differing only by the presence of tracebacks
