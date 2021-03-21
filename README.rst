@@ -148,7 +148,7 @@ For example, if you wanted to know what code paths query the table
         with django_perf_rec.record(capture_traceback=debug_sql_query):
             list(Author.objects.special_method())
 
-The performance record herer would include a standard Python traceback attached
+The performance record here would include a standard Python traceback attached
 to each SQL query containing "my_table".
 
 
