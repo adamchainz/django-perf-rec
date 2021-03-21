@@ -6,6 +6,15 @@ History
   run outside of the tox setup in the repository. Repackagers can use GitHub's
   tarballs per tag.
 
+* Add support for hiding some operations from being recorded, via a new
+  ``capture_operation`` callable to ``record``. This is potentially useful where
+  a different backend is used in testing than would be used in production and
+  thus a portion of the operations in a context are not representative.
+
+  Thanks to Peter Law in
+  `PR #342 <https://github.com/adamchainz/django-perf-rec/pull/342>`__.
+
+
 4.12.0 (2021-01-25)
 -------------------
 
