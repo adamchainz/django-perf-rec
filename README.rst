@@ -153,7 +153,7 @@ to each SQL query containing "my_table".
 
 
 ``capture_operation``, if not ``None``, should be a function that takes one
-argument, the given DB or cache operation, and returns a ``bool`` indiciating if
+argument, the given DB or cache operation, and returns a ``bool`` indicating if
 the operation should be recorded at all (by default, all operations are
 recorded). Not capturing some operations allows for hiding some code paths to be
 ignored in your tests, such as for ignoring database queries that would be
