@@ -159,33 +159,18 @@ recorded). Not capturing some operations allows for hiding some code paths to be
 ignored in your tests, such as for ignoring database queries that would be
 replaced by an external service in production.
 
-For example, if you knew that in testing all queries within some function
-would be replaced in production by something else, you could use a
-``capture_operation`` function like so:
+For example, if you knew that in testing all queries to some table would be
+replaced in production with something else you could use a ``capture_operation``
+function like so:
 
 .. code-block:: python
 
-    query_context = threading.local()
-
-    @contextlib.contextmanager
-    def hide_queries():
-        was_hiding = query_context.hide
-        query_context.hide = True
-        try:
-            yield
-        finally:
-            query_context.hide = was_hiding
-
-    def special_function():
-        with hide_queries():
-            return list(Author.objects.all())
-
-    def hide_special_function(operation):
-        return query_context.hide
+    def hide_my_tables(operation):
+        return "my_tables" in operation.query
 
     def test_special_function(self):
-        with django_perf_rec.record(capture_operation=hide_special_function):
-            list(special_function())
+        with django_perf_rec.record(capture_operation=hide_my_tables):
+            list(Author.objects.all())
 
 
 ``TestCaseMixin``
