@@ -39,6 +39,20 @@ class RecordTests(TestCase):
             assert "+ traceback:" in msg
             assert "in test_single_db_query_with_traceback" in msg
 
+    def test_single_db_query_with_filtering_negative(self):
+        def no_capture_operation(operation):
+            return False
+
+        with record(capture_operation=no_capture_operation):
+            run_query("default", "SELECT 1337")
+
+    def test_single_db_query_with_filtering_positive(self):
+        def capture_operation(operation):
+            return True
+
+        with record(capture_operation=capture_operation):
+            run_query("default", "SELECT 1338")
+
     def test_single_db_query_model(self):
         with record():
             list(Author.objects.all())

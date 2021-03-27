@@ -81,8 +81,8 @@ Check out my book `Speed Up Your Django Tests <https://gumroad.com/l/suydt>`__ w
 API
 ===
 
-``record(record_name=None, path=None, capture_traceback=None)``
----------------------------------------------------------------
+``record(record_name=None, path=None, capture_traceback=None, capture_operation=None)``
+---------------------------------------------------------------------------------------
 
 Return a context manager that will be used for a single performance test.
 
@@ -150,6 +150,28 @@ For example, if you wanted to know what code paths query the table
 
 The performance record here would include a standard Python traceback attached
 to each SQL query containing "my_table".
+
+
+``capture_operation``, if not ``None``, should be a function that takes one
+argument, the given DB or cache operation, and returns a ``bool`` indicating if
+the operation should be recorded at all (by default, all operations are
+recorded). Not capturing some operations allows for hiding some code paths to be
+ignored in your tests, such as for ignoring database queries that would be
+replaced by an external service in production.
+
+For example, if you knew that in testing all queries to some table would be
+replaced in production with something else you could use a ``capture_operation``
+function like so:
+
+.. code-block:: python
+
+    def hide_my_tables(operation):
+        return "my_tables" in operation.query
+
+    def test_special_function(self):
+        with django_perf_rec.record(capture_operation=hide_my_tables):
+            list(Author.objects.all())
+
 
 ``TestCaseMixin``
 -----------------
