@@ -2,6 +2,9 @@
 History
 =======
 
+4.13.1 (2021-04-15)
+-------------------
+
 * Fix SQL simplication for ``UPDATE`` queries without a ``WHERE`` clause.
 
   Thanks to Peter Law for the report in
