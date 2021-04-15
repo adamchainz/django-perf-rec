@@ -2,6 +2,11 @@
 History
 =======
 
+* Fix SQL simplication for ``UPDATE`` queries without a ``WHERE`` clause.
+
+  Thanks to Peter Law for the report in
+  `Issue #360 <https://github.com/adamchainz/django-perf-rec/issues/360>`__.
+
 4.13.0 (2021-03-27)
 -------------------
 

@@ -73,13 +73,18 @@ def sql_recursively_simplify(node, hide_columns=True):
     # Erase which fields are being updated in an UPDATE
     if node.tokens[0].value == "UPDATE":
         i_set = [i for (i, t) in enumerate(node.tokens) if t.value == "SET"][0]
-        i_where = [
+        i_wheres = [
             i
             for (i, t) in enumerate(node.tokens)
             if t.is_group and t.tokens[0].value == "WHERE"
-        ][0]
+        ]
+        if i_wheres:
+            i_where = i_wheres[0]
+            end = node.tokens[i_where:]
+        else:
+            end = []
         middle = [Token(tokens.Punctuation, " ... ")]
-        node.tokens = node.tokens[: i_set + 1] + middle + node.tokens[i_where:]
+        node.tokens = node.tokens[: i_set + 1] + middle + end
 
     # Ensure IN clauses with simple value in always simplify to "..."
     if node.tokens[0].value == "WHERE":

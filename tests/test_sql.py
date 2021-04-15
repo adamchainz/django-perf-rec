@@ -184,6 +184,12 @@ def test_update():
     )
 
 
+def test_update_no_where():
+    assert (
+        sql_fingerprint("UPDATE `table` SET `foo` = 'bar'") == "UPDATE `table` SET ..."
+    )
+
+
 def test_declare_cursor():
     assert (
         sql_fingerprint(
