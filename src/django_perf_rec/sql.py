@@ -1,7 +1,7 @@
 from functools import lru_cache
 
 from sqlparse import parse, tokens
-from sqlparse.sql import Comment, IdentifierList, Parenthesis, Token
+from sqlparse.sql import Comment, Comparison, IdentifierList, Parenthesis, Token
 
 
 @lru_cache(maxsize=500)
@@ -87,19 +87,19 @@ def sql_recursively_simplify(node, hide_columns=True):
         node.tokens = node.tokens[: i_set + 1] + middle + end
 
     # Ensure IN clauses with simple value in always simplify to "..."
-    if node.tokens[0].value == "WHERE":
-        in_token_indices = (i for i, t in enumerate(node.tokens) if t.value == "IN")
-        for in_token_index in in_token_indices:
-            parenthesis = next(
-                t
-                for t in node.tokens[in_token_index + 1 :]
-                if isinstance(t, Parenthesis)
-            )
-            if all(
-                getattr(t, "ttype", "") in sql_deleteable_tokens
-                for t in parenthesis.tokens[1:-1]
-            ):
-                parenthesis.tokens[1:-1] = [Token(tokens.Punctuation, "...")]
+    if (
+        isinstance(node, Comparison)
+        and hasattr(node, "tokens")
+        and len(node.tokens) == 5
+        and node.tokens[2].value.lower() == "in"
+        and isinstance(node.tokens[4], Parenthesis)
+    ):
+        parenthesis = node.tokens[4]
+        if all(
+            getattr(t, "ttype", "") in sql_deleteable_tokens
+            for t in parenthesis.tokens[1:-1]
+        ):
+            parenthesis.tokens[1:-1] = [Token(tokens.Punctuation, "...")]
 
     # Erase the names of savepoints since they are non-deteriministic
     if hasattr(node, "tokens"):

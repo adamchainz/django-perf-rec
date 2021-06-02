@@ -1,8 +1,8 @@
 RecordTests.test_delete_on_cascade_called_twice:
-- db: DELETE FROM "testapp_book" WHERE "testapp_book"."author_id" IN (#)
-- db: DELETE FROM "testapp_award" WHERE "testapp_award"."author_id" IN (#)
-- db: DELETE FROM "testapp_contract_author" WHERE "testapp_contract_author"."author_id" IN (#)
-- db: DELETE FROM "testapp_author" WHERE "testapp_author"."id" IN (#)
+- db: DELETE FROM "testapp_book" WHERE "testapp_book"."author_id" IN (...)
+- db: DELETE FROM "testapp_award" WHERE "testapp_award"."author_id" IN (...)
+- db: DELETE FROM "testapp_contract_author" WHERE "testapp_contract_author"."author_id" IN (...)
+- db: DELETE FROM "testapp_author" WHERE "testapp_author"."id" IN (...)
 RecordTests.test_dependent_QuerySet_annotate:
 - db: SELECT ... FROM "testapp_author"
 RecordTests.test_get_or_set:
@@ -36,6 +36,9 @@ RecordTests.test_single_db_query_model_with_columns:
 - db: SELECT "testapp_author"."id", "testapp_author"."name", "testapp_author"."age" FROM "testapp_author"
 RecordTests.test_single_db_query_with_filtering: []
 RecordTests.test_single_db_query_with_filtering.2:
+- db: 'SELECT #'
+RecordTests.test_single_db_query_with_filtering_negative: []
+RecordTests.test_single_db_query_with_filtering_positive:
 - db: 'SELECT #'
 TestCaseMixinTests.test_record_performance:
 - cache|get: foo
