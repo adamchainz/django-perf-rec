@@ -2,6 +2,12 @@
 History
 =======
 
+* Re-add simplification of SQL ``IN`` clauses to always use ``(...)``. This was
+  done in 4.6.0 but accidentally reverted with the sqlparse upgrade in 4.8.0.
+
+  Thanks to Dan Palmer for the report in
+  `Issue #373 <https://github.com/adamchainz/django-perf-rec/pull/373>`__.
+
 4.13.1 (2021-04-15)
 -------------------
 

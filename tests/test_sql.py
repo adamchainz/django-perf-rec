@@ -281,7 +281,7 @@ EXISTS (
 def test_in_single_value():
     assert (
         sql_fingerprint("SELECT `f1`, `f2` FROM `b` WHERE `x` IN (1)")
-        == "SELECT ... FROM `b` WHERE `x` IN (#)"
+        == "SELECT ... FROM `b` WHERE `x` IN (...)"
     )
 
 
