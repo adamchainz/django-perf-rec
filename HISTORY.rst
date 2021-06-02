@@ -2,6 +2,9 @@
 History
 =======
 
+4.14.0 (2021-06-02)
+-------------------
+
 * Re-add simplification of SQL ``IN`` clauses to always use ``(...)``. This was
   done in 4.6.0 but accidentally reverted with the sqlparse upgrade in 4.8.0.
 
