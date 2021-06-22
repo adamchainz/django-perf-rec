@@ -2,6 +2,9 @@
 History
 =======
 
+4.14.1 (2021-06-22)
+-------------------
+
 * Support arbitrary collections of keys being passed to Django cache operations.
   Previously only mappings and sequences were supported, now sets and mapping
   views will also work.
