@@ -1,7 +1,7 @@
 import inspect
 import re
 import traceback
-from collections.abc import Mapping, Sequence
+from collections.abc import Collection
 from functools import wraps
 from types import MethodType
 
@@ -16,10 +16,10 @@ class CacheOp(Operation):
         self.operation = operation
         if isinstance(key_or_keys, str):
             cleaned_key_or_keys = self.clean_key(key_or_keys)
-        elif isinstance(key_or_keys, (Mapping, Sequence)):
+        elif isinstance(key_or_keys, Collection):
             cleaned_key_or_keys = sorted(self.clean_key(k) for k in key_or_keys)
         else:
-            raise ValueError("key_or_keys must be a string, mapping, or sequence")
+            raise ValueError("key_or_keys must be a string or collection")
 
         super().__init__(alias, cleaned_key_or_keys, traceback)
 

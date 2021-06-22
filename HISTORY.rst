@@ -2,6 +2,13 @@
 History
 =======
 
+* Support arbitrary collections of keys being passed to Django cache operations.
+  Previously only mappings and sequences were supported, now sets and mapping
+  views will also work.
+
+  Thanks to Peter Law in
+  `PR #378 <https://github.com/adamchainz/django-perf-rec/pull/378>`__.
+
 4.14.0 (2021-06-02)
 -------------------
 

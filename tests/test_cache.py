@@ -38,6 +38,18 @@ class CacheOpTests(SimpleTestCase):
         assert op.operation == "foo"
         assert op.query == ["bar", "baz"]
 
+    def test_keys_frozenset(self):
+        op = CacheOp("default", "foo", frozenset(["bar", "baz"]), None)
+        assert op.alias == "default"
+        assert op.operation == "foo"
+        assert op.query == ["bar", "baz"]
+
+    def test_keys_dict_keys(self):
+        op = CacheOp("default", "foo", {"bar": "baz"}.keys(), None)
+        assert op.alias == "default"
+        assert op.operation == "foo"
+        assert op.query == ["bar"]
+
     def test_invalid(self):
         with pytest.raises(ValueError):
             CacheOp("x", "foo", object(), None)
