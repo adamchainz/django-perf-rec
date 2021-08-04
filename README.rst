@@ -25,7 +25,7 @@ Use it in your tests like so:
 
     def test_home(self):
         with django_perf_rec.record():
-            self.client.get('/')
+            self.client.get("/")
 
 It then stores a YAML file alongside the test file that tracks the queries and
 operations, looking something like:
@@ -121,8 +121,8 @@ Example:
 
     from app.models import Author
 
-    class AuthorPerformanceTests(TestCase):
 
+    class AuthorPerformanceTests(TestCase):
         def test_special_method(self):
             with django_perf_rec.record():
                 list(Author.objects.special_method())
@@ -143,6 +143,7 @@ For example, if you wanted to know what code paths query the table
 
     def debug_sql_query(operation):
         return "my_tables" in operation.query
+
 
     def test_special_method(self):
         with django_perf_rec.record(capture_traceback=debug_sql_query):
@@ -168,6 +169,7 @@ function like so:
     def hide_my_tables(operation):
         return "my_tables" in operation.query
 
+
     def test_special_function(self):
         with django_perf_rec.record(capture_operation=hide_my_tables):
             list(Author.objects.all())
@@ -189,15 +191,17 @@ Example:
     from django.test import TestCase as OrigTestCase
     from django_perf_rec import TestCaseMixin
 
+
     class TestCase(TestCaseMixin, OrigTestCase):
         pass
+
 
     # app/tests/models/test_author.py
     from app.models import Author
     from yplan.test import TestCase
 
-    class AuthorPerformanceTests(TestCase):
 
+    class AuthorPerformanceTests(TestCase):
         def test_special_method(self):
             with self.record_performance():
                 list(Author.objects.special_method())
@@ -228,7 +232,7 @@ Django settings, for example:
 .. code-block:: python
 
     PERF_REC = {
-        'MODE': 'once'
+        "MODE": "once",
     }
 
 The possible keys to this dictionary are explained below.
