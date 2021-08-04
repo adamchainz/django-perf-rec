@@ -38,7 +38,7 @@ class KVFile:
         if data is None:
             return {}
         elif not isinstance(data, dict):
-            raise TypeError("YAML content of {} is not a dictionary".format(file_name))
+            raise TypeError(f"YAML content of {file_name} is not a dictionary")
 
         return data
 

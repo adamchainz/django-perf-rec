@@ -67,7 +67,7 @@ def get_perf_path(file_path):
 
 def get_record_name(test_name, class_name=None, file_name=""):
     if class_name:
-        record_name = "{class_}.{test}".format(class_=class_name, test=test_name)
+        record_name = f"{class_name}.{test_name}"
     else:
         record_name = test_name
 
@@ -75,7 +75,7 @@ def get_record_name(test_name, class_name=None, file_name=""):
     record_spec = (file_name, record_name)
     if getattr(record_current, "record_spec", None) == record_spec:
         record_current.counter += 1
-        record_name = record_name + ".{}".format(record_current.counter)
+        record_name = record_name + f".{record_current.counter}"
     else:
         record_current.record_spec = record_spec
         record_current.counter = 1
@@ -132,9 +132,9 @@ class PerformanceRecorder:
             )
 
         if orig_record is not None:
-            msg = "Performance record did not match for {}".format(self.record_name)
+            msg = f"Performance record did not match for {self.record_name}"
             if not pytest_plugin.in_pytest:
-                msg += "\n{}".format(record_diff(orig_record, self.record))
+                msg += f"\n{record_diff(orig_record, self.record)}"
             assert self.record == orig_record, msg
 
         self.records_file.set_and_save(self.record_name, self.record)
