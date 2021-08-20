@@ -1,11 +1,12 @@
 from functools import lru_cache
+from typing import Container, Optional
 
 from sqlparse import parse, tokens
 from sqlparse.sql import Comment, Comparison, IdentifierList, Parenthesis, Token
 
 
 @lru_cache(maxsize=500)
-def sql_fingerprint(query, hide_columns=True):
+def sql_fingerprint(query: str, hide_columns: bool = True) -> str:
     """
     Simplify a query, taking away exact values and fields selected.
 
@@ -31,7 +32,7 @@ sql_deleteable_tokens = (
 )
 
 
-def sql_trim(node, idx=0):
+def sql_trim(node: Token, idx: int = 0) -> None:
     tokens = node.tokens
     count = len(tokens)
     min_count = abs(idx)
@@ -41,7 +42,7 @@ def sql_trim(node, idx=0):
         count -= 1
 
 
-def sql_strip(node):
+def sql_strip(node: Token) -> None:
     ws_count = 0
 
     for token in node.tokens:
@@ -52,7 +53,7 @@ def sql_strip(node):
             ws_count = 0
 
 
-def sql_recursively_strip(node):
+def sql_recursively_strip(node: Token) -> Token:
     for sub_node in node.get_sublists():
         sql_recursively_strip(sub_node)
 
@@ -69,7 +70,7 @@ def sql_recursively_strip(node):
     return node
 
 
-def sql_recursively_simplify(node, hide_columns=True):
+def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
     # Erase which fields are being updated in an UPDATE
     if node.tokens[0].value == "UPDATE":
         i_set = [i for (i, t) in enumerate(node.tokens) if t.value == "SET"][0]
@@ -153,7 +154,7 @@ def sql_recursively_simplify(node, hide_columns=True):
             prev_word_token = token
 
 
-def match_keyword(token, keywords):
+def match_keyword(token: Optional[Token], keywords: Container[str]) -> bool:
     """
     Checks if the given token represents one of the given keywords
     """

@@ -1,3 +1,4 @@
+from traceback import extract_stack
 from unittest import mock
 
 import pytest
@@ -5,7 +6,7 @@ from django.core.cache import caches
 from django.test import SimpleTestCase, TestCase
 
 from django_perf_rec.cache import AllCacheRecorder, CacheOp, CacheRecorder
-from tests.utils import disable_traceback
+from tests.utils import override_extract_stack
 
 
 class CacheOpTests(SimpleTestCase):
@@ -27,67 +28,81 @@ class CacheOpTests(SimpleTestCase):
         assert CacheOp.clean_key(key) == "django.contrib.sessions.cached_db#"
 
     def test_key(self):
-        op = CacheOp("default", "foo", "bar", None)
+        summary = extract_stack()
+        op = CacheOp("default", "foo", "bar", summary)
         assert op.alias == "default"
         assert op.operation == "foo"
         assert op.query == "bar"
+        assert op.traceback == summary
 
     def test_keys(self):
-        op = CacheOp("default", "foo", ["bar", "baz"], None)
+        op = CacheOp("default", "foo", ["bar", "baz"], extract_stack())
         assert op.alias == "default"
         assert op.operation == "foo"
         assert op.query == ["bar", "baz"]
 
     def test_keys_frozenset(self):
-        op = CacheOp("default", "foo", frozenset(["bar", "baz"]), None)
+        op = CacheOp("default", "foo", frozenset(["bar", "baz"]), extract_stack())
         assert op.alias == "default"
         assert op.operation == "foo"
         assert op.query == ["bar", "baz"]
 
     def test_keys_dict_keys(self):
-        op = CacheOp("default", "foo", {"bar": "baz"}.keys(), None)
+        op = CacheOp("default", "foo", {"bar": "baz"}.keys(), extract_stack())
         assert op.alias == "default"
         assert op.operation == "foo"
         assert op.query == ["bar"]
 
     def test_invalid(self):
         with pytest.raises(ValueError):
-            CacheOp("x", "foo", object(), None)
+            CacheOp("x", "foo", object(), extract_stack())  # type: ignore [arg-type]
 
     def test_equal(self):
-        assert CacheOp("x", "foo", "bar", "traceback") == CacheOp(
-            "x", "foo", "bar", "traceback"
+        summary = extract_stack()
+        assert CacheOp("x", "foo", "bar", summary) == CacheOp(
+            "x", "foo", "bar", summary
         )
 
     def test_not_equal_alias(self):
-        assert CacheOp("x", "foo", "bar", None) != CacheOp("y", "foo", "bar", None)
+        summary = extract_stack()
+        assert CacheOp("x", "foo", "bar", summary) != CacheOp(
+            "y", "foo", "bar", summary
+        )
 
     def test_not_equal_operation(self):
-        assert CacheOp("x", "foo", "bar", None) != CacheOp("x", "bar", "bar", None)
+        summary = extract_stack()
+        assert CacheOp("x", "foo", "bar", summary) != CacheOp(
+            "x", "bar", "bar", summary
+        )
 
     def test_not_equal_keys(self):
-        assert CacheOp("x", "foo", ["bar"], None) != CacheOp("x", "foo", ["baz"], None)
+        summary = extract_stack()
+        assert CacheOp("x", "foo", ["bar"], summary) != CacheOp(
+            "x", "foo", ["baz"], summary
+        )
 
     def test_not_equal_traceback(self):
-        assert CacheOp("x", "foo", "bar", "traceback") != CacheOp(
-            "x", "foo", "bar", None
+        assert CacheOp("x", "foo", "bar", extract_stack(limit=1)) != CacheOp(
+            "x", "foo", "bar", extract_stack(limit=2)
         )
 
 
 class CacheRecorderTests(TestCase):
-    @disable_traceback
-    def test_default(self, extract_stack):
+    @override_extract_stack
+    def test_default(self, stack_summary):
         callback = mock.Mock()
         with CacheRecorder("default", callback):
             caches["default"].get("foo")
-        callback.assert_called_once_with(CacheOp("default", "get", "foo", None))
+        callback.assert_called_once_with(
+            CacheOp("default", "get", "foo", stack_summary)
+        )
 
-    @disable_traceback
-    def test_secondary(self, extract_stack):
+    @override_extract_stack
+    def test_secondary(self, stack_summary):
         callback = mock.Mock()
         with CacheRecorder("second", callback):
             caches["second"].get("foo")
-        callback.assert_called_once_with(CacheOp("second", "get", "foo", None))
+        callback.assert_called_once_with(CacheOp("second", "get", "foo", stack_summary))
 
     def test_secondary_default_not_recorded(self):
         callback = mock.Mock()
@@ -107,8 +122,8 @@ class CacheRecorderTests(TestCase):
 
 
 class AllCacheRecorderTests(TestCase):
-    @disable_traceback
-    def test_records_all(self, extract_stack):
+    @override_extract_stack
+    def test_records_all(self, stack_summary):
         callback = mock.Mock()
         with AllCacheRecorder(callback):
             caches["default"].get("foo")
@@ -116,7 +131,7 @@ class AllCacheRecorderTests(TestCase):
             caches["default"].delete_many(["foo"])
 
         assert callback.mock_calls == [
-            mock.call(CacheOp("default", "get", "foo", None)),
-            mock.call(CacheOp("second", "set", "bar", None)),
-            mock.call(CacheOp("default", "delete_many", ["foo"], None)),
+            mock.call(CacheOp("default", "get", "foo", stack_summary)),
+            mock.call(CacheOp("second", "set", "bar", stack_summary)),
+            mock.call(CacheOp("default", "delete_many", ["foo"], stack_summary)),
         ]

@@ -25,17 +25,16 @@ class KVFileTests(SimpleTestCase):
     def test_load_non_existent_is_empty(self):
         kvf = KVFile(self.temp_dir + "/foo.yml")
         assert len(kvf) == 0
-        default = object()
-        assert kvf.get("foo", default) is default
+        assert kvf.get("foo", None) is None
 
     def test_load_existent(self):
         file_name = self.temp_dir + "/foo.yml"
         with open(file_name, "w") as fp:
-            fp.write("foo: bar")
+            fp.write("foo: [{bar: baz}]")
 
         kvf = KVFile(file_name)
         assert len(kvf) == 1
-        assert kvf.get("foo", "") == "bar"
+        assert kvf.get("foo", None) == [{"bar": "baz"}]
 
     def test_load_empty(self):
         file_name = self.temp_dir + "/foo.yml"
@@ -62,29 +61,32 @@ class KVFileTests(SimpleTestCase):
 
     def test_get_after_set_same(self):
         kvf = KVFile(self.temp_dir + "/foo.yml")
-        kvf.set_and_save("foo", "bar")
+        kvf.set_and_save("foo", [{"bar": "baz"}])
 
         assert len(kvf) == 1
-        assert kvf.get("foo", "") == "bar"
+        assert kvf.get("foo", None) == [{"bar": "baz"}]
 
     def test_load_second_same(self):
         kvf = KVFile(self.temp_dir + "/foo.yml")
-        kvf.set_and_save("foo", "bar")
+        kvf.set_and_save("foo", [{"bar": "baz"}])
         kvf2 = KVFile(self.temp_dir + "/foo.yml")
 
         assert len(kvf2) == 1
-        assert kvf2.get("foo", "") == "bar"
+        assert kvf2.get("foo", None) == [{"bar": "baz"}]
 
     def test_sets_dont_cause_append_duplication(self):
         file_name = self.temp_dir + "/foo.yml"
         kvf = KVFile(file_name)
-        kvf.set_and_save("foo", "bar")
-        kvf.set_and_save("foo2", "bar")
+        kvf.set_and_save("foo", [{"bar": "baz"}])
+        kvf.set_and_save("foo2", [{"bar": "baz"}])
 
         with open(file_name) as fp:
             lines = fp.readlines()
             fp.seek(0)
             data = yaml.safe_load(fp)
 
-        assert len(lines) == 2
-        assert data == {"foo": "bar", "foo2": "bar"}
+        assert len(lines) == 4
+        assert data == {
+            "foo": [{"bar": "baz"}],
+            "foo2": [{"bar": "baz"}],
+        }

@@ -81,8 +81,8 @@ Check out my book `Speed Up Your Django Tests <https://gumroad.com/l/suydt>`__ w
 API
 ===
 
-``record(record_name=None, path=None, capture_traceback=None, capture_operation=None)``
----------------------------------------------------------------------------------------
+``record(record_name: str | None=None, path: str | None=None, capture_traceback: callable[[Operation], bool] | None=None, capture_operation: callable[[Operation], bool] | None=None)``
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Return a context manager that will be used for a single performance test.
 

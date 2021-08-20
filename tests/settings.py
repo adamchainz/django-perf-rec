@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -22,7 +23,7 @@ CACHES = {
     "second": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"},
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: List[str] = []
 
 INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "tests.testapp"]
 
