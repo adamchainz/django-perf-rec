@@ -1,6 +1,14 @@
-from typing import Any, Literal
+import sys
+from typing import Any
 
 from django.conf import settings
+
+if sys.version_info >= (3, 8):
+    from typing import Literal
+
+    ModeType = Literal["once", "none", "all"]
+else:
+    ModeType = str
 
 
 class Settings:
@@ -18,7 +26,7 @@ class Settings:
         return self.get_setting("HIDE_COLUMNS")
 
     @property
-    def MODE(self) -> Literal["once", "none", "all"]:
+    def MODE(self) -> ModeType:
         return self.get_setting("MODE")
 
 
