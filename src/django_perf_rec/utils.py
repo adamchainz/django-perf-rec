@@ -1,29 +1,29 @@
 import difflib
 import inspect
 from collections import namedtuple
+from types import FrameType
+from typing import Iterable, List, Optional
 
-try:
-    from _pytest.fixtures import FixtureRequest
-except ImportError:
-    FixtureRequest = None
-
+from django_perf_rec import _HAVE_PYTEST
+from django_perf_rec.types import PerformanceRecord
 
 TestDetails = namedtuple("TestDetails", ["file_path", "class_name", "test_name"])
 
 
-def current_test():
+def current_test() -> TestDetails:
     """
     Use a little harmless stack inspection to determine the test that is
     currently running.
     """
     frame = inspect.currentframe()
+    assert frame is not None
     try:
         while True:
             details = _get_details_from_test_function(
                 frame
             ) or _get_details_from_pytest_request(frame)
 
-            if details:
+            if details is not None:
                 return details
 
             # Next frame
@@ -37,9 +37,9 @@ def current_test():
         del frame
 
 
-def _get_details_from_test_function(frame):
+def _get_details_from_test_function(frame: FrameType) -> Optional[TestDetails]:
     if not frame.f_code.co_name.startswith("test_"):
-        return
+        return None
 
     file_path = frame.f_globals["__file__"]
 
@@ -55,13 +55,13 @@ def _get_details_from_test_function(frame):
     return TestDetails(file_path=file_path, class_name=class_name, test_name=test_name)
 
 
-def _get_details_from_pytest_request(frame):
-    if FixtureRequest is None:
-        return
+def _get_details_from_pytest_request(frame: FrameType) -> Optional[TestDetails]:
+    if not _HAVE_PYTEST:
+        return None
 
     request = frame.f_locals.get("request", None)
     if request is None:
-        return
+        return None
 
     if request.cls is not None:
         class_name = request.cls.__name__
@@ -75,7 +75,7 @@ def _get_details_from_pytest_request(frame):
     )
 
 
-def sorted_names(names):
+def sorted_names(names: Iterable[str]) -> List[str]:
     """
     Sort a list of names but keep the word 'default' first if it's there.
     """
@@ -94,7 +94,7 @@ def sorted_names(names):
     return sorted_names
 
 
-def record_diff(old, new):
+def record_diff(old: PerformanceRecord, new: PerformanceRecord) -> str:
     """
     Generate a human-readable diff of two performance records.
     """

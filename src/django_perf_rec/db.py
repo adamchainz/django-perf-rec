@@ -1,34 +1,34 @@
 import traceback
 from functools import wraps
-from types import MethodType
+from types import MethodType, TracebackType
+from typing import Any, Callable, Optional, Type, TypeVar, cast
 
 from django.db import DEFAULT_DB_ALIAS, connections
 
-from django_perf_rec.operation import AllSourceRecorder, Operation
+from django_perf_rec.operation import AllSourceRecorder, BaseRecorder, Operation
 from django_perf_rec.settings import perf_rec_settings
 from django_perf_rec.sql import sql_fingerprint
 
 
 class DBOp(Operation):
     @property
-    def name(self):
+    def name(self) -> str:
         name_parts = ["db"]
         if self.alias != DEFAULT_DB_ALIAS:
             name_parts.append(self.alias)
         return "|".join(name_parts)
 
 
-class DBRecorder:
+LastExecutedQuery = TypeVar("LastExecutedQuery", bound=Callable[..., str])
+
+
+class DBRecorder(BaseRecorder):
     """
     Monkey-patch-wraps a database connection to call 'callback' on every
     query it runs.
     """
 
-    def __init__(self, alias, callback):
-        self.alias = alias
-        self.callback = callback
-
-    def __enter__(self):
+    def __enter__(self) -> None:
         """
         When using the debug cursor wrapper, Django calls
         connection.ops.last_executed_query to get the SQL from the client
@@ -39,12 +39,12 @@ class DBRecorder:
         self.orig_force_debug_cursor = connection.force_debug_cursor
         connection.force_debug_cursor = True
 
-        def call_callback(func):
+        def call_callback(func: LastExecutedQuery) -> LastExecutedQuery:
             alias = self.alias
             callback = self.callback
 
             @wraps(func)
-            def inner(self, *args, **kwargs):
+            def inner(self: Any, *args: Any, **kwargs: Any) -> str:
                 sql = func(*args, **kwargs)
                 hide_columns = perf_rec_settings.HIDE_COLUMNS
                 callback(
@@ -56,14 +56,19 @@ class DBRecorder:
                 )
                 return sql
 
-            return inner
+            return cast(LastExecutedQuery, inner)
 
         self.orig_last_executed_query = connection.ops.last_executed_query
         connection.ops.last_executed_query = MethodType(
             call_callback(connection.ops.last_executed_query), connection.ops
         )
 
-    def __exit__(self, exc_type, exc_value, exc_traceback):
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_value: Optional[BaseException],
+        exc_traceback: Optional[TracebackType],
+    ) -> None:
         connection = connections[self.alias]
         connection.force_debug_cursor = self.orig_force_debug_cursor
         connection.ops.last_executed_query = self.orig_last_executed_query

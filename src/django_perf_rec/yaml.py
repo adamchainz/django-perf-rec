@@ -1,28 +1,31 @@
 import errno
 import os
+from typing import Any, Dict, Optional
 
 import yaml
 from django.core.files import locks
 
+from django_perf_rec.types import PerformanceRecord
+
 
 class KVFile:
-    def __init__(self, file_name):
+    def __init__(self, file_name: str) -> None:
         self.file_name = file_name
         self.data = self.load(file_name)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.data)
 
-    LOAD_CACHE = {}
+    LOAD_CACHE: Dict[str, Dict[str, Any]] = {}
 
     @classmethod
-    def load(cls, file_name):
+    def load(cls, file_name: str) -> Dict[str, PerformanceRecord]:
         if file_name not in cls.LOAD_CACHE:
             cls.LOAD_CACHE[file_name] = cls.load_file(file_name)
         return cls.LOAD_CACHE[file_name]
 
     @classmethod
-    def load_file(cls, file_name):
+    def load_file(cls, file_name: str) -> Dict[str, PerformanceRecord]:
         try:
             with open(file_name) as fp:
                 locks.lock(fp, locks.LOCK_EX)
@@ -43,14 +46,16 @@ class KVFile:
         return data
 
     @classmethod
-    def _clear_load_cache(cls):
+    def _clear_load_cache(cls) -> None:
         # Should really only be used in testing this class
         cls.LOAD_CACHE = {}
 
-    def get(self, key, default):
+    def get(
+        self, key: str, default: Optional[PerformanceRecord]
+    ) -> Optional[PerformanceRecord]:
         return self.data.get(key, default)
 
-    def set_and_save(self, key, value):
+    def set_and_save(self, key: str, value: PerformanceRecord) -> None:
         if self.data.get(key, object()) == value:
             return
 

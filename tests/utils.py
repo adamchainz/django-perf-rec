@@ -3,6 +3,8 @@ import os
 import shutil
 import traceback
 from contextlib import contextmanager
+from functools import wraps
+from typing import Any, Callable, Generator, List, Optional, TypeVar, cast
 from unittest import mock
 
 from django.db import connections
@@ -10,19 +12,19 @@ from django.db import connections
 from django_perf_rec import pytest_plugin
 
 
-def run_query(alias, sql, params=None):
+def run_query(alias: str, sql: str, params: Optional[List[str]] = None) -> None:
     with connections[alias].cursor() as cursor:
         cursor.execute(sql, params)
 
 
 @contextmanager
-def temporary_path(path):
+def temporary_path(path: str) -> Generator[None, None, None]:
     ensure_path_does_not_exist(path)
     yield
     ensure_path_does_not_exist(path)
 
 
-def ensure_path_does_not_exist(path):
+def ensure_path_does_not_exist(path: str) -> None:
     if path.endswith("/"):
         shutil.rmtree(path, ignore_errors=True)
     else:
@@ -34,7 +36,7 @@ def ensure_path_does_not_exist(path):
 
 
 @contextmanager
-def pretend_not_under_pytest():
+def pretend_not_under_pytest() -> Generator[None, None, None]:
     orig = pytest_plugin.in_pytest
     pytest_plugin.in_pytest = False
     try:
@@ -43,4 +45,14 @@ def pretend_not_under_pytest():
         pytest_plugin.in_pytest = orig
 
 
-disable_traceback = mock.patch.object(traceback, "extract_stack", return_value=None)
+TestFunc = TypeVar("TestFunc", bound=Callable[..., None])
+
+
+def override_extract_stack(func: TestFunc) -> TestFunc:
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> None:
+        summary = traceback.extract_stack()
+        with mock.patch.object(traceback, "extract_stack", return_value=summary):
+            func(*args, stack_summary=summary, **kwargs)
+
+    return cast(TestFunc, wrapper)

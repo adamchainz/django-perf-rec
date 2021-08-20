@@ -3,10 +3,12 @@ isort:skip_file
 """
 try:
     import pytest
-except ImportError:
-    pytest = None
 
-if pytest is not None:
+    _HAVE_PYTEST = True
+except ImportError:
+    _HAVE_PYTEST = False
+
+if _HAVE_PYTEST:
     pytest.register_assert_rewrite("django_perf_rec.api")
 
 from django_perf_rec.api import (

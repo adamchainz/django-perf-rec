@@ -1,54 +1,60 @@
+from traceback import StackSummary, extract_stack
 from unittest import mock
 
 from django.test import SimpleTestCase, TestCase
 
 from django_perf_rec.db import AllDBRecorder, DBOp, DBRecorder
-from tests.utils import disable_traceback, run_query
+from tests.utils import override_extract_stack, run_query
 
 
 class DBOpTests(SimpleTestCase):
     def test_create(self):
-        op = DBOp("myalias", "SELECT 1", None)
+        op = DBOp("myalias", "SELECT 1", extract_stack())
         assert op.alias == "myalias"
         assert op.query == "SELECT 1"
-        assert op.traceback is None
+        assert isinstance(op.traceback, StackSummary)
 
     def test_equal(self):
-        assert DBOp("foo", "bar", "traceback") == DBOp("foo", "bar", "traceback")
+        summary = extract_stack()
+        assert DBOp("foo", "bar", summary) == DBOp("foo", "bar", summary)
 
     def test_not_equal_alias(self):
-        assert DBOp("foo", "bar", None) != DBOp("baz", "bar", None)
+        summary = extract_stack()
+        assert DBOp("foo", "bar", summary) != DBOp("baz", "bar", summary)
 
     def test_not_equal_sql(self):
-        assert DBOp("foo", "bar", None) != DBOp("foo", "baz", None)
+        summary = extract_stack()
+        assert DBOp("foo", "bar", summary) != DBOp("foo", "baz", summary)
 
     def test_not_equal_traceback(self):
-        assert DBOp("foo", "bar", "traceback") != DBOp("foo", "baz", None)
+        assert DBOp("foo", "bar", extract_stack(limit=1)) != DBOp(
+            "foo", "bar", extract_stack(limit=2)
+        )
 
 
 class DBRecorderTests(TestCase):
     databases = ("default", "second", "replica")
 
-    @disable_traceback
-    def test_default(self, extract_stack):
+    @override_extract_stack
+    def test_default(self, stack_summary):
         callback = mock.Mock()
         with DBRecorder("default", callback):
             run_query("default", "SELECT 1")
-        callback.assert_called_once_with(DBOp("default", "SELECT #", None))
+        callback.assert_called_once_with(DBOp("default", "SELECT #", stack_summary))
 
-    @disable_traceback
-    def test_secondary(self, extract_stack):
+    @override_extract_stack
+    def test_secondary(self, stack_summary):
         callback = mock.Mock()
         with DBRecorder("second", callback):
             run_query("second", "SELECT 1")
-        callback.assert_called_once_with(DBOp("second", "SELECT #", None))
+        callback.assert_called_once_with(DBOp("second", "SELECT #", stack_summary))
 
-    @disable_traceback
-    def test_replica(self, extract_stack):
+    @override_extract_stack
+    def test_replica(self, stack_summary):
         callback = mock.Mock()
         with DBRecorder("replica", callback):
             run_query("replica", "SELECT 1")
-        callback.assert_called_once_with(DBOp("replica", "SELECT #", None))
+        callback.assert_called_once_with(DBOp("replica", "SELECT #", stack_summary))
 
     def test_secondary_default_not_recorded(self):
         callback = mock.Mock()
@@ -70,8 +76,8 @@ class DBRecorderTests(TestCase):
 class AllDBRecorderTests(TestCase):
     databases = ("default", "second", "replica")
 
-    @disable_traceback
-    def test_records_all(self, extract_stack):
+    @override_extract_stack
+    def test_records_all(self, stack_summary):
         callback = mock.Mock()
         with AllDBRecorder(callback):
             run_query("replica", "SELECT 1")
@@ -79,7 +85,7 @@ class AllDBRecorderTests(TestCase):
             run_query("second", "SELECT 3")
 
         assert callback.mock_calls == [
-            mock.call(DBOp("replica", "SELECT #", None)),
-            mock.call(DBOp("default", "SELECT #", None)),
-            mock.call(DBOp("second", "SELECT #", None)),
+            mock.call(DBOp("replica", "SELECT #", stack_summary)),
+            mock.call(DBOp("default", "SELECT #", stack_summary)),
+            mock.call(DBOp("second", "SELECT #", stack_summary)),
         ]
