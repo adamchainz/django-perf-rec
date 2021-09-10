@@ -12,9 +12,9 @@ attrs==21.2.0 \
     --hash=sha256:149e90d6d8ac20db7a955ad60cf0e6881a3f20d37096140088356da6c716b0b1 \
     --hash=sha256:ef6aaac3ca6cd92904cdd0d83f629a15f18053ec84e6432106f7a4d04ae4f5fb
     # via pytest
-django==3.2.6 \
-    --hash=sha256:7f92413529aa0e291f3be78ab19be31aefb1e1c9a52cd59e130f505f27a51f13 \
-    --hash=sha256:f27f8544c9d4c383bbe007c57e3235918e258364577373d4920e9162837be022
+django==3.2.7 \
+    --hash=sha256:95b318319d6997bac3595517101ad9cc83fe5672ac498ba48d1a410f47afecd2 \
+    --hash=sha256:e93c93565005b37ddebf2396b4dc4b6913c1838baa82efdfb79acedd5816c240
     # via -r requirements.in
 importlib-metadata==4.7.1 \
     --hash=sha256:9e04bf59076a15a9b6dd9c27806e8fcdf15280ba529c6a8cc3f4d5b4875bdd61 \
@@ -94,9 +94,9 @@ pyyaml==5.4.1 \
     --hash=sha256:fdc842473cd33f45ff6bce46aea678a54e3d21f1b61a7750ce3c498eedfe25d6 \
     --hash=sha256:fe69978f3f768926cfa37b867e3843918e012cf83f680806599ddce33c2c68b0
     # via -r requirements.in
-sqlparse==0.4.1 \
-    --hash=sha256:017cde379adbd6a1f15a61873f43e8274179378e95ef3fede90b5aa64d304ed0 \
-    --hash=sha256:0f91fd2e829c44362cbcfab3e9ae12e22badaa8a29ad5ff599f9ec109f0454e8
+sqlparse==0.4.2 \
+    --hash=sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae \
+    --hash=sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d
     # via
     #   -r requirements.in
     #   django
