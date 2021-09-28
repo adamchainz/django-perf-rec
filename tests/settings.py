@@ -57,3 +57,5 @@ TEMPLATES = [
         },
     }
 ]
+
+USE_TZ = True
