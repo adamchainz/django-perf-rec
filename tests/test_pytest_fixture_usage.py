@@ -3,7 +3,7 @@ import pytest
 from django_perf_rec import get_perf_path, get_record_name, record
 from tests.utils import run_query
 
-pytestmark = [pytest.mark.django_db]
+pytestmark = [pytest.mark.django_db(databases=("default", "second", "replica"))]
 
 
 @pytest.fixture
