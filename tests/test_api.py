@@ -4,10 +4,9 @@ import pytest
 from django.core.cache import caches
 from django.db.models import F, Q
 from django.db.models.functions import Upper
-from django.test import override_settings
+from django.test import SimpleTestCase, TestCase, override_settings
 
 from django_perf_rec import TestCaseMixin, get_perf_path, get_record_name, record
-from tests.cases import SimpleTestCase, TestCase
 from tests.testapp.models import Author
 from tests.utils import pretend_not_under_pytest, run_query, temporary_path
 

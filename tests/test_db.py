@@ -1,8 +1,9 @@
 from traceback import StackSummary, extract_stack
 from unittest import mock
 
+from django.test import SimpleTestCase, TestCase
+
 from django_perf_rec.db import AllDBRecorder, DBOp, DBRecorder
-from tests.cases import SimpleTestCase, TestCase
 from tests.utils import override_extract_stack, run_query
 
 
@@ -32,6 +33,8 @@ class DBOpTests(SimpleTestCase):
 
 
 class DBRecorderTests(TestCase):
+    databases = ("default", "second", "replica")
+
     @override_extract_stack
     def test_default(self, stack_summary):
         callback = mock.Mock()
@@ -71,6 +74,8 @@ class DBRecorderTests(TestCase):
 
 
 class AllDBRecorderTests(TestCase):
+    databases = ("default", "second", "replica")
+
     @override_extract_stack
     def test_records_all(self, stack_summary):
         callback = mock.Mock()

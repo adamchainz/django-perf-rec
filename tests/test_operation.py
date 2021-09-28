@@ -1,9 +1,9 @@
 from traceback import extract_stack
 
 import pytest
+from django.test import SimpleTestCase
 
 from django_perf_rec.operation import Operation
-from tests.cases import SimpleTestCase
 
 
 class OperationTests(SimpleTestCase):

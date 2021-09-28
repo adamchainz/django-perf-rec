@@ -3,9 +3,9 @@ from tempfile import mkdtemp
 
 import pytest
 import yaml
+from django.test import SimpleTestCase
 
 from django_perf_rec.yaml import KVFile
-from tests.cases import SimpleTestCase
 
 
 class KVFileTests(SimpleTestCase):

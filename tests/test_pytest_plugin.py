@@ -1,5 +1,6 @@
+from django.test import SimpleTestCase
+
 from django_perf_rec import pytest_plugin
-from tests.cases import SimpleTestCase
 from tests.utils import pretend_not_under_pytest
 
 
