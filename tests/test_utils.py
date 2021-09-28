@@ -1,6 +1,5 @@
-from django.test import SimpleTestCase
-
 from django_perf_rec.utils import current_test, sorted_names
+from tests.cases import SimpleTestCase
 
 
 class CurrentTestTests(SimpleTestCase):
