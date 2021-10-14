@@ -52,7 +52,7 @@ performance with much better information about any regressions compared to
 just remove the file and rerun the test to regenerate it.
 
 For more information, see our `introductory blog
-post <https://tech.yplanapp.com/2016/09/26/introducing-django-perf-rec/>`_ that
+post <https://adamj.eu/tech/2016/09/26/introducing-django-perf-rec/>`_ that
 says a little more about why we made it.
 
 Installation
