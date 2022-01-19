@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from functools import lru_cache
-from typing import Container, Optional
+from typing import Container
 
 from sqlparse import parse, tokens
 from sqlparse.sql import Comment, Comparison, IdentifierList, Parenthesis, Token
@@ -154,7 +156,7 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
             prev_word_token = token
 
 
-def match_keyword(token: Optional[Token], keywords: Container[str]) -> bool:
+def match_keyword(token: Token | None, keywords: Container[str]) -> bool:
     """
     Checks if the given token represents one of the given keywords
     """

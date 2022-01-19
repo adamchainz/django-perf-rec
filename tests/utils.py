@@ -1,10 +1,12 @@
+from __future__ import annotations
+
 import errno
 import os
 import shutil
 import traceback
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable, Generator, List, Optional, TypeVar, cast
+from typing import Any, Callable, Generator, TypeVar, cast
 from unittest import mock
 
 from django.db import connections
@@ -12,7 +14,7 @@ from django.db import connections
 from django_perf_rec import pytest_plugin
 
 
-def run_query(alias: str, sql: str, params: Optional[List[str]] = None) -> None:
+def run_query(alias: str, sql: str, params: list[str] | None = None) -> None:
     with connections[alias].cursor() as cursor:
         cursor.execute(sql, params)
 

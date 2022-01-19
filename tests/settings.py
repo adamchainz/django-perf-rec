@@ -1,5 +1,6 @@
+from __future__ import annotations
+
 import os
-from typing import List
 
 import django
 
@@ -25,7 +26,7 @@ CACHES = {
     "second": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"},
 }
 
-ALLOWED_HOSTS: List[str] = []
+ALLOWED_HOSTS: list[str] = []
 
 INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "tests.testapp"]
 

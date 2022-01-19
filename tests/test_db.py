@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from traceback import StackSummary, extract_stack
 from unittest import mock
 
