@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import os
 from threading import local
 from types import TracebackType
-from typing import Callable, List, Optional, Type
+from typing import Callable
 
 from django.utils.functional import SimpleLazyObject
 
@@ -30,7 +32,7 @@ record_current = local()
 
 def get_record_name(
     test_name: str,
-    class_name: Optional[str] = None,
+    class_name: str | None = None,
     file_name: str = "",
 ) -> str:
     if class_name:
@@ -55,13 +57,13 @@ class PerformanceRecorder:
         self,
         file_name: str,
         record_name: str,
-        capture_traceback: Optional[Callable[[Operation], bool]],
-        capture_operation: Optional[Callable[[Operation], bool]],
+        capture_traceback: Callable[[Operation], bool] | None,
+        capture_operation: Callable[[Operation], bool] | None,
     ) -> None:
         self.file_name = file_name
         self.record_name = record_name
 
-        self.record: List[PerformanceRecordItem] = []
+        self.record: list[PerformanceRecordItem] = []
         self.db_recorder = AllDBRecorder(self.on_op)
         self.cache_recorder = AllCacheRecorder(self.on_op)
         self.capture_operation = capture_operation
@@ -74,9 +76,9 @@ class PerformanceRecorder:
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_value: Optional[BaseException],
-        exc_traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        exc_traceback: TracebackType | None,
     ) -> None:
         self.cache_recorder.__exit__(exc_type, exc_value, exc_traceback)
         self.db_recorder.__exit__(exc_type, exc_value, exc_traceback)
@@ -125,10 +127,10 @@ class PerformanceRecorder:
 
 def record(
     *,
-    record_name: Optional[str] = None,
-    path: Optional[str] = None,
-    capture_traceback: Optional[Callable[[Operation], bool]] = None,
-    capture_operation: Optional[Callable[[Operation], bool]] = None,
+    record_name: str | None = None,
+    path: str | None = None,
+    capture_traceback: Callable[[Operation], bool] | None = None,
+    capture_operation: Callable[[Operation], bool] | None = None,
 ) -> PerformanceRecorder:
     # Lazy since we may not need this to determine record_name or path,
     # depending on logic below
@@ -171,6 +173,6 @@ class TestCaseMixin:
     """
 
     def record_performance(
-        self, *, record_name: Optional[str] = None, path: Optional[str] = None
+        self, *, record_name: str | None = None, path: str | None = None
     ) -> PerformanceRecorder:
         return record(record_name=record_name, path=path)

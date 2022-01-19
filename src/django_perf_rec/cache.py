@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import inspect
 import re
 import traceback
@@ -6,7 +8,7 @@ from functools import wraps
 from types import MethodType, TracebackType
 from typing import Any, Callable
 from typing import Collection as TypingCollection
-from typing import Optional, Pattern, Tuple, Type, TypeVar, Union, cast
+from typing import Pattern, TypeVar, cast
 
 from django.core.cache import DEFAULT_CACHE_ALIAS, caches
 
@@ -18,12 +20,12 @@ class CacheOp(Operation):
         self,
         alias: str,
         operation: str,
-        key_or_keys: Union[str, TypingCollection[str]],
+        key_or_keys: str | TypingCollection[str],
         traceback: traceback.StackSummary,
     ):
         self.alias = alias
         self.operation = operation
-        cleaned_key_or_keys: Union[str, TypingCollection[str]]
+        cleaned_key_or_keys: str | TypingCollection[str]
         if isinstance(key_or_keys, str):
             cleaned_key_or_keys = self.clean_key(key_or_keys)
         elif isinstance(key_or_keys, Collection):
@@ -43,7 +45,7 @@ class CacheOp(Operation):
             key = var_re.sub("#", key)
         return key
 
-    VARIABLE_RES: Tuple[Pattern[str], ...] = (
+    VARIABLE_RES: tuple[Pattern[str], ...] = (
         # Django session keys for 'cache' backend
         re.compile(r"(?<=django\.contrib\.sessions\.cache)[0-9a-z]{32}\b"),
         # Django session keys for 'cached_db' backend
@@ -121,9 +123,9 @@ class CacheRecorder(BaseRecorder):
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_value: Optional[BaseException],
-        exc_traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        exc_traceback: TracebackType | None,
     ) -> None:
         cache = caches[self.alias]
         for name in self.cache_methods:

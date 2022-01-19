@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from traceback import StackSummary
 from types import TracebackType
-from typing import Any, Callable, List, Optional, Type, Union
+from typing import Any, Callable
 
 from django.conf import settings
 
@@ -9,7 +11,7 @@ from django_perf_rec.utils import sorted_names
 
 class Operation:
     def __init__(
-        self, alias: str, query: Union[str, List[str]], traceback: StackSummary
+        self, alias: str, query: str | list[str], traceback: StackSummary
     ) -> None:
         self.alias = alias
         self.query = query
@@ -38,9 +40,9 @@ class BaseRecorder:
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_value: Optional[BaseException],
-        exc_traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        exc_traceback: TracebackType | None,
     ) -> None:
         pass
 
@@ -51,7 +53,7 @@ class AllSourceRecorder:
     """
 
     sources_setting: str
-    recorder_class: Type[BaseRecorder]
+    recorder_class: type[BaseRecorder]
 
     def __init__(self, callback: Callable[[Operation], None]) -> None:
         self.callback = callback
@@ -65,9 +67,9 @@ class AllSourceRecorder:
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_value: Optional[BaseException],
-        exc_traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        exc_traceback: TracebackType | None,
     ) -> None:
         for recorder in reversed(self.recorders):
             recorder.__exit__(exc_type, exc_value, exc_traceback)

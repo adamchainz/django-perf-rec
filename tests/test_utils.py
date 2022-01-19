@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.test import SimpleTestCase
 
 from django_perf_rec.utils import current_test, sorted_names

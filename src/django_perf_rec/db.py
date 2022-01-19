@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import traceback
 from functools import wraps
 from types import MethodType, TracebackType
-from typing import Any, Callable, Optional, Type, TypeVar, cast
+from typing import Any, Callable, TypeVar, cast
 
 from django.db import DEFAULT_DB_ALIAS, connections
 
@@ -65,9 +67,9 @@ class DBRecorder(BaseRecorder):
 
     def __exit__(
         self,
-        exc_type: Optional[Type[BaseException]],
-        exc_value: Optional[BaseException],
-        exc_traceback: Optional[TracebackType],
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        exc_traceback: TracebackType | None,
     ) -> None:
         connection = connections[self.alias]
         connection.force_debug_cursor = self.orig_force_debug_cursor

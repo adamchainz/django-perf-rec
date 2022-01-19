@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import errno
 import os
-from typing import Any, Dict, Optional
+from typing import Any
 
 import yaml
 from django.core.files import locks
@@ -16,16 +18,16 @@ class KVFile:
     def __len__(self) -> int:
         return len(self.data)
 
-    LOAD_CACHE: Dict[str, Dict[str, Any]] = {}
+    LOAD_CACHE: dict[str, dict[str, Any]] = {}
 
     @classmethod
-    def load(cls, file_name: str) -> Dict[str, PerformanceRecord]:
+    def load(cls, file_name: str) -> dict[str, PerformanceRecord]:
         if file_name not in cls.LOAD_CACHE:
             cls.LOAD_CACHE[file_name] = cls.load_file(file_name)
         return cls.LOAD_CACHE[file_name]
 
     @classmethod
-    def load_file(cls, file_name: str) -> Dict[str, PerformanceRecord]:
+    def load_file(cls, file_name: str) -> dict[str, PerformanceRecord]:
         try:
             with open(file_name) as fp:
                 locks.lock(fp, locks.LOCK_EX)
@@ -51,8 +53,8 @@ class KVFile:
         cls.LOAD_CACHE = {}
 
     def get(
-        self, key: str, default: Optional[PerformanceRecord]
-    ) -> Optional[PerformanceRecord]:
+        self, key: str, default: PerformanceRecord | None
+    ) -> PerformanceRecord | None:
         return self.data.get(key, default)
 
     def set_and_save(self, key: str, value: PerformanceRecord) -> None:

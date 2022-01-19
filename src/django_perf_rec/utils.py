@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 import difflib
 import inspect
 from collections import namedtuple
 from types import FrameType
-from typing import Iterable, List, Optional
+from typing import Iterable
 
 from django_perf_rec import _HAVE_PYTEST
 from django_perf_rec.types import PerformanceRecord
@@ -37,7 +39,7 @@ def current_test() -> TestDetails:
         del frame
 
 
-def _get_details_from_test_function(frame: FrameType) -> Optional[TestDetails]:
+def _get_details_from_test_function(frame: FrameType) -> TestDetails | None:
     if not frame.f_code.co_name.startswith("test_"):
         return None
 
@@ -55,7 +57,7 @@ def _get_details_from_test_function(frame: FrameType) -> Optional[TestDetails]:
     return TestDetails(file_path=file_path, class_name=class_name, test_name=test_name)
 
 
-def _get_details_from_pytest_request(frame: FrameType) -> Optional[TestDetails]:
+def _get_details_from_pytest_request(frame: FrameType) -> TestDetails | None:
     if not _HAVE_PYTEST:
         return None
 
@@ -75,7 +77,7 @@ def _get_details_from_pytest_request(frame: FrameType) -> Optional[TestDetails]:
     )
 
 
-def sorted_names(names: Iterable[str]) -> List[str]:
+def sorted_names(names: Iterable[str]) -> list[str]:
     """
     Sort a list of names but keep the word 'default' first if it's there.
     """

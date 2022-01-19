@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.test import SimpleTestCase
 
 from django_perf_rec import pytest_plugin
