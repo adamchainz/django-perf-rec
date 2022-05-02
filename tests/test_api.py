@@ -241,14 +241,21 @@ class RecordTests(TestCase):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
 
-            with record(path="perf_files/api/"):
+            with record(path="perf_files/api/", record_name="test_mode_overwrite"):
                 caches["default"].get("foo")
 
             full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
             assert os.path.exists(full_path)
 
-            with record(path="perf_files/api/"):
+            with record(path="perf_files/api/", record_name="test_mode_overwrite"):
                 caches["default"].get("bar")
+
+            full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
+            with open(full_path) as f:
+                text = f.read()
+
+            assert "bar" in text
+            assert "foo" not in text
 
     def test_delete_on_cascade_called_twice(self):
         arthur = Author.objects.create(name="Arthur", age=42)
