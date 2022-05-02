@@ -192,11 +192,19 @@ class RecordTests(TestCase):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
 
-            with record(path="perf_files/api/"):
+            with record(path="perf_files/api/", record_name="test_mode_once"):
                 caches["default"].get("foo")
 
             full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
             assert os.path.exists(full_path)
+
+            with pytest.raises(AssertionError) as excinfo:
+
+                with record(path="perf_files/api/", record_name="test_mode_once"):
+                    caches["default"].get("bar")
+
+            message = str(excinfo.value)
+            assert "Performance record did not match for test_mode_once" in message
 
     @override_settings(PERF_REC={"MODE": "none"})
     def test_mode_none(self):
