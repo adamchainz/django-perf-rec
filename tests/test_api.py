@@ -228,6 +228,20 @@ class RecordTests(TestCase):
             full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
             assert os.path.exists(full_path)
 
+    @override_settings(PERF_REC={"MODE": "overwrite"})
+    def test_mode_overwrite(self):
+        temp_dir = os.path.join(FILE_DIR, "perf_files/")
+        with temporary_path(temp_dir):
+
+            with record(path="perf_files/api/"):
+                caches["default"].get("foo")
+
+            full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
+            assert os.path.exists(full_path)
+
+            with record(path="perf_files/api/"):
+                caches["default"].get("bar")
+
     def test_delete_on_cascade_called_twice(self):
         arthur = Author.objects.create(name="Arthur", age=42)
         with record():

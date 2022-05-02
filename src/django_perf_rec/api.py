@@ -109,7 +109,7 @@ class PerformanceRecorder:
                 self.record_name
             )
 
-        if orig_record is not None:
+        if orig_record is not None and perf_rec_settings.MODE != "overwrite":
             msg = f"Performance record did not match for {self.record_name}"
             if not pytest_plugin.in_pytest:
                 msg += f"\n{record_diff(orig_record, self.record)}"
