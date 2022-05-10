@@ -2,6 +2,9 @@
 History
 =======
 
+4.19.0 (2022-05-10)
+-------------------
+
 * Add new ``MODE`` option, ``'overwrite'``, which creates or updates missing
   records silently.
 
