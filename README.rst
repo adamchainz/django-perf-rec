@@ -262,7 +262,7 @@ when a performance record does not exist during a test run.
   probably want to use this mode in CI, to ensure new tests fail if their
   corresponding performance records were not committed.
 * ``'all'`` creates missing records and then raises ``AssertionError``.
-* ``'overwrite'`` creates or updates records silently
+* ``'overwrite'`` creates or updates records silently.
 
 Usage in Pytest
 ===============
