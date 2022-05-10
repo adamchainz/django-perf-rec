@@ -8,7 +8,7 @@ from django.conf import settings
 if sys.version_info >= (3, 8):
     from typing import Literal
 
-    ModeType = Literal["once", "none", "all"]
+    ModeType = Literal["all", "none", "once", "overwrite"]
 else:
     ModeType = str
 
