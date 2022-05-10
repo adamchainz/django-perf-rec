@@ -2,6 +2,11 @@
 History
 =======
 
+* Add new ``MODE`` option, ``'overwrite'``, which creates or updates missing
+  records silently.
+
+  Thanks to Peter Law in `PR #461 <https://github.com/adamchainz/django-perf-rec/pull/461>`__.
+
 4.18.0 (2022-01-10)
 -------------------
 
