@@ -192,11 +192,19 @@ class RecordTests(TestCase):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
 
-            with record(path="perf_files/api/"):
+            with record(path="perf_files/api/", record_name="test_mode_once"):
                 caches["default"].get("foo")
 
             full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
             assert os.path.exists(full_path)
+
+            with pytest.raises(AssertionError) as excinfo:
+
+                with record(path="perf_files/api/", record_name="test_mode_once"):
+                    caches["default"].get("bar")
+
+            message = str(excinfo.value)
+            assert "Performance record did not match for test_mode_once" in message
 
     @override_settings(PERF_REC={"MODE": "none"})
     def test_mode_none(self):
@@ -227,6 +235,27 @@ class RecordTests(TestCase):
 
             full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
             assert os.path.exists(full_path)
+
+    @override_settings(PERF_REC={"MODE": "overwrite"})
+    def test_mode_overwrite(self):
+        temp_dir = os.path.join(FILE_DIR, "perf_files/")
+        with temporary_path(temp_dir):
+
+            with record(path="perf_files/api/", record_name="test_mode_overwrite"):
+                caches["default"].get("foo")
+
+            full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
+            assert os.path.exists(full_path)
+
+            with record(path="perf_files/api/", record_name="test_mode_overwrite"):
+                caches["default"].get("bar")
+
+            full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
+            with open(full_path) as f:
+                text = f.read()
+
+            assert "bar" in text
+            assert "foo" not in text
 
     def test_delete_on_cascade_called_twice(self):
         arthur = Author.objects.create(name="Arthur", age=42)
