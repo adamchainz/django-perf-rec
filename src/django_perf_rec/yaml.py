@@ -76,3 +76,4 @@ class KVFile:
             yaml.safe_dump(
                 data, fp, default_flow_style=False, allow_unicode=True, width=10000
             )
+            fp.truncate()
