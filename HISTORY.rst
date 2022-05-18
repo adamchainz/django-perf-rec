@@ -2,6 +2,9 @@
 History
 =======
 
+4.20.1 (2022-05-18)
+-------------------
+
 * Fix 'overwrite' mode to prevent file corruption.
 
   Thanks to Peter Law for the report in `Issue #468 <https://github.com/adamchainz/django-perf-rec/issues/468>`__.
