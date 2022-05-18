@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 
 import pytest
+import yaml
 from django.core.cache import caches
 from django.db.models import F, Q
 from django.db.models.functions import Upper
@@ -243,19 +244,19 @@ class RecordTests(TestCase):
 
             with record(path="perf_files/api/", record_name="test_mode_overwrite"):
                 caches["default"].get("foo")
+                caches["default"].get("bar")
 
             full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
             assert os.path.exists(full_path)
 
             with record(path="perf_files/api/", record_name="test_mode_overwrite"):
-                caches["default"].get("bar")
+                caches["default"].get("baz")
 
             full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
             with open(full_path) as f:
-                text = f.read()
+                data = yaml.safe_load(f.read())
 
-            assert "bar" in text
-            assert "foo" not in text
+            assert data == {"test_mode_overwrite": [{"cache|get": "baz"}]}
 
     def test_delete_on_cascade_called_twice(self):
         arthur = Author.objects.create(name="Arthur", age=42)
