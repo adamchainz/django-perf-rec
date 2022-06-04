@@ -30,13 +30,13 @@ backports-zoneinfo==0.2.1 \
     --hash=sha256:f04e857b59d9d1ccc39ce2da1021d196e47234873820cbeaad210724b1ee28ac \
     --hash=sha256:fadbfe37f74051d024037f223b8e001611eac868b5c5b06144ef4d8b799862f2
     # via django
-django==4.0.4 \
-    --hash=sha256:07c8638e7a7f548dc0acaaa7825d84b7bd42b10e8d22268b3d572946f1e9b687 \
-    --hash=sha256:4e8177858524417563cc0430f29ea249946d831eacb0068a1455686587df40b5
+django==4.0.5 \
+    --hash=sha256:502ae42b6ab1b612c933fb50d5ff850facf858a4c212f76946ecd8ea5b3bf2d9 \
+    --hash=sha256:f7431a5de7277966f3785557c3928433347d998c1e6459324501378a291e5aab
     # via -r requirements.in
-importlib-metadata==4.11.3 \
-    --hash=sha256:1208431ca90a8cca1a6b8af391bb53c1a2db74e5d1cef6ddced95d4b2062edc6 \
-    --hash=sha256:ea4c597ebf37142f827b8f39299579e31685c31d3a438b59f469406afd0f2539
+importlib-metadata==4.11.4 \
+    --hash=sha256:5d26852efe48c0a32b0509ffbc583fda1a2266545a78d104a6f4aff3db17d700 \
+    --hash=sha256:c58c8eb8a762858f49e18436ff552e83914778e50e9d2f1660535ffb364552ec
     # via pytest-randomly
 iniconfig==1.1.1 \
     --hash=sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3 \
