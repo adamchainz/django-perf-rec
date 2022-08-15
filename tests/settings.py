@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from typing import Any
 
 import django
 
@@ -38,6 +39,8 @@ MIDDLEWARE_CLASSES = (
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 )
+
+PERF_REC: dict[str, Any] = {}
 
 ROOT_URLCONF = "tests.urls"
 LANGUAGE_CODE = "en-us"

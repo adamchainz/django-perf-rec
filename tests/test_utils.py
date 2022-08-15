@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from django.test import SimpleTestCase
 
-from django_perf_rec.utils import current_test, sorted_names
+from django_perf_rec.utils import TestDetails, current_test, sorted_names
 
 
 class CurrentTestTests(SimpleTestCase):
@@ -16,7 +16,7 @@ class CurrentTestTests(SimpleTestCase):
         assert current_test() == current_test()
 
     def test_functional(self):
-        def test_thats_functional():
+        def test_thats_functional() -> TestDetails:
             return current_test()
 
         details = test_thats_functional()

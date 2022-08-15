@@ -25,11 +25,13 @@ class Settings:
 
     @property
     def HIDE_COLUMNS(self) -> bool:
-        return self.get_setting("HIDE_COLUMNS")
+        return bool(self.get_setting("HIDE_COLUMNS"))
 
     @property
     def MODE(self) -> ModeType:
-        return self.get_setting("MODE")
+        value = self.get_setting("MODE")
+        assert value in ("all", "none", "once", "overwrite")
+        return value  # type: ignore [no-any-return]
 
 
 perf_rec_settings = Settings()

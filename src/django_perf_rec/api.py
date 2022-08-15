@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import os
+from functools import lru_cache
 from threading import local
 from types import TracebackType
 from typing import Callable
-
-from django.utils.functional import SimpleLazyObject
 
 from django_perf_rec import pytest_plugin
 from django_perf_rec.cache import AllCacheRecorder
@@ -13,7 +12,7 @@ from django_perf_rec.db import AllDBRecorder
 from django_perf_rec.operation import Operation
 from django_perf_rec.settings import perf_rec_settings
 from django_perf_rec.types import PerformanceRecordItem
-from django_perf_rec.utils import current_test, record_diff
+from django_perf_rec.utils import TestDetails, current_test, record_diff
 from django_perf_rec.yaml import KVFile
 
 
@@ -132,18 +131,20 @@ def record(
     capture_traceback: Callable[[Operation], bool] | None = None,
     capture_operation: Callable[[Operation], bool] | None = None,
 ) -> PerformanceRecorder:
-    # Lazy since we may not need this to determine record_name or path,
-    # depending on logic below
-    test_details = SimpleLazyObject(current_test)
+    @lru_cache(maxsize=None)
+    def get_test_details() -> TestDetails:
+        return current_test()
 
     if path is None or path.endswith("/"):
-        file_name = get_perf_path(test_details.file_path)
+        file_name = get_perf_path(get_test_details().file_path)
     else:
         file_name = path
 
     if path is not None and path.endswith("/"):
         if not os.path.isabs(path):
-            directory = os.path.join(os.path.dirname(test_details.file_path), path)
+            directory = os.path.join(
+                os.path.dirname(get_test_details().file_path), path
+            )
             if not os.path.exists(directory):
                 os.makedirs(directory)
         else:
@@ -153,8 +154,8 @@ def record(
 
     if record_name is None:
         record_name = get_record_name(
-            test_name=test_details.test_name,
-            class_name=test_details.class_name,
+            test_name=get_test_details().test_name,
+            class_name=get_test_details().class_name,
             file_name=file_name,
         )
 
