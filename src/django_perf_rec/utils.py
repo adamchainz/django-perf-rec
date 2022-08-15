@@ -2,14 +2,30 @@ from __future__ import annotations
 
 import difflib
 import inspect
-from collections import namedtuple
 from types import FrameType
-from typing import Iterable
+from typing import Any, Iterable
 
 from django_perf_rec import _HAVE_PYTEST
 from django_perf_rec.types import PerformanceRecord
 
-TestDetails = namedtuple("TestDetails", ["file_path", "class_name", "test_name"])
+
+class TestDetails:
+    __slots__ = ("file_path", "class_name", "test_name")
+    __test__ = False  # tell pytest to ignore this class
+
+    def __init__(self, file_path: str, class_name: str | None, test_name: str) -> None:
+        self.file_path = file_path
+        self.class_name = class_name
+        self.test_name = test_name
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, TestDetails):
+            return NotImplemented
+        return (
+            self.file_path == other.file_path
+            and self.class_name == other.class_name
+            and self.test_name == other.test_name
+        )
 
 
 def current_test() -> TestDetails:
@@ -47,6 +63,7 @@ def _get_details_from_test_function(frame: FrameType) -> TestDetails | None:
 
     # May be a pytest function test so we can't assume 'self' exists
     its_self = frame.f_locals.get("self", None)
+    class_name: str | None
     if its_self is None:
         class_name = None
     else:
