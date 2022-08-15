@@ -35,7 +35,7 @@ class DBOpTests(SimpleTestCase):
 
 
 class DBRecorderTests(TestCase):
-    databases = ("default", "second", "replica")
+    databases = {"default", "second", "replica"}
 
     @override_extract_stack
     def test_default(self, stack_summary):
@@ -76,7 +76,7 @@ class DBRecorderTests(TestCase):
 
 
 class AllDBRecorderTests(TestCase):
-    databases = ("default", "second", "replica")
+    databases = {"default", "second", "replica"}
 
     @override_extract_stack
     def test_records_all(self, stack_summary):

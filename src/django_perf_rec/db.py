@@ -61,7 +61,7 @@ class DBRecorder(BaseRecorder):
             return cast(LastExecutedQuery, inner)
 
         self.orig_last_executed_query = connection.ops.last_executed_query
-        connection.ops.last_executed_query = MethodType(
+        connection.ops.last_executed_query = MethodType(  # type: ignore [assignment]
             call_callback(connection.ops.last_executed_query), connection.ops
         )
 
@@ -73,7 +73,9 @@ class DBRecorder(BaseRecorder):
     ) -> None:
         connection = connections[self.alias]
         connection.force_debug_cursor = self.orig_force_debug_cursor
-        connection.ops.last_executed_query = self.orig_last_executed_query
+        connection.ops.last_executed_query = (  # type: ignore [assignment]
+            self.orig_last_executed_query
+        )
 
 
 class AllDBRecorder(AllSourceRecorder):
