@@ -12,13 +12,13 @@ attrs==22.1.0 \
     --hash=sha256:29adc2665447e5191d0e7c568fde78b21f9672d344281d0c6e1ab085429b22b6 \
     --hash=sha256:86efa402f67bf2df34f51a335487cf46b1ec130d02b8d39fd248abfd30da551c
     # via pytest
-django==4.0.7 \
-    --hash=sha256:41bd65a9e5f8a89cdbfa7a7bba45cd7431ae89e750af82dea8a35fd1a7ecbe66 \
-    --hash=sha256:9c6d5ad36be798e562ddcaa6b17b1c3ff2d3c4f529a47432b69fb9a30f847461
+django==4.0.8 \
+    --hash=sha256:07e6433f263c3839939cfabeb6d7557841e0419e47759a7b7d37f6d44d40adcb \
+    --hash=sha256:27cb08fa6458c1eff8b97c4c2d03774646fb26feeaa4587dca10c49e6d4fc6a3
     # via -r requirements.in
-importlib-metadata==4.12.0 \
-    --hash=sha256:637245b8bab2b6502fcbc752cc4b7a6f6243bb02b31c5c26156ad103d3d45670 \
-    --hash=sha256:7401a975809ea1fdc658c3aa4f78cc2195a0e019c5cbc4c06122884e9ae80c23
+importlib-metadata==5.0.0 \
+    --hash=sha256:da31db32b304314d044d3c12c79bd59e307889b287ad12ff387b3500835fc2ab \
+    --hash=sha256:ddb0e35065e8938f867ed4928d0ae5bf2a53b7773871bfe6bcc7e4fcdc7dea43
     # via pytest-randomly
 iniconfig==1.1.1 \
     --hash=sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3 \
