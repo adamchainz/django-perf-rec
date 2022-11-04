@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import pytest
 
-from django_perf_rec import get_perf_path, get_record_name, record
+from django_perf_rec import get_perf_path
+from django_perf_rec import get_record_name
+from django_perf_rec import record
 from tests.utils import run_query
 
 pytestmark = [pytest.mark.django_db(databases=("default", "second", "replica"))]

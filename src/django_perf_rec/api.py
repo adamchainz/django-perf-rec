@@ -12,7 +12,9 @@ from django_perf_rec.db import AllDBRecorder
 from django_perf_rec.operation import Operation
 from django_perf_rec.settings import perf_rec_settings
 from django_perf_rec.types import PerformanceRecordItem
-from django_perf_rec.utils import TestDetails, current_test, record_diff
+from django_perf_rec.utils import current_test
+from django_perf_rec.utils import record_diff
+from django_perf_rec.utils import TestDetails
 from django_perf_rec.yaml import KVFile
 
 
