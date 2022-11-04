@@ -3,8 +3,13 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Container
 
-from sqlparse import parse, tokens
-from sqlparse.sql import Comment, Comparison, IdentifierList, Parenthesis, Token
+from sqlparse import parse
+from sqlparse import tokens
+from sqlparse.sql import Comment
+from sqlparse.sql import Comparison
+from sqlparse.sql import IdentifierList
+from sqlparse.sql import Parenthesis
+from sqlparse.sql import Token
 
 
 @lru_cache(maxsize=500)

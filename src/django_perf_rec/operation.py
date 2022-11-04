@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from traceback import StackSummary
 from types import TracebackType
-from typing import Any, Callable
+from typing import Any
+from typing import Callable
 
 from django.conf import settings
 

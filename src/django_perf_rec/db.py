@@ -2,12 +2,19 @@ from __future__ import annotations
 
 import traceback
 from functools import wraps
-from types import MethodType, TracebackType
-from typing import Any, Callable, TypeVar, cast
+from types import MethodType
+from types import TracebackType
+from typing import Any
+from typing import Callable
+from typing import cast
+from typing import TypeVar
 
-from django.db import DEFAULT_DB_ALIAS, connections
+from django.db import connections
+from django.db import DEFAULT_DB_ALIAS
 
-from django_perf_rec.operation import AllSourceRecorder, BaseRecorder, Operation
+from django_perf_rec.operation import AllSourceRecorder
+from django_perf_rec.operation import BaseRecorder
+from django_perf_rec.operation import Operation
 from django_perf_rec.settings import perf_rec_settings
 from django_perf_rec.sql import sql_fingerprint
 

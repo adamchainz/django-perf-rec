@@ -6,7 +6,11 @@ import shutil
 import traceback
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable, Generator, TypeVar, cast
+from typing import Any
+from typing import Callable
+from typing import cast
+from typing import Generator
+from typing import TypeVar
 from unittest import mock
 
 from django.db import connections

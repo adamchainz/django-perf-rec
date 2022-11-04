@@ -5,13 +5,21 @@ import os
 import pytest
 import yaml
 from django.core.cache import caches
-from django.db.models import F, Q
+from django.db.models import F
+from django.db.models import Q
 from django.db.models.functions import Upper
-from django.test import SimpleTestCase, TestCase, override_settings
+from django.test import override_settings
+from django.test import SimpleTestCase
+from django.test import TestCase
 
-from django_perf_rec import TestCaseMixin, get_perf_path, get_record_name, record
+from django_perf_rec import get_perf_path
+from django_perf_rec import get_record_name
+from django_perf_rec import record
+from django_perf_rec import TestCaseMixin
 from tests.testapp.models import Author
-from tests.utils import pretend_not_under_pytest, run_query, temporary_path
+from tests.utils import pretend_not_under_pytest
+from tests.utils import run_query
+from tests.utils import temporary_path
 
 FILE_DIR = os.path.dirname(__file__)
 

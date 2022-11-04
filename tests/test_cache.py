@@ -5,9 +5,12 @@ from unittest import mock
 
 import pytest
 from django.core.cache import caches
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase
+from django.test import TestCase
 
-from django_perf_rec.cache import AllCacheRecorder, CacheOp, CacheRecorder
+from django_perf_rec.cache import AllCacheRecorder
+from django_perf_rec.cache import CacheOp
+from django_perf_rec.cache import CacheRecorder
 from tests.utils import override_extract_stack
 
 
