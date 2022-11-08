@@ -10,6 +10,7 @@ django_settings_module = "tests.settings"
 
 [tool.mypy]
 mypy_path = "src/"
+namespace_packages = false
 plugins = ["mypy_django_plugin.main"]
 show_error_codes = true
 strict = true
