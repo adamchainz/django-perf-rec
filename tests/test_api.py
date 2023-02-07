@@ -161,7 +161,6 @@ class RecordTests(TestCase):
 
     def test_path_pointing_to_filename(self):
         with temporary_path("custom.perf.yml"):
-
             with record(path="custom.perf.yml"):
                 caches["default"].get("foo")
 
@@ -169,7 +168,6 @@ class RecordTests(TestCase):
 
     def test_path_pointing_to_filename_record_twice(self):
         with temporary_path("custom.perf.yml"):
-
             with record(path="custom.perf.yml"):
                 caches["default"].get("foo")
 
@@ -179,7 +177,6 @@ class RecordTests(TestCase):
     def test_path_pointing_to_dir(self):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
-
             with record(path="perf_files/"):
                 caches["default"].get("foo")
 
@@ -189,7 +186,6 @@ class RecordTests(TestCase):
     def test_custom_nested_path(self):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
-
             with record(path="perf_files/api/"):
                 caches["default"].get("foo")
 
@@ -200,7 +196,6 @@ class RecordTests(TestCase):
     def test_mode_once(self):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
-
             with record(path="perf_files/api/", record_name="test_mode_once"):
                 caches["default"].get("foo")
 
@@ -208,7 +203,6 @@ class RecordTests(TestCase):
             assert os.path.exists(full_path)
 
             with pytest.raises(AssertionError) as excinfo:
-
                 with record(path="perf_files/api/", record_name="test_mode_once"):
                     caches["default"].get("bar")
 
@@ -219,9 +213,7 @@ class RecordTests(TestCase):
     def test_mode_none(self):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
-
             with pytest.raises(AssertionError) as excinfo:
-
                 with record(path="perf_files/api/"):
                     caches["default"].get("foo")
 
@@ -234,9 +226,7 @@ class RecordTests(TestCase):
     def test_mode_all(self):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
-
             with pytest.raises(AssertionError) as excinfo:
-
                 with record(path="perf_files/api/"):
                     caches["default"].get("foo")
 
@@ -249,7 +239,6 @@ class RecordTests(TestCase):
     def test_mode_overwrite(self):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
-
             with record(path="perf_files/api/", record_name="test_mode_overwrite"):
                 caches["default"].get("foo")
                 caches["default"].get("bar")

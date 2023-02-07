@@ -14,7 +14,6 @@ else:
 
 
 class Settings:
-
     defaults = {"HIDE_COLUMNS": True, "MODE": "once"}
 
     def get_setting(self, key: str) -> Any:
