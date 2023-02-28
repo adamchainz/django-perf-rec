@@ -27,3 +27,6 @@ addopts = """\
     --ds=tests.settings
     """
 django_find_project = false
+
+[tool.rstcheck]
+report_level = "ERROR"
