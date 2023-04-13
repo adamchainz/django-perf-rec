@@ -109,7 +109,7 @@ class CacheRecorder(BaseRecorder):
                     del frame
 
                 if not is_internal_call:
-                    key_or_keys = args[0]
+                    key_or_keys = args[0] if args else kwargs["key"]
                     callback(
                         CacheOp(
                             alias=alias,
