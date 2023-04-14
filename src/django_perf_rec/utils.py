@@ -38,9 +38,9 @@ def current_test() -> TestDetails:
     assert frame is not None
     try:
         while True:
-            details = _get_details_from_test_function(
+            details = _get_details_from_pytest_request(
                 frame
-            ) or _get_details_from_pytest_request(frame)
+            ) or _get_details_from_test_function(frame)
 
             if details is not None:
                 return details
@@ -91,7 +91,7 @@ def _get_details_from_pytest_request(frame: FrameType) -> TestDetails | None:
     return TestDetails(
         file_path=request.fspath.strpath,
         class_name=class_name,
-        test_name=request.function.__name__,
+        test_name=request.node.name,
     )
 
 
