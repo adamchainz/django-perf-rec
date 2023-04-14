@@ -1,0 +1,6 @@
+test_with_parametrize[1337]:
+- db: 'SELECT #'
+test_with_parametrize[42]:
+- db: 'SELECT #'
+test_with_parametrize[73]:
+- db: 'SELECT #'
