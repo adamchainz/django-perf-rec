@@ -2,6 +2,10 @@
 Changelog
 =========
 
+* Fix compatibility with sqlparse 0.4.4+.
+  sqlparse reverted a change made in 0.4.0 around ``IN``, so the old behaviour in django-perf-rec has been restored.
+  Upgrade to avoid regenerating your performance record files.
+
 4.22.0 (2023-02-25)
 -------------------
 
