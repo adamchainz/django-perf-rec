@@ -82,6 +82,7 @@ class RecordTests(TestCase):
         with record():
             list(Author.objects.annotate(x=Upper("name"), y=Upper("name")))
 
+    @override_settings(PERF_REC={"HIDE_COLUMNS": False})
     def test_dependent_QuerySet_annotate(self):
         with record():
             list(Author.objects.annotate(y=Upper("name"), x=F("y")))
