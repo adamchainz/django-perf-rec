@@ -2,6 +2,9 @@
 Changelog
 =========
 
+4.22.2 (2023-05-30)
+-------------------
+
 * Avoid crashing when recording cache function calls that pass ``key`` or ``keys`` as a keyword argument, like ``cache.set(key="abc", value="def")``.
 
   Thanks to Benoît Casoetto in `PR #545 <https://github.com/adamchainz/django-perf-rec/pull/545>`__.
