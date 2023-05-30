@@ -2,6 +2,9 @@
 Changelog
 =========
 
+4.22.3 (2023-05-30)
+-------------------
+
 * Fetch the test name from pytest where possible, which pulls in its parametrized name.
 
   Thanks to Gert Van Gool in `PR #537 <https://github.com/adamchainz/django-perf-rec/pull/537>`__.
