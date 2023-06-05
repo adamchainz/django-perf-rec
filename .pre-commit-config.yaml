@@ -77,6 +77,6 @@ repos:
   hooks:
   - id: mypy
     additional_dependencies:
-    - django-stubs==4.2.0
+    - django-stubs==4.2.1
     - pytest==7.1.2
     - types-pyyaml
