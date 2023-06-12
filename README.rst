@@ -69,7 +69,7 @@ Requirements
 
 Python 3.7 to 3.11 supported.
 
-Django 2.2 to 4.2 supported.
+Django 3.2 to 4.2 supported.
 
 ----
 
