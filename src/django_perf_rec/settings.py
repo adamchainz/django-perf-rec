@@ -1,16 +1,9 @@
 from __future__ import annotations
 
-import sys
 from typing import Any
+from typing import Literal
 
 from django.conf import settings
-
-if sys.version_info >= (3, 8):
-    from typing import Literal
-
-    ModeType = Literal["all", "none", "once", "overwrite"]
-else:
-    ModeType = str
 
 
 class Settings:
@@ -27,7 +20,7 @@ class Settings:
         return bool(self.get_setting("HIDE_COLUMNS"))
 
     @property
-    def MODE(self) -> ModeType:
+    def MODE(self) -> Literal["all", "none", "once", "overwrite"]:
         value = self.get_setting("MODE")
         assert value in ("all", "none", "once", "overwrite")
         return value  # type: ignore [no-any-return]
