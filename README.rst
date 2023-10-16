@@ -15,7 +15,7 @@ django-perf-rec
    :target: https://github.com/pre-commit/pre-commit
    :alt: pre-commit
 
-"Keep detailed records of the performance of your Django code."
+Keep detailed records of the performance of your Django code.
 
 **django-perf-rec** is like Django's ``assertNumQueries`` on steroids. It lets
 you track the individual queries and cache operations that occur in your code.
@@ -55,6 +55,13 @@ For more information, see our `introductory blog
 post <https://adamj.eu/tech/2016/09/26/introducing-django-perf-rec/>`_ that
 says a little more about why we made it.
 
+----
+
+**Are your tests slow?**
+Check out my book `Speed Up Your Django Tests <https://adamchainz.gumroad.com/l/suydt>`__ which covers loads of ways to write faster, more accurate tests.
+
+----
+
 Installation
 ============
 
@@ -70,13 +77,6 @@ Requirements
 Python 3.8 to 3.12 supported.
 
 Django 3.2 to 5.0 supported.
-
-----
-
-**Are your tests slow?**
-Check out my book `Speed Up Your Django Tests <https://adamchainz.gumroad.com/l/suydt>`__ which covers loads of ways to write faster, more accurate tests.
-
-----
 
 API
 ===
