@@ -211,6 +211,12 @@ def test_rollback_to_savepoint():
         == "ROLLBACK TO SAVEPOINT `#`"
     )
 
+def test_rollback_to_savepoint_with_comment():
+    assert (
+        sql_fingerprint("ROLLBACK TO SAVEPOINT `s139987847644992_x3209` /* this is a comment */")
+        == "ROLLBACK TO SAVEPOINT `#` /* this is a comment */"
+    )
+
 
 def test_release_savepoint():
     assert (
