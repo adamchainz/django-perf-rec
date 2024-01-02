@@ -121,7 +121,7 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
             return
         # ROLLBACK TO SAVEPOINT X
         token_values = [getattr(t, "value", "") for t in node.tokens]
-        if len(node.tokens) == 7 and token_values[:6] == [
+        if len(node.tokens) >= 7 and token_values[:6] == [
             "ROLLBACK",
             " ",
             "TO",
