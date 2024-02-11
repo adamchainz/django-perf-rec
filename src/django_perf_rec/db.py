@@ -6,11 +6,11 @@ from types import MethodType
 from types import TracebackType
 from typing import Any
 from typing import Callable
-from typing import cast
 from typing import TypeVar
+from typing import cast
 
-from django.db import connections
 from django.db import DEFAULT_DB_ALIAS
+from django.db import connections
 
 from django_perf_rec.operation import AllSourceRecorder
 from django_perf_rec.operation import BaseRecorder

@@ -8,9 +8,9 @@ from contextlib import contextmanager
 from functools import wraps
 from typing import Any
 from typing import Callable
-from typing import cast
 from typing import Generator
 from typing import TypeVar
+from typing import cast
 from unittest import mock
 
 from django.db import connections

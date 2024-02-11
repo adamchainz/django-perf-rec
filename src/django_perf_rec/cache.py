@@ -9,13 +9,13 @@ from types import MethodType
 from types import TracebackType
 from typing import Any
 from typing import Callable
-from typing import cast
 from typing import Collection as TypingCollection
 from typing import Pattern
 from typing import TypeVar
+from typing import cast
 
-from django.core.cache import caches
 from django.core.cache import DEFAULT_CACHE_ALIAS
+from django.core.cache import caches
 
 from django_perf_rec.operation import AllSourceRecorder
 from django_perf_rec.operation import BaseRecorder

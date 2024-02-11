@@ -8,14 +8,14 @@ from django.core.cache import caches
 from django.db.models import F
 from django.db.models import Q
 from django.db.models.functions import Upper
-from django.test import override_settings
 from django.test import SimpleTestCase
 from django.test import TestCase
+from django.test import override_settings
 
+from django_perf_rec import TestCaseMixin
 from django_perf_rec import get_perf_path
 from django_perf_rec import get_record_name
 from django_perf_rec import record
-from django_perf_rec import TestCaseMixin
 from tests.testapp.models import Author
 from tests.utils import pretend_not_under_pytest
 from tests.utils import run_query

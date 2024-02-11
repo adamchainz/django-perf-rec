@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from django.test import SimpleTestCase
 
+from django_perf_rec.utils import TestDetails
 from django_perf_rec.utils import current_test
 from django_perf_rec.utils import sorted_names
-from django_perf_rec.utils import TestDetails
 
 
 class CurrentTestTests(SimpleTestCase):
