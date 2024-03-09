@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import Container
+from typing import Any
 
 from sqlparse import parse
 from sqlparse import tokens
@@ -28,17 +28,19 @@ def sql_fingerprint(query: str, hide_columns: bool = True) -> str:
     return str(parsed_query).strip()
 
 
-sql_deleteable_tokens = (
-    tokens.Number,
-    tokens.Number.Float,
-    tokens.Number.Integer,
-    tokens.Number.Hexadecimal,
-    tokens.String,
-    tokens.String.Single,
+sql_deleteable_tokens = frozenset(
+    (
+        tokens.Number,
+        tokens.Number.Float,
+        tokens.Number.Integer,
+        tokens.Number.Hexadecimal,
+        tokens.String,
+        tokens.String.Single,
+    )
 )
 
 
-def sql_trim(node: Token, idx: int = 0) -> None:
+def sql_trim(node: Token, idx: int) -> None:
     tokens = node.tokens
     count = len(tokens)
     min_count = abs(idx)
@@ -49,14 +51,13 @@ def sql_trim(node: Token, idx: int = 0) -> None:
 
 
 def sql_strip(node: Token) -> None:
-    ws_count = 0
-
+    in_whitespace = False
     for token in node.tokens:
         if token.is_whitespace:
-            token.value = "" if ws_count > 0 else " "
-            ws_count += 1
+            token.value = "" if in_whitespace else " "
+            in_whitespace = True
         else:
-            ws_count = 0
+            in_whitespace = False
 
 
 def sql_recursively_strip(node: Token) -> Token:
@@ -135,19 +136,20 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
     if node.tokens[0].value.startswith('"_django_curs_'):
         node.tokens[0].value = '"_django_curs_#"'
 
-    prev_word_token = None
+    prev_word_token: Any = None
 
     for token in node.tokens:
         ttype = getattr(token, "ttype", None)
 
-        # Detect IdentifierList tokens within an ORDER BY, GROUP BY or HAVING
-        # clauses
-        inside_order_group_having = match_keyword(
-            prev_word_token, ["ORDER BY", "GROUP BY", "HAVING"]
-        )
-        replace_columns = not inside_order_group_having and hide_columns
-
-        if isinstance(token, IdentifierList) and replace_columns:
+        if (
+            hide_columns
+            and isinstance(token, IdentifierList)
+            and not (
+                prev_word_token
+                and prev_word_token.is_keyword
+                and prev_word_token.value.upper() in ("ORDER BY", "GROUP BY", "HAVING")
+            )
+        ):
             token.tokens = [Token(tokens.Punctuation, "...")]
         elif hasattr(token, "tokens"):
             sql_recursively_simplify(token, hide_columns=hide_columns)
@@ -158,15 +160,3 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
 
         if not token.is_whitespace:
             prev_word_token = token
-
-
-def match_keyword(token: Token | None, keywords: Container[str]) -> bool:
-    """
-    Checks if the given token represents one of the given keywords
-    """
-    if not token:
-        return False
-    if not token.is_keyword:
-        return False
-
-    return token.value.upper() in keywords
