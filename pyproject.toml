@@ -44,9 +44,6 @@ urls = {Changelog = "https://github.com/adamchainz/django-perf-rec/blob/main/CHA
 [project.entry-points.pytest11]
 django_perf_rec = "django_perf_rec.pytest_plugin"
 
-[tool.black]
-target-version = ['py38']
-
 [tool.isort]
 add_imports = [
     "from __future__ import annotations"
