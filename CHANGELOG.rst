@@ -2,6 +2,8 @@
 Changelog
 =========
 
+* Support Django 5.1.
+
 * Optimize ``sql_fingerprint()`` a bit, yielding ~2% savings.
 
 4.25.0 (2023-10-11)
