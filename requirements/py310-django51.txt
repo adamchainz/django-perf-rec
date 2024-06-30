@@ -4,9 +4,9 @@ asgiref==3.8.1 \
     --hash=sha256:3e1e3ecc849832fe52ccf2cb6686b7a55f82bb1d6aee72a58826471390335e47 \
     --hash=sha256:c343bd80a0bec947a9860adb4c432ffa7db769836c64238fc34bdc3fec84d590
     # via django
-django==5.1a1 \
-    --hash=sha256:2c3aa00b94ca020498727d6dae2d98b5224b1bf94e96136e811721045d7b61d8 \
-    --hash=sha256:8dd7cd10c5e57194ab7970aeb0132153d32294240b5bd1b2ccd200ecc65c0a26
+django==5.1b1 \
+    --hash=sha256:2c52fb8e630f49f1d5b9555d9be1a0e1b27279cd9aba46161ea8d6d103f6262c \
+    --hash=sha256:da04000c01f7c216ec2b1d6d85698f4cf540a8d304c83b7e29d512b19c7da039
     # via -r requirements.in
 exceptiongroup==1.2.1 \
     --hash=sha256:5258b9ed329c5bbdd31a309f53cbfb0b155341807f6ff7606a1e801a891b29ad \
