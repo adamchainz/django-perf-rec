@@ -24,7 +24,7 @@ def run_query(alias: str, sql: str, params: list[str] | None = None) -> None:
 
 
 @contextmanager
-def temporary_path(path: str) -> Generator[None, None, None]:
+def temporary_path(path: str) -> Generator[None]:
     ensure_path_does_not_exist(path)
     yield
     ensure_path_does_not_exist(path)
@@ -42,7 +42,7 @@ def ensure_path_does_not_exist(path: str) -> None:
 
 
 @contextmanager
-def pretend_not_under_pytest() -> Generator[None, None, None]:
+def pretend_not_under_pytest() -> Generator[None]:
     orig = pytest_plugin.in_pytest
     pytest_plugin.in_pytest = False
     try:
