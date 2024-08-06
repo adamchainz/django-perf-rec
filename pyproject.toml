@@ -59,6 +59,7 @@ addopts = """\
     --ds=tests.settings
     """
 django_find_project = false
+xfail_strict = true
 
 [tool.mypy]
 enable_error_code = [
