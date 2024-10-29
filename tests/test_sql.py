@@ -163,6 +163,13 @@ def test_select_group_by_having_multiple():
     )
 
 
+def test_select_postgresql_e_string():
+    assert (
+        sql_fingerprint("SELECT f1 FROM a WHERE f1 = E'something'")
+        == "SELECT f1 FROM a WHERE f1 = #"
+    )
+
+
 def test_insert():
     assert (
         sql_fingerprint("INSERT INTO `table` (`f1`, `f2`) VALUES ('v1', 2)")

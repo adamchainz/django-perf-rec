@@ -15,6 +15,10 @@ Unreleased
 
   Thanks to Corentin Smith in `PR #537 <https://github.com/adamchainz/django-perf-rec/pull/537>`__.
 
+* Remove “E” prefixes from strings, as used by PostgreSQL’s `C-style escape syntax <https://www.postgresql.org/docs/current/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE>`__.
+
+  Thanks to Hugo Smett for the report in `Issue #616 <https://github.com/adamchainz/django-perf-rec/issues/616>`__.
+
 4.26.0 (2024-06-19)
 -------------------
 
