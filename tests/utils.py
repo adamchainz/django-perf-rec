@@ -4,11 +4,11 @@ import errno
 import os
 import shutil
 import traceback
+from collections.abc import Generator
 from contextlib import contextmanager
 from functools import wraps
 from typing import Any
 from typing import Callable
-from typing import Generator
 from typing import TypeVar
 from typing import cast
 from unittest import mock

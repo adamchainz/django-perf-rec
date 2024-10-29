@@ -4,13 +4,13 @@ import inspect
 import re
 import traceback
 from collections.abc import Collection
+from collections.abc import Collection as TypingCollection
 from functools import wraps
+from re import Pattern
 from types import MethodType
 from types import TracebackType
 from typing import Any
 from typing import Callable
-from typing import Collection as TypingCollection
-from typing import Pattern
 from typing import TypeVar
 from typing import cast
 
