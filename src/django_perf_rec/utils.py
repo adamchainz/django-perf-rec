@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import difflib
 import inspect
+from collections.abc import Iterable
 from types import FrameType
 from typing import Any
-from typing import Iterable
 
 from django_perf_rec import _HAVE_PYTEST
 from django_perf_rec.types import PerformanceRecord
