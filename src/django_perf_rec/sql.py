@@ -6,6 +6,8 @@ from typing import Any
 from sqlparse import parse
 from sqlparse import tokens
 from sqlparse.sql import Comment
+from sqlparse.sql import Comparison
+from sqlparse.sql import Identifier
 from sqlparse.sql import IdentifierList
 from sqlparse.sql import Parenthesis
 from sqlparse.sql import Token
@@ -138,7 +140,7 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
 
     prev_word_token: Any = None
 
-    for token in node.tokens:
+    for i, token in enumerate(node.tokens):
         ttype = getattr(token, "ttype", None)
 
         if (
@@ -155,6 +157,24 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
             sql_recursively_simplify(token, hide_columns=hide_columns)
         elif ttype in sql_deleteable_tokens:
             token.value = "#"
+            # String PostrgreSQL E-string syntax
+            # Unfortunately, sqlparse doesn't parse the E as part of the string
+            # literal, so we have to step back one token.
+            # https://www.postgresql.org/docs/12/sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE
+            if ttype == tokens.String.Single and i > 0:
+                prev_token = node.tokens[i - 1]
+                if isinstance(prev_token, Comparison) and len(prev_token.tokens) > 0:
+                    prev_sub_token = prev_token.tokens[-1]
+                    if (
+                        isinstance(prev_sub_token, Identifier)
+                        and len(prev_sub_token.tokens) == 1
+                        and (
+                            getattr(prev_sub_token.tokens[0], "ttype", None)
+                            == tokens.Name
+                        )
+                        and prev_sub_token.tokens[0].value == "E"
+                    ):
+                        prev_sub_token.tokens = []
         elif getattr(token, "value", None) == "NULL":
             token.value = "#"
 
