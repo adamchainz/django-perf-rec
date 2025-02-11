@@ -1,7 +1,0 @@
-django
-pygments
-pytest
-pytest-django
-pytest-randomly
-pyyaml
-sqlparse
