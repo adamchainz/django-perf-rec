@@ -45,7 +45,6 @@ entry-points.pytest11.django_perf_rec = "django_perf_rec.pytest_plugin"
 
 [dependency-groups]
 test = [
-  "django",
   "pygments",
   "pytest",
   "pytest-django",
