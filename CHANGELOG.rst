@@ -137,7 +137,7 @@ Changelog
 4.13.1 (2021-04-15)
 -------------------
 
-* Fix SQL simplication for ``UPDATE`` queries without a ``WHERE`` clause.
+* Fix SQL simplification for ``UPDATE`` queries without a ``WHERE`` clause.
 
   Thanks to Peter Law for the report in
   `Issue #360 <https://github.com/adamchainz/django-perf-rec/issues/360>`__.
@@ -241,7 +241,7 @@ Changelog
   ``importlib.metadata.version("django-perf-rec")``
   (`docs <https://docs.python.org/3.8/library/importlib.metadata.html#distribution-versions>`__ /
   `backport <https://pypi.org/project/importlib-metadata/>`__).
-* Fix ``Q()`` Patchy patch for Django 2.0+ with non-ANDed ``Q()``'s.
+* Fix ``Q()`` Patchy patch for Django 2.0+ with non-AND-ed ``Q()``'s.
 
 4.4.0 (2019-05-09)
 ------------------

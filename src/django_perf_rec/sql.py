@@ -28,7 +28,7 @@ def sql_fingerprint(query: str, hide_columns: bool = True) -> str:
     return str(parsed_query).strip()
 
 
-sql_deleteable_tokens = frozenset(
+sql_deletable_tokens = frozenset(
     (
         tokens.Number,
         tokens.Number.Float,
@@ -81,14 +81,14 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
     # Erase which fields are being updated in an UPDATE
     if node.tokens[0].value == "UPDATE":
         i_set = [i for (i, t) in enumerate(node.tokens) if t.value == "SET"][0]
-        i_wheres = [
+        where_indexes = [
             i
             for (i, t) in enumerate(node.tokens)
             if t.is_group and t.tokens[0].value == "WHERE"
         ]
-        if i_wheres:
-            i_where = i_wheres[0]
-            end = node.tokens[i_where:]
+        if where_indexes:
+            where_index = where_indexes[0]
+            end = node.tokens[where_index:]
         else:
             end = []
         middle = [Token(tokens.Punctuation, " ... ")]
@@ -104,7 +104,7 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
                 if isinstance(t, Parenthesis)
             )
             if all(
-                getattr(t, "ttype", "") in sql_deleteable_tokens
+                getattr(t, "ttype", "") in sql_deletable_tokens
                 for t in parenthesis.tokens[1:-1]
             ):
                 parenthesis.tokens[1:-1] = [Token(tokens.Punctuation, "...")]
@@ -153,7 +153,7 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
             token.tokens = [Token(tokens.Punctuation, "...")]
         elif hasattr(token, "tokens"):
             sql_recursively_simplify(token, hide_columns=hide_columns)
-        elif ttype in sql_deleteable_tokens:
+        elif ttype in sql_deletable_tokens:
             token.value = "#"
         elif getattr(token, "value", None) == "NULL":
             token.value = "#"

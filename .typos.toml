@@ -8,3 +8,6 @@ extend-ignore-re = [
   # Multi-line ignore comments
   "(?s)(#|//)\\s*typos: off.*?\\n\\s*(#|//)\\s*typos: on"
 ]
+
+[default.extend-words]
+  Gool = "Gool"
