@@ -3,12 +3,8 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Any
 
-from sqlparse import parse
-from sqlparse import tokens
-from sqlparse.sql import Comment
-from sqlparse.sql import IdentifierList
-from sqlparse.sql import Parenthesis
-from sqlparse.sql import Token
+from sqlparse import parse, tokens
+from sqlparse.sql import Comment, IdentifierList, Parenthesis, Token
 
 
 @lru_cache(maxsize=500)
@@ -153,9 +149,7 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
             token.tokens = [Token(tokens.Punctuation, "...")]
         elif hasattr(token, "tokens"):
             sql_recursively_simplify(token, hide_columns=hide_columns)
-        elif ttype in sql_deletable_tokens:
-            token.value = "#"
-        elif getattr(token, "value", None) == "NULL":
+        elif ttype in sql_deletable_tokens or getattr(token, "value", None) == "NULL":
             token.value = "#"
 
         if not token.is_whitespace:

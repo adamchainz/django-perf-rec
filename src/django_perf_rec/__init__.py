@@ -10,10 +10,12 @@ except ImportError:
 if _HAVE_PYTEST:
     pytest.register_assert_rewrite("django_perf_rec.api")
 
-from django_perf_rec.api import TestCaseMixin  # noqa: E402
-from django_perf_rec.api import get_perf_path
-from django_perf_rec.api import get_record_name
-from django_perf_rec.api import record
+from django_perf_rec.api import (
+    TestCaseMixin,  # noqa: E402
+    get_perf_path,
+    get_record_name,
+    record,
+)
 
 __all__ = [
     "TestCaseMixin",

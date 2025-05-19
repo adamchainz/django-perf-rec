@@ -1,17 +1,12 @@
 from __future__ import annotations
 
-from traceback import StackSummary
-from traceback import extract_stack
+from traceback import StackSummary, extract_stack
 from unittest import mock
 
-from django.test import SimpleTestCase
-from django.test import TestCase
+from django.test import SimpleTestCase, TestCase
 
-from django_perf_rec.db import AllDBRecorder
-from django_perf_rec.db import DBOp
-from django_perf_rec.db import DBRecorder
-from tests.utils import override_extract_stack
-from tests.utils import run_query
+from django_perf_rec.db import AllDBRecorder, DBOp, DBRecorder
+from tests.utils import override_extract_stack, run_query
 
 
 class DBOpTests(SimpleTestCase):

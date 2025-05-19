@@ -7,19 +7,12 @@ from collections.abc import Collection
 from collections.abc import Collection as TypingCollection
 from functools import wraps
 from re import Pattern
-from types import MethodType
-from types import TracebackType
-from typing import Any
-from typing import Callable
-from typing import TypeVar
-from typing import cast
+from types import MethodType, TracebackType
+from typing import Any, Callable, TypeVar, cast
 
-from django.core.cache import DEFAULT_CACHE_ALIAS
-from django.core.cache import caches
+from django.core.cache import DEFAULT_CACHE_ALIAS, caches
 
-from django_perf_rec.operation import AllSourceRecorder
-from django_perf_rec.operation import BaseRecorder
-from django_perf_rec.operation import Operation
+from django_perf_rec.operation import AllSourceRecorder, BaseRecorder, Operation
 
 
 class CacheOp(Operation):
