@@ -13,4 +13,4 @@ class OperationTests(SimpleTestCase):
         operation = Operation("hi", "world", extract_stack())
 
         with pytest.raises(TypeError):
-            operation.name
+            operation.name  # noqa: B018

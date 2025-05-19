@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import os
-from functools import lru_cache
+from functools import cache
 from threading import local
 from types import TracebackType
 from typing import Callable
@@ -12,9 +12,7 @@ from django_perf_rec.db import AllDBRecorder
 from django_perf_rec.operation import Operation
 from django_perf_rec.settings import perf_rec_settings
 from django_perf_rec.types import PerformanceRecordItem
-from django_perf_rec.utils import TestDetails
-from django_perf_rec.utils import current_test
-from django_perf_rec.utils import record_diff
+from django_perf_rec.utils import TestDetails, current_test, record_diff
 from django_perf_rec.yaml import KVFile
 
 
@@ -104,10 +102,8 @@ class PerformanceRecorder:
     def save_or_assert(self) -> None:
         orig_record = self.records_file.get(self.record_name, None)
         if perf_rec_settings.MODE == "none":
-            assert (
-                orig_record is not None
-            ), "Original performance record does not exist for {}".format(
-                self.record_name
+            assert orig_record is not None, (
+                f"Original performance record does not exist for {self.record_name}"
             )
 
         if orig_record is not None and perf_rec_settings.MODE != "overwrite":
@@ -119,10 +115,8 @@ class PerformanceRecorder:
         self.records_file.set_and_save(self.record_name, self.record)
 
         if perf_rec_settings.MODE == "all":
-            assert (
-                orig_record is not None
-            ), "Original performance record did not exist for {}".format(
-                self.record_name
+            assert orig_record is not None, (
+                f"Original performance record did not exist for {self.record_name}"
             )
 
 
@@ -133,7 +127,7 @@ def record(
     capture_traceback: Callable[[Operation], bool] | None = None,
     capture_operation: Callable[[Operation], bool] | None = None,
 ) -> PerformanceRecorder:
-    @lru_cache(maxsize=None)
+    @cache
     def get_test_details() -> TestDetails:
         return current_test()
 

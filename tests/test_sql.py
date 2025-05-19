@@ -266,9 +266,8 @@ def test_strip_newlines():
 
 
 def test_strip_raw_query():
-    assert (
-        sql_fingerprint(
-            """
+    assert sql_fingerprint(
+        """
 SELECT 'f1'
     , 'f2'
     , 'f3'
@@ -280,12 +279,10 @@ EXISTS (
     WHERE "table_b"."id" = 1
 ) = true)
 """
-        )
-        == (
-            'SELECT ... FROM "table_a" WHERE "table_a"."f1" = # OR '
-            + '("table_a"."type" = # AND EXISTS (SELECT "table_b"."id" FROM '
-            + '"table_b" WHERE "table_b"."id" = # ) = true)'
-        )
+    ) == (
+        'SELECT ... FROM "table_a" WHERE "table_a"."f1" = # OR '
+        + '("table_a"."type" = # AND EXISTS (SELECT "table_b"."id" FROM '
+        + '"table_b" WHERE "table_b"."id" = # ) = true)'
     )
 
 

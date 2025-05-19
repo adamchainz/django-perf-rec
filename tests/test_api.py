@@ -5,21 +5,13 @@ import os
 import pytest
 import yaml
 from django.core.cache import caches
-from django.db.models import F
-from django.db.models import Q
+from django.db.models import F, Q
 from django.db.models.functions import Upper
-from django.test import SimpleTestCase
-from django.test import TestCase
-from django.test import override_settings
+from django.test import SimpleTestCase, TestCase, override_settings
 
-from django_perf_rec import TestCaseMixin
-from django_perf_rec import get_perf_path
-from django_perf_rec import get_record_name
-from django_perf_rec import record
+from django_perf_rec import TestCaseMixin, get_perf_path, get_record_name, record
 from tests.testapp.models import Author
-from tests.utils import pretend_not_under_pytest
-from tests.utils import run_query
-from tests.utils import temporary_path
+from tests.utils import pretend_not_under_pytest, run_query, temporary_path
 
 FILE_DIR = os.path.dirname(__file__)
 
@@ -141,9 +133,8 @@ class RecordTests(TestCase):
         with record(record_name="custom"):
             caches["default"].get("foo")
 
-        with pytest.raises(AssertionError) as excinfo:
-            with record(record_name="custom"):
-                caches["default"].get("bar")
+        with pytest.raises(AssertionError) as excinfo, record(record_name="custom"):
+            caches["default"].get("bar")
 
         assert "Performance record did not match" in str(excinfo.value)
 
@@ -152,9 +143,11 @@ class RecordTests(TestCase):
             with record(record_name="test_diff"):
                 caches["default"].get("foo")
 
-            with pytest.raises(AssertionError) as excinfo:
-                with record(record_name="test_diff"):
-                    caches["default"].get("bar")
+            with (
+                pytest.raises(AssertionError) as excinfo,
+                record(record_name="test_diff"),
+            ):
+                caches["default"].get("bar")
 
             msg = str(excinfo.value)
             assert "- cache|get: foo\n" in msg
@@ -203,9 +196,11 @@ class RecordTests(TestCase):
             full_path = os.path.join(FILE_DIR, "perf_files", "api", "test_api.perf.yml")
             assert os.path.exists(full_path)
 
-            with pytest.raises(AssertionError) as excinfo:
-                with record(path="perf_files/api/", record_name="test_mode_once"):
-                    caches["default"].get("bar")
+            with (
+                pytest.raises(AssertionError) as excinfo,
+                record(path="perf_files/api/", record_name="test_mode_once"),
+            ):
+                caches["default"].get("bar")
 
             message = str(excinfo.value)
             assert "Performance record did not match for test_mode_once" in message
@@ -214,9 +209,11 @@ class RecordTests(TestCase):
     def test_mode_none(self):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
-            with pytest.raises(AssertionError) as excinfo:
-                with record(path="perf_files/api/"):
-                    caches["default"].get("foo")
+            with (
+                pytest.raises(AssertionError) as excinfo,
+                record(path="perf_files/api/"),
+            ):
+                caches["default"].get("foo")
 
             assert "Original performance record does not exist" in str(excinfo.value)
 
@@ -227,9 +224,11 @@ class RecordTests(TestCase):
     def test_mode_all(self):
         temp_dir = os.path.join(FILE_DIR, "perf_files/")
         with temporary_path(temp_dir):
-            with pytest.raises(AssertionError) as excinfo:
-                with record(path="perf_files/api/"):
-                    caches["default"].get("foo")
+            with (
+                pytest.raises(AssertionError) as excinfo,
+                record(path="perf_files/api/"),
+            ):
+                caches["default"].get("foo")
 
             assert "Original performance record did not exist" in str(excinfo.value)
 
