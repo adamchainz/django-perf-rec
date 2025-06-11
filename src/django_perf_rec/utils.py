@@ -80,7 +80,7 @@ def _get_details_from_pytest_request(frame: FrameType) -> TestDetails | None:
         return None
 
     request = frame.f_locals.get("request", None)
-    if request is None:
+    if request is None or not hasattr(request, "cls"):
         return None
 
     if request.cls is not None:
