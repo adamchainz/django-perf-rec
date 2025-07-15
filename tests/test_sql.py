@@ -323,3 +323,12 @@ def test_in_subquery():
         sql_fingerprint("SELECT `f1`, `f2` FROM `b` WHERE `x` IN (SELECT 1)")
         == "SELECT ... FROM `b` WHERE `x` IN (SELECT #)"
     )
+
+
+def test_multiple_queries():
+    assert (
+        sql_fingerprint(
+            "SELECT set_config('flag1', true), set_config('flag2', true); UPDATE user SET username = 'username'"
+        )
+        == "SELECT ...; UPDATE user SET ..."
+    )

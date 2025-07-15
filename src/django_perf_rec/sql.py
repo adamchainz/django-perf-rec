@@ -19,9 +19,14 @@ def sql_fingerprint(query: str, hide_columns: bool = True) -> str:
     if not parsed_queries:
         return ""
 
-    parsed_query = sql_recursively_strip(parsed_queries[0])
-    sql_recursively_simplify(parsed_query, hide_columns=hide_columns)
-    return str(parsed_query).strip()
+    fingerprinted_queries = []
+    for parsed_query in parsed_queries:
+        stripped_query = sql_recursively_strip(parsed_query)
+        sql_recursively_simplify(stripped_query, hide_columns=hide_columns)
+
+        fingerprinted_queries.append(stripped_query)
+
+    return "".join([str(q) for q in fingerprinted_queries]).strip()
 
 
 sql_deletable_tokens = frozenset(

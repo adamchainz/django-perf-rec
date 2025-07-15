@@ -2,6 +2,11 @@
 Changelog
 =========
 
+Unreleased
+-------------------
+
+* Support fingerprinting SQL strings containing multiple queries.
+
 4.28.0 (2025-02-06)
 -------------------
 
