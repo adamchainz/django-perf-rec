@@ -17,6 +17,14 @@ django-perf-rec
 
 Keep detailed records of the performance of your Django code.
 
+----
+
+**Note (2025-08-01):**
+My new package `inline-snapshot-django <https://inline-snapshot-django.readthedocs.io/en/latest/>`__ is a faster and more convenient alternative to **django-perf-rec**.
+As a consequence, django-perf-rec is now in maintenance mode, and will not receive significant new features.
+
+----
+
 **django-perf-rec** is like Django's ``assertNumQueries`` on steroids. It lets
 you track the individual queries and cache operations that occur in your code.
 Use it in your tests like so:
