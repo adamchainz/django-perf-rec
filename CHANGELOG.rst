@@ -9,6 +9,10 @@ Unreleased
 
   Thanks to q0w in `PR #669 <https://github.com/adamchainz/django-perf-rec/pull/669>`__.
 
+* Fix test name detection when a test function contains a variable called ``request``.
+
+  Thanks to Konstantin Alekseev for the initial patch in `PR #659 <https://github.com/adamchainz/django-perf-rec/pull/659>`__.
+
 4.28.0 (2025-02-06)
 -------------------
 

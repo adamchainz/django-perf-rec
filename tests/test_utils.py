@@ -24,6 +24,16 @@ class CurrentTestTests(SimpleTestCase):
         assert details.class_name is None
         assert details.test_name == "test_thats_functional"
 
+    def test_request_local(self):
+        def test_with_request() -> TestDetails:
+            request = object()  # noqa: F841
+            return current_test()
+
+        details = test_with_request()
+        assert details.file_path == __file__
+        assert details.class_name is None
+        assert details.test_name == "test_with_request"
+
 
 class SortedNamesTests(SimpleTestCase):
     def test_empty(self):

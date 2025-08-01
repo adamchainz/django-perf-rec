@@ -83,8 +83,14 @@ def _get_details_from_pytest_request(frame: FrameType) -> TestDetails | None:
     if request is None:
         return None
 
-    if request.cls is not None:
-        class_name = request.cls.__name__
+    try:
+        cls = request.cls
+    except AttributeError:
+        # Doesn't look like a pytest request object
+        return None
+
+    if cls is not None:
+        class_name = cls.__name__
     else:
         class_name = None
 
