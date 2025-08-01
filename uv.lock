@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.9"
 resolution-markers = [
     "python_full_version >= '3.10'",
@@ -38,8 +38,8 @@ name = "django"
 version = "4.2.22"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
-    "python_full_version < '3.10'",
     "python_full_version >= '3.10'",
+    "python_full_version < '3.10'",
 ]
 dependencies = [
     { name = "asgiref" },
@@ -104,7 +104,7 @@ wheels = [
 
 [[package]]
 name = "django-perf-rec"
-version = "4.28.0"
+version = "4.29.0"
 source = { editable = "." }
 dependencies = [
     { name = "django", version = "4.2.22", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10' or extra == 'group-15-django-perf-rec-django42' or (extra == 'group-15-django-perf-rec-django50' and extra == 'group-15-django-perf-rec-django51') or (extra == 'group-15-django-perf-rec-django50' and extra == 'group-15-django-perf-rec-django52') or (extra == 'group-15-django-perf-rec-django51' and extra == 'group-15-django-perf-rec-django52')" },
