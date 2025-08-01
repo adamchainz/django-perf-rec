@@ -3,9 +3,11 @@ Changelog
 =========
 
 Unreleased
--------------------
+----------
 
 * Support fingerprinting SQL strings containing multiple queries.
+
+  Thanks to q0w in `PR #669 <https://github.com/adamchainz/django-perf-rec/pull/669>`__.
 
 4.28.0 (2025-02-06)
 -------------------
