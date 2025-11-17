@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import traceback
+from collections.abc import Callable
 from functools import wraps
 from types import MethodType, TracebackType
-from typing import Any, Callable, TypeVar, cast
+from typing import Any, TypeVar, cast
 
 from django.db import DEFAULT_DB_ALIAS, connections
 

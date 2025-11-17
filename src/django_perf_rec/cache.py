@@ -3,12 +3,12 @@ from __future__ import annotations
 import inspect
 import re
 import traceback
-from collections.abc import Collection
+from collections.abc import Callable, Collection
 from collections.abc import Collection as TypingCollection
 from functools import wraps
 from re import Pattern
 from types import MethodType, TracebackType
-from typing import Any, Callable, TypeVar, cast
+from typing import Any, TypeVar, cast
 
 from django.core.cache import DEFAULT_CACHE_ALIAS, caches
 

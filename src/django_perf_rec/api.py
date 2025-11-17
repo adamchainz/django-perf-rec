@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import os
+from collections.abc import Callable
 from functools import cache
 from threading import local
 from types import TracebackType
-from typing import Callable
 
 from django_perf_rec import pytest_plugin
 from django_perf_rec.cache import AllCacheRecorder

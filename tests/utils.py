@@ -4,10 +4,10 @@ import errno
 import os
 import shutil
 import traceback
-from collections.abc import Generator
+from collections.abc import Callable, Generator
 from contextlib import contextmanager
 from functools import wraps
-from typing import Any, Callable, TypeVar, cast
+from typing import Any, TypeVar, cast
 from unittest import mock
 
 from django.db import connections
