@@ -4,7 +4,7 @@ from functools import lru_cache
 from typing import Any
 
 from sqlparse import parse, tokens
-from sqlparse.sql import Comment, IdentifierList, Parenthesis, Token
+from sqlparse.sql import Comment, IdentifierList, Parenthesis, Token, TokenList
 
 
 @lru_cache(maxsize=500)
@@ -41,7 +41,7 @@ sql_deletable_tokens = frozenset(
 )
 
 
-def sql_trim(node: Token, idx: int) -> None:
+def sql_trim(node: TokenList, idx: int) -> None:
     tokens = node.tokens
     count = len(tokens)
     min_count = abs(idx)
@@ -51,7 +51,7 @@ def sql_trim(node: Token, idx: int) -> None:
         count -= 1
 
 
-def sql_strip(node: Token) -> None:
+def sql_strip(node: TokenList) -> None:
     in_whitespace = False
     for token in node.tokens:
         if token.is_whitespace:
@@ -61,8 +61,8 @@ def sql_strip(node: Token) -> None:
             in_whitespace = False
 
 
-def sql_recursively_strip(node: Token) -> Token:
-    for sub_node in node.get_sublists():
+def sql_recursively_strip(node: TokenList) -> TokenList:
+    for sub_node in node.get_sublists():  # type: ignore[no-untyped-call]
         sql_recursively_strip(sub_node)
 
     if isinstance(node, Comment):
@@ -78,7 +78,7 @@ def sql_recursively_strip(node: Token) -> Token:
     return node
 
 
-def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
+def sql_recursively_simplify(node: TokenList, hide_columns: bool = True) -> None:
     # Erase which fields are being updated in an UPDATE
     if node.tokens[0].value == "UPDATE":
         i_set = [i for (i, t) in enumerate(node.tokens) if t.value == "SET"][0]
@@ -92,7 +92,7 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
             end = node.tokens[where_index:]
         else:
             end = []
-        middle = [Token(tokens.Punctuation, " ... ")]
+        middle = [Token(tokens.Punctuation, " ... ")]  # type: ignore[no-untyped-call]
         node.tokens = node.tokens[: i_set + 1] + middle + end
 
     # Ensure IN clauses with simple value in always simplify to "..."
@@ -108,7 +108,7 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
                 getattr(t, "ttype", "") in sql_deletable_tokens
                 for t in parenthesis.tokens[1:-1]
             ):
-                parenthesis.tokens[1:-1] = [Token(tokens.Punctuation, "...")]
+                parenthesis.tokens[1:-1] = [Token(tokens.Punctuation, "...")]  # type: ignore[no-untyped-call]
 
     # Erase the names of savepoints since they are non-deteriministic
     if hasattr(node, "tokens"):
@@ -151,7 +151,7 @@ def sql_recursively_simplify(node: Token, hide_columns: bool = True) -> None:
                 and prev_word_token.value.upper() in ("ORDER BY", "GROUP BY", "HAVING")
             )
         ):
-            token.tokens = [Token(tokens.Punctuation, "...")]
+            token.tokens = [Token(tokens.Punctuation, "...")]  # type: ignore[no-untyped-call]
         elif hasattr(token, "tokens"):
             sql_recursively_simplify(token, hide_columns=hide_columns)
         elif ttype in sql_deletable_tokens or getattr(token, "value", None) == "NULL":
