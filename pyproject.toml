@@ -111,14 +111,14 @@ lint.isort.required-imports = [ "from __future__ import annotations" ]
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
-[tool.pytest.ini_options]
-addopts = """\
+[tool.pytest]
+ini_options.addopts = """\
     --strict-config
     --strict-markers
     --ds=tests.settings
     """
-django_find_project = false
-xfail_strict = true
+ini_options.django_find_project = false
+ini_options.xfail_strict = true
 
 [tool.mypy]
 enable_error_code = [
@@ -133,10 +133,7 @@ plugins = [
 ]
 strict = true
 warn_unreachable = true
-
-[[tool.mypy.overrides]]
-module = "tests.*"
-allow_untyped_defs = true
+overrides = [ { module = "tests.*", allow_untyped_defs = true } ]
 
 [tool.django-stubs]
 django_settings_module = "tests.settings"
