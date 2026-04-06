@@ -111,15 +111,6 @@ lint.isort.required-imports = [ "from __future__ import annotations" ]
 [tool.pyproject-fmt]
 max_supported_python = "3.14"
 
-[tool.pytest]
-ini_options.addopts = """\
-    --strict-config
-    --strict-markers
-    --ds=tests.settings
-    """
-ini_options.django_find_project = false
-ini_options.xfail_strict = true
-
 [tool.mypy]
 enable_error_code = [
   "ignore-without-code",
@@ -137,6 +128,15 @@ overrides = [ { module = "tests.*", allow_untyped_defs = true } ]
 
 [tool.django-stubs]
 django_settings_module = "tests.settings"
+
+[tool.pytest]
+ini_options.addopts = """\
+    --strict-config
+    --strict-markers
+    --ds=tests.settings
+    """
+ini_options.django_find_project = false
+ini_options.xfail_strict = true
 
 [tool.rstcheck]
 report_level = "ERROR"
