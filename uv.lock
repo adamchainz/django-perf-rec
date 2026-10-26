@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.12' and extra != 'group-15-django-perf-rec-django52' and extra != 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61'",
@@ -18,11 +18,11 @@ conflicts = [[
 
 [[package]]
 name = "asgiref"
-version = "3.12.1"
+version = "3.13.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e6/26/3b59f2bdae5f640389becb1f673cded775287f5fc4f816309d9ca9a3f93d/asgiref-3.12.1.tar.gz", hash = "sha256:59dcb51c272ad209d59bed5708a64a333083e86017d7fcdd67498eeab7784340", size = 42378, upload-time = "2026-07-14T09:56:18.087Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6b/90/f5fce14e95fccf53b58e8e2c47cd84d40d105d64073ae1ac75166db150e0/asgiref-3.13.0.tar.gz", hash = "sha256:034cc8cbf72d00553b4be256703ac545120b4e50af13b49dec99da899aeeecb4", size = 52941, upload-time = "2026-10-23T08:13:14.715Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c0/1b/54f4ad77cd8a584fa70746c47df988e002cf1ee1eba43364d46f87803647/asgiref-3.12.1-py3-none-any.whl", hash = "sha256:fe386d1c2bff7259ea95929266d12a8cf9a8b5a1c2598402967d8792e7a7c094", size = 25478, upload-time = "2026-07-14T09:56:16.926Z" },
+    { url = "https://files.pythonhosted.org/packages/2e/b0/ec211e1f7966247cb6469158d856bac9aa4c2fe13621bd6a352e4f850453/asgiref-3.13.0-py3-none-any.whl", hash = "sha256:f9596a2434512686473d50f96ff6207fbba49ae1a785dfac614df4aeb085674d", size = 27593, upload-time = "2026-10-23T08:13:13.394Z" },
 ]
 
 [[package]]
@@ -36,7 +36,7 @@ wheels = [
 
 [[package]]
 name = "django"
-version = "5.2.17"
+version = "5.2.18"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version < '3.12' and extra != 'group-15-django-perf-rec-django52' and extra != 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61'",
@@ -47,33 +47,33 @@ resolution-markers = [
 dependencies = [
     { name = "asgiref", marker = "python_full_version < '3.12' or extra == 'group-15-django-perf-rec-django52' or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
     { name = "sqlparse", marker = "python_full_version < '3.12' or extra == 'group-15-django-perf-rec-django52' or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
-    { name = "tzdata", marker = "(python_full_version < '3.12' and sys_platform == 'win32') or (python_full_version >= '3.12' and extra != 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61') or (sys_platform == 'win32' and extra == 'group-15-django-perf-rec-django52') or (sys_platform != 'win32' and extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (sys_platform != 'win32' and extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (sys_platform != 'win32' and extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
+    { name = "tzdata", marker = "(python_full_version < '3.12' and sys_platform == 'win32') or (sys_platform == 'win32' and extra == 'group-15-django-perf-rec-django52') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d5/d8/43e9d000519adceb189620b6869ff88031e046df91c2e9da72f8f6918399/django-5.2.17.tar.gz", hash = "sha256:9d4d93be539a18ab80d058eb515900e10951e04c537c5a6b394fc49528d3251f", size = 10889740, upload-time = "2026-08-04T15:04:03.173Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/85/fe/79e692b430c7721bf4b812c328bfe687e73e3f28f56611a6a18a97e887cc/django-5.2.18.tar.gz", hash = "sha256:461c5dd06d2ea16bd5ca37d3f46e4def1d6b0fe7588c6f4e2119517bb0af8b2d", size = 10910238, upload-time = "2026-10-06T13:01:09.371Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/df/f8/ce120525ca78f12b07daf65786679c5d0b54a75285a8958d3ae55e39da35/django-5.2.17-py3-none-any.whl", hash = "sha256:f04fb3b36ee119e1af4fa1d397d5fd6cf12700f49321e84d4f4c642c5b1973db", size = 8315563, upload-time = "2026-08-04T15:03:59.1Z" },
+    { url = "https://files.pythonhosted.org/packages/d6/01/6568ec52b26548ca1b83d33249f7274db3bf74698f42c0da42ec9db1a24a/django-5.2.18-py3-none-any.whl", hash = "sha256:92ed81d500be6408ecd704d7bd1366c534f30427bffcc63c5fefb129561aec7c", size = 8316071, upload-time = "2026-10-06T13:01:04.413Z" },
 ]
 
 [[package]]
 name = "django"
-version = "6.0.8"
+version = "6.0.9"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.12'",
 ]
 dependencies = [
-    { name = "asgiref", marker = "(python_full_version >= '3.12' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61')" },
-    { name = "sqlparse", marker = "(python_full_version >= '3.12' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61')" },
-    { name = "tzdata", marker = "(python_full_version >= '3.12' and sys_platform == 'win32' and extra == 'group-15-django-perf-rec-django60') or (python_full_version < '3.12' and extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61') or (sys_platform != 'win32' and extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61')" },
+    { name = "asgiref", marker = "(python_full_version >= '3.12' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
+    { name = "sqlparse", marker = "(python_full_version >= '3.12' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
+    { name = "tzdata", marker = "(python_full_version >= '3.12' and sys_platform == 'win32' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3c/28/5fee292e588dbdb782582436d1eb62ac8809ec55b98ef27f5b9676a00e9a/django-6.0.8.tar.gz", hash = "sha256:cb0bd962d27fc866f3c514b20aae6a7df56ec80b488f9899da46d675cd051526", size = 10924565, upload-time = "2026-08-04T15:03:39.469Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/13/1f/e4c69ec67bedee10428875a44b8b4554d0448a264b50298bfa63d2162708/django-6.0.9.tar.gz", hash = "sha256:8ce037c971f421cfb47d38c097ca233a8f6dd42d9e9501a37e02dd7d08c5cb3f", size = 10955325, upload-time = "2026-10-06T12:57:57.479Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2e/b4/23e74d261eebfa9c8baed5e8810f09858b9afd613d1037f42ff7aa95c87f/django-6.0.8-py3-none-any.whl", hash = "sha256:9b98b7e1902e0e575ea4f42c175fc9512784f7f2580898286aee3388b322219d", size = 8376956, upload-time = "2026-08-04T15:03:35.138Z" },
+    { url = "https://files.pythonhosted.org/packages/01/3f/f0378bc671b528caf61b143ba91c1057204a7e863d9a309d62a64203f9c4/django-6.0.9-py3-none-any.whl", hash = "sha256:5c6473d05bbea9c43359cc36701b5deec3c925f5311963786e1346544c1a68c0", size = 8377504, upload-time = "2026-10-06T12:57:52.649Z" },
 ]
 
 [[package]]
 name = "django"
-version = "6.1.1"
+version = "6.1.2"
 source = { registry = "https://pypi.org/simple" }
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -83,9 +83,9 @@ dependencies = [
     { name = "sqlparse", marker = "(python_full_version >= '3.12' and extra != 'group-15-django-perf-rec-django52' and extra != 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
     { name = "tzdata", marker = "(python_full_version >= '3.12' and sys_platform == 'win32' and extra != 'group-15-django-perf-rec-django52' and extra != 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f8/d4/8314b5bdef20832f0ac6ae3b3e4d4924e4759fa3b4af27609dd747e7a6be/django-6.1.1.tar.gz", hash = "sha256:7ab93536d8e677aa14554c56426290c69480bf2ee68d7513d4a22f57d6bfeb84", size = 11284905, upload-time = "2026-09-02T17:20:45.621Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/89/24/20d187a22ac821288b53c53b8f696019dcb0c7b4f973f052ade19392c74d/django-6.1.2.tar.gz", hash = "sha256:a1e92451ccb8b514e91bbb3b6d186d20b4030558f116b5d9de6535455ff210b7", size = 11251425, upload-time = "2026-10-06T12:53:29.622Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8d/ca/c1040a4fd15754ede7df15fd72fc2e123045b473b253ab5f5284e11c651e/django-6.1.1-py3-none-any.whl", hash = "sha256:585fb82bf15053c42cf52e67c2f1b54a032dca384759315fd6678ab1870d1d72", size = 8419512, upload-time = "2026-09-02T17:20:39.153Z" },
+    { url = "https://files.pythonhosted.org/packages/c9/83/90ff2dbfac7b519ed77620bdbb827cd2d1a83faf00d076bf95056428bce7/django-6.1.2-py3-none-any.whl", hash = "sha256:141efee6ec64d1db6db90683bf734c550102450f444fb099063b0be1bd27d991", size = 8420684, upload-time = "2026-10-06T12:53:17.381Z" },
 ]
 
 [[package]]
@@ -93,22 +93,22 @@ name = "django-perf-rec"
 version = "4.31.0"
 source = { editable = "." }
 dependencies = [
-    { name = "django", version = "5.2.17", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or extra == 'group-15-django-perf-rec-django52' or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
-    { name = "django", version = "6.0.8", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61')" },
-    { name = "django", version = "6.1.1", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra != 'group-15-django-perf-rec-django52' and extra != 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
+    { name = "django", version = "5.2.18", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12' or extra == 'group-15-django-perf-rec-django52' or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
+    { name = "django", version = "6.0.9", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
+    { name = "django", version = "6.1.2", source = { registry = "https://pypi.org/simple" }, marker = "(python_full_version >= '3.12' and extra != 'group-15-django-perf-rec-django52' and extra != 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django60') or (extra == 'group-15-django-perf-rec-django52' and extra == 'group-15-django-perf-rec-django61') or (extra == 'group-15-django-perf-rec-django60' and extra == 'group-15-django-perf-rec-django61')" },
     { name = "pyyaml" },
     { name = "sqlparse" },
 ]
 
 [package.dev-dependencies]
 django52 = [
-    { name = "django", version = "5.2.17", source = { registry = "https://pypi.org/simple" } },
+    { name = "django", version = "5.2.18", source = { registry = "https://pypi.org/simple" } },
 ]
 django60 = [
-    { name = "django", version = "6.0.8", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "django", version = "6.0.9", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
 ]
 django61 = [
-    { name = "django", version = "6.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "django", version = "6.1.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
 ]
 test = [
     { name = "pygments" },
@@ -141,11 +141,11 @@ test = [
 
 [[package]]
 name = "iniconfig"
-version = "2.3.0"
+version = "2.3.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/72/34/14ca021ce8e5dfedc35312d08ba8bf51fdd999c576889fc2c24cb97f4f10/iniconfig-2.3.0.tar.gz", hash = "sha256:c76315c77db068650d49c5b56314774a7804df16fee4402c1f19d6d15d8c4730", size = 20503, upload-time = "2025-10-18T21:55:43.219Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/01/e1/2069291243c926a2ff1cd706c7f3eeb9b62144bf60f77c9fb9ff2fb26bd3/iniconfig-2.3.1.tar.gz", hash = "sha256:67f4b9c50da0dedf52af349e7749a80a9057a5031199791b906c3bb3ae878960", size = 21209, upload-time = "2026-10-06T22:48:38.076Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cb/b1/3846dd7f199d53cb17f49cba7e651e9ce294d8497c8c150530ed11865bb8/iniconfig-2.3.0-py3-none-any.whl", hash = "sha256:f631c04d2c48c52b84d0d0549c99ff3859c98df65b3101406327ecc7d53fbf12", size = 7484, upload-time = "2025-10-18T21:55:41.639Z" },
+    { url = "https://files.pythonhosted.org/packages/56/43/4ca9e49d27a1fcf6bece6f6aec0ea46bb9112489b93d4b688fb415457bdb/iniconfig-2.3.1-py3-none-any.whl", hash = "sha256:9121e2c1fdb355232495be3194c8dfe87ccc2d5dee45947b78e68f499790d7a7", size = 7552, upload-time = "2026-10-06T22:48:36.959Z" },
 ]
 
 [[package]]
@@ -159,11 +159,11 @@ wheels = [
 
 [[package]]
 name = "pluggy"
-version = "1.6.0"
+version = "1.7.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/f9/e2/3e91f31a7d2b083fe6ef3fa267035b518369d9511ffab804f839851d2779/pluggy-1.6.0.tar.gz", hash = "sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3", size = 69412, upload-time = "2025-05-15T12:30:07.975Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/bf/db/7fc19e6f2dc92a966727031389fc2e08b558f0f25eb7403c1119ad4713cd/pluggy-1.7.0.tar.gz", hash = "sha256:d1eaa46ebb595891b860ab086b4d09c8588af65ebd4361b8e8f4bb8920b90ba8", size = 123304, upload-time = "2026-10-15T09:50:58.343Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/54/20/4d324d65cc6d9205fabedc306948156824eb9f0ee1633355a8f7ec5c66bf/pluggy-1.6.0-py3-none-any.whl", hash = "sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746", size = 20538, upload-time = "2025-05-15T12:30:06.134Z" },
+    { url = "https://files.pythonhosted.org/packages/40/9e/2b38731e0fc536806f16490e1a12d7f0dc2a1235aa8cc07bcc75416a7daa/pluggy-1.7.0-py3-none-any.whl", hash = "sha256:7dd7b0d8832ba3cb632c306926ded123429211b83641b35dc5c41ad2d34f9bec", size = 27082, upload-time = "2026-10-15T09:50:56.808Z" },
 ]
 
 [[package]]
@@ -281,9 +281,9 @@ wheels = [
 
 [[package]]
 name = "tzdata"
-version = "2026.4"
+version = "2026.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/e4/31/3d74fa778a63b98b7374323befcc0be5ab3bd94afd4096a0124e7379152c/tzdata-2026.4.tar.gz", hash = "sha256:f1b8bd365d8d210c55353f4d7f8d6d8561c0ba50d704b700d195a9424bba0d79", size = 199350, upload-time = "2026-09-12T12:56:03.251Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d9/68/f1b440335057bfce71b6e50a9d09445aa2ecbd08359a337976627b8409e7/tzdata-2026.5.tar.gz", hash = "sha256:8cc73c0a0bfca7dbfa59235d60b2eff82231dee33f53d206db1acd9173cfc0a7", size = 200404, upload-time = "2026-10-03T09:23:14.143Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f9/bc/8737e8d54cf51106118039b83f485a4783112fab49ea9d044b234978a46e/tzdata-2026.4-py2.py3-none-any.whl", hash = "sha256:c2169a8b0a7a5e9674da5a135ccdfb2b3e671b333ed9fed17b41f73c34476e81", size = 347494, upload-time = "2026-09-12T12:56:01.67Z" },
+    { url = "https://files.pythonhosted.org/packages/94/21/1e5995a1c920cce14e4bffae20c665ec10e7ed03ab25e006cd741092b718/tzdata-2026.5-py2.py3-none-any.whl", hash = "sha256:b683bd1b6659ddcd810ff02ad09ba821d4bf1065072805063eb35c49617905ac", size = 347996, upload-time = "2026-10-03T09:23:12.535Z" },
 ]
